@@ -1,0 +1,52 @@
+---
+// src/components/BlogPostPreview.astro
+import { Image } from 'astro:assets';
+
+// Define props for the component (using placeholder types for now)
+interface Props {
+  title: string;
+  pubDate: string; // Placeholder, will be Date later
+  excerpt: string;
+  slug: string; // e.g., 'post-slug'
+  imageUrl?: string; // Optional image URL
+  imageAlt?: string; // Alt text for image
+}
+
+const {
+  title = "Placeholder Title",
+  pubDate = "Jan 1, 2025",
+  excerpt = "This is a short placeholder excerpt for the blog post preview. More details inside...",
+  slug = "placeholder-slug",
+  imageUrl = "https://via.placeholder.com/400x250", // Placeholder image
+  imageAlt = "Placeholder image description"
+} = Astro.props;
+
+const postUrl = `/blog/${slug}`;
+---
+<article class="border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden bg-white dark:bg-gray-800">
+  {imageUrl && (
+    <a href={postUrl} aria-label={`Read more about ${title}`}>
+      <!-- Basic Image component usage, replace with optimized <Image> if needed -->
+       <img src={imageUrl} alt={imageAlt} width="400" height="250" class="w-full h-48 object-cover" loading="lazy" />
+       {/*
+         Potential Astro Image component usage (requires image import or remote config):
+         <Image src={imageUrl} alt={imageAlt} width={400} height={250} format="webp" class="w-full h-48 object-cover" loading="lazy" />
+       */}
+    </a>
+  )}
+  <div class="p-4 md:p-6">
+    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+      <a href={postUrl} class="hover:underline">{title}</a>
+    </h3>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+      Published on <time datetime={pubDate}>{pubDate}</time> {/* Use actual date formatting later */}
+    </p>
+    <p class="text-gray-700 dark:text-gray-300 mb-4 text-base">
+      {excerpt}
+    </p>
+    <a href={postUrl} class="inline-flex items-center font-medium text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-200">
+      Read more
+      <svg class="ml-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+    </a>
+  </div>
+</article>

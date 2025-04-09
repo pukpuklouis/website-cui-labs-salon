@@ -1,22 +1,67 @@
-<!doctype html>
+---
+import { SEO } from 'astro-seo';
+import Header from '../components/Header.astro'; // Import the Header component
+import Footer from '../components/Footer.astro'; // Import the Footer component
+// import { ViewTransitions } from 'astro:transitions'; // Optional: Import if using View Transitions
+import '../styles/global.css'; // Import global styles
+
+// Define props for title and description, allowing pages to override defaults
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { 
+	title = "CUI Labs Salon", 
+	description = "Default description for CUI Labs Salon website." 
+} = Astro.props;
+---
+
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		
+		{/* Astro SEO Integration */}
+		{/* Add other SEO props as needed, e.g., openGraph, twitter. See astro-seo documentation for options. */}
+		<SEO
+			title={title}
+			description={description}
+		/>
+		
+		<title>{title}</title> {/* Basic title fallback */}
+		
+		{/* View Transitions (Optional, can be added later if needed) */}
+		{/* <ViewTransitions /> */}
+
+		{/* Global Styles (Tailwind is applied via integration) */}
+		{/* <link rel="stylesheet" href="/styles/global.css"> */}
 	</head>
-	<body>
-		<slot />
+	<body class="bg-white text-black dark:bg-black dark:text-white min-h-screen flex flex-col">
+		<Header /> {/* Add the Header component */}
+		
+		{/* Main content slot */}
+		<main class="flex-grow container mx-auto px-4 py-8"> {/* Added basic container styling */}
+			<slot />
+		</main>
+		
+		{/* Footer Component */}
+		<Footer />
 	</body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+	/*
+	  Import fonts or add global styles here if needed,
+	  but prefer Tailwind utilities where possible.
+	  Example:
+	  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+	  html {
+		font-family: 'Inter', sans-serif;
+	  }
+	*/
 </style>

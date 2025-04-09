@@ -1,11 +1,132 @@
 ---
-import Welcome from '../components/Welcome.astro';
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
+import AnimatedHero from '../components/AnimatedHero.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import StylistBio from '../components/StylistBio.astro';
+import BlogPostPreview from '../components/BlogPostPreview.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// SEO Metadata
+const pageTitle = "Home - CUI Labs Salon";
+const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technology meets expert hair styling. Discover our services and book your appointment today.";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title={pageTitle} description={pageDescription}>
+  <main>
+    <AnimatedHero />
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Featured Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <ServiceCard 
+            name="Precision Cut & Style" 
+            description="Tailored haircutting experience using advanced techniques." 
+            price="$80+" 
+            imageUrl="/placeholder-service-1.jpg" 
+          />
+          <ServiceCard 
+            name="Vivid Color Transformation" 
+            description="Bold and beautiful custom color creations." 
+            price="$150+" 
+            imageUrl="/placeholder-service-2.jpg" 
+          />
+          <ServiceCard 
+            name="AI Hair Analysis & Treatment" 
+            description="Deep scalp and hair analysis followed by a personalized treatment plan." 
+            price="$120" 
+            imageUrl="/placeholder-service-3.jpg" 
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Meet Our Stylists</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <StylistBio 
+            name="Alex Chen" 
+            bio="Alex blends artistry with technology, specializing in vibrant colors and using AI for personalized consultations."
+            imageSrc="/placeholder-stylist-1.jpg"
+            imageAlt="Portrait of Alex Chen"
+            specializations={['Creative Color', 'AI Integration']}
+            contactInfo="alex.chen@example.com"
+            availability="Mon, Wed, Fri"
+          />
+          <StylistBio 
+            name="Jamie Lee" 
+            bio="Jamie excels in contemporary cuts and mastering texture, ensuring every style is effortlessly chic."
+            imageSrc="/placeholder-stylist-2.jpg"
+            imageAlt="Portrait of Jamie Lee"
+            specializations={['Modern Cuts', 'Texture Expert']}
+            contactInfo="jamie.lee@example.com"
+            availability="Tue, Thu, Sat"
+          />
+           <StylistBio 
+            name="Sam Rivera" 
+            bio="Sam focuses on the science of hair care, offering treatments that restore vitality and shine from within."
+            imageSrc="/placeholder-stylist-3.jpg"
+            imageAlt="Portrait of Sam Rivera"
+            specializations={['Holistic Hair Health', 'Scalp Treatments']}
+            contactInfo="sam.rivera@example.com"
+            availability="By Appointment Only"
+            imageAlt="Portrait of Sam Rivera"
+            specializations={['Holistic Hair Health', 'Scalp Treatments']}
+            contactInfo="sam.rivera@example.com"
+            availability="By Appointment Only"
+          />
+        </div>
+      </div>
+    </section>
+    <!-- Latest Blog Posts Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Latest Blog Posts</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <BlogPostPreview 
+            title="Exploring AI in Hair Care" 
+            pubDate="Mar 15, 2025"
+            excerpt="Discover how artificial intelligence is revolutionizing personalized hair treatments and diagnostics."
+            slug="exploring-ai-hair-care"
+            imageUrl="/placeholder-blog-1.jpg"
+            imageAlt="AI analyzing hair strands"
+          />
+          <BlogPostPreview 
+            title="Top 5 Spring Hair Color Trends"
+            pubDate="Mar 28, 2025"
+            excerpt="Get inspired for the new season with the hottest hair color trends predicted by our expert stylists."
+            slug="spring-hair-color-trends"
+            imageUrl="/placeholder-blog-2.jpg"
+            imageAlt="Model with vibrant spring hair color"
+          />
+          <BlogPostPreview 
+            title="The Science Behind Healthy Scalp Care"
+            pubDate="Apr 5, 2025"
+            excerpt="Learn why a healthy scalp is the foundation for beautiful hair and how our treatments can help."
+            slug="healthy-scalp-care"
+            imageUrl="/placeholder-blog-3.jpg"
+            imageAlt="Microscopic view of a healthy scalp"
+          />
+        </div>
+        <div class="text-center mt-12">
+          <a href="/blog" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+            View All Posts
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final Call to Action Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-primary-600 dark:bg-primary-700 text-center">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-white mb-6">Ready for Your Transformation?</h2>
+        <p class="text-lg text-primary-100 mb-8">Book your appointment today and experience the future of hair care at CUI Labs Salon.</p>
+        <a href="/booking" class="inline-block bg-white dark:bg-gray-900 text-primary-600 dark:text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 ease-in-out text-lg">
+          Book Now
+        </a>
+      </div>
+    </section>
+    {/* Blog Preview section will be added here */}
+    {/* Other sections (Featured Services, Stylist Bios, Blog Preview) will be added here in later tasks */}
+  </main>
 </Layout>

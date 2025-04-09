@@ -1,0 +1,26 @@
+---
+// src/components/GalleryImage.astro
+import { Image } from 'astro:assets';
+// ImageMetadata type is often inferred or might be different in newer Astro versions.
+// Removing explicit import as Astro's <Image> component handles imported assets.
+
+interface Props {
+  src: any; // Explicitly set to 'any' to satisfy strict TS and allow flexibility for <Image>
+  alt: string;
+  width: number;
+  height: number;
+  class?: string; // Optional class prop for additional styling flexibility
+}
+
+const { src, alt, width, height, class: className } = Astro.props;
+---
+
+<Image
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  class:list={['rounded-lg shadow-md object-cover w-full h-full transition-transform duration-300 ease-in-out hover:scale-105', className]}
+  loading="lazy"
+  decoding="async"
+/>

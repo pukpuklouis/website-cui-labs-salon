@@ -1,0 +1,60 @@
+---
+// src/pages/stylists.astro
+import Layout from '../layouts/Layout.astro';
+import StylistBio from '../components/StylistBio.astro'; // Import the enhanced component
+
+// SEO Metadata
+const pageTitle = "Meet Our Stylists - CUI Labs Salon";
+const pageDescription = "Get to know the talented stylists at CUI Labs Salon. Discover their specialties and book your next appointment.";
+
+// Placeholder data for stylists
+const stylists = [
+  {
+    name: "Alex Jordan",
+    imageSrc: "/placeholder-stylist-1.jpg", // Placeholder image path
+    imageAlt: "Portrait of Alex Jordan",
+    specializations: ["Precision Cutting", "Creative Coloring", "Balayage"],
+    bio: "Alex has over 10 years of experience and a passion for creating modern, wearable styles. Specializes in transforming looks with color.",
+    contactInfo: "alex.jordan@cuilabs.com",
+    availability: "Tue-Sat, 10am-6pm"
+  },
+  {
+    name: "Jamie Lee",
+    imageSrc: "/placeholder-stylist-2.jpg", // Placeholder image path
+    imageAlt: "Portrait of Jamie Lee",
+    specializations: ["Men's Grooming", "Short Hairstyles", "Texture Services"],
+    bio: "Jamie is an expert in classic and contemporary men's cuts, as well as chic short styles for all. Known for meticulous attention to detail.",
+    contactInfo: "jamie.lee@cuilabs.com",
+    availability: "Wed-Sun, 11am-7pm"
+  },
+  {
+    name: "Sam Rivera",
+    imageSrc: "/placeholder-stylist-3.jpg", // Placeholder image path
+    imageAlt: "Portrait of Sam Rivera",
+    specializations: ["Bridal & Event Styling", "Updos", "Hair Extensions"],
+    bio: "Sam creates stunning looks for special occasions. With a flair for elegance and creativity, Sam ensures you look your best for any event.",
+    contactInfo: "sam.rivera@cuilabs.com",
+    availability: "By Appointment Only"
+  }
+];
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <main class="container mx-auto py-12 px-4">
+    <h1 class="text-4xl font-extrabold mb-10 text-center text-gray-900 dark:text-white">Meet Our Talented Stylists</h1>
+
+    <section class="grid grid-cols-1 lg:grid-cols-1 gap-10">
+      {stylists.map(stylist => (
+        <StylistBio
+          name={stylist.name}
+          imageSrc={stylist.imageSrc}
+          imageAlt={stylist.imageAlt}
+          specializations={stylist.specializations}
+          bio={stylist.bio}
+          contactInfo={stylist.contactInfo}
+          availability={stylist.availability}
+        />
+      ))}
+    </section>
+  </main>
+</Layout>

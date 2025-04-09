@@ -1,0 +1,25 @@
+---
+// src/components/AnimatedHero.astro
+// Basic structure for the hero section. Animations will be added later.
+---
+<section class="min-h-screen flex items-center justify-center text-center p-8 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-gray-800 dark:to-gray-900">
+  <div class="max-w-3xl">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white animate-placeholder">
+      Welcome to CUI Labs Salon
+    </h1>
+    <p class="text-lg md:text-xl mb-8 text-gray-700 dark:text-gray-300 animate-placeholder">
+      Experience the future of hair design and conversational user interfaces.
+    </p>
+    <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 animate-placeholder">
+      Book Your Appointment
+    </button>
+  </div>
+</section>
+
+<style>
+  /* Placeholder for potential future custom styles or complex animations */
+  .animate-placeholder {
+    /* Basic placeholder styles, actual animation via anime.js later */
+    opacity: 1; 
+  }
+</style>

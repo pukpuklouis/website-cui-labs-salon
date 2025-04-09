@@ -1,0 +1,77 @@
+---
+// src/pages/services.astro
+import Layout from '../layouts/Layout.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import GalleryImage from '../components/GalleryImage.astro';
+
+// Placeholder data for categories - replace later
+const categories = ['Haircuts', 'Coloring', 'Styling', 'Treatments'];
+
+// Placeholder data for services - replace later with actual data source
+const services = [
+  { name: 'Precision Haircut', description: 'A tailored haircut designed to suit your style and face shape. Includes wash and blow-dry.', imageUrl: '/images/haircut.jpg', price: '$65+' },
+  { name: 'Full Color', description: 'Single-process color application from roots to ends for a uniform look.', imageUrl: '/images/color.jpg', price: '$120+' },
+  { name: 'Balayage Highlights', description: 'Hand-painted highlights for a natural, sun-kissed effect. Price varies based on length and density.', imageUrl: '/images/balayage.jpg', price: '$180+' },
+  { name: 'Keratin Treatment', description: 'Smooths frizz and reduces curl for manageable, shiny hair. Lasts up to 3 months.', imageUrl: '/images/keratin.jpg', price: '$250+' },
+  { name: 'Special Occasion Styling', description: 'Elegant updos or styling for weddings, proms, or other events.', imageUrl: '/images/styling.jpg', price: '$85+' },
+  { name: 'Deep Conditioning Mask', description: 'Intensive treatment to restore moisture and strength to dry or damaged hair.', imageUrl: '/images/treatment.jpg', price: '$45' },
+];
+---
+---
+
+<Layout 
+  title="Our Services - CUI Labs Salon" 
+  description="Explore the wide range of professional hair services offered at CUI Labs Salon, including cuts, coloring, styling, and treatments."
+>
+  <main class="container mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200">
+      Our Services
+    </h1>
+
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 text-center text-gray-700 dark:text-gray-300">
+        Service Categories
+      </h2>
+      <div class="flex flex-wrap justify-center gap-4">
+        {categories.map((category) => (
+          <button class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-200">
+            {category}
+          </button>
+        ))}
+      </div>
+      <p class="text-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+        (Category filtering coming soon!)
+      </p>
+    </section>
+
+    <section id="service-listings">
+      <h2 class="text-3xl font-semibold mb-6 text-center text-gray-800 dark:text-gray-200">
+        Our Offerings
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map(service => (
+          <ServiceCard
+            name={service.name}
+            description={service.description}
+            imageUrl={service.imageUrl}
+            price={service.price}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-16">
+      <h2 class="text-3xl font-semibold mb-8 text-center text-gray-800 dark:text-gray-200">
+        Service Gallery
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6">
+        <GalleryImage src="/placeholder-1.jpg" alt="Gallery Image 1 - Haircut Example" width={400} height={300} />
+        <GalleryImage src="/placeholder-2.jpg" alt="Gallery Image 2 - Coloring Example" width={400} height={300} />
+        <GalleryImage src="/placeholder-3.jpg" alt="Gallery Image 3 - Styling Example" width={400} height={300} />
+        <GalleryImage src="/placeholder-4.jpg" alt="Gallery Image 4 - Treatment Example" width={400} height={300} />
+        <GalleryImage src="/placeholder-5.jpg" alt="Gallery Image 5 - Balayage Example" width={400} height={300} />
+        <GalleryImage src="/placeholder-6.jpg" alt="Gallery Image 6 - Updo Example" width={400} height={300} />
+      </div>
+    </section>
+  </main>
+</Layout>

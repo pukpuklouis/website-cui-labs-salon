@@ -1,0 +1,25 @@
+---
+// src/components/BookingForm.astro
+// This will likely be an island component later
+---
+
+<form>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="service">Service:</label>
+  <select id="service" name="service" required>
+    <option value="">Select a service</option>
+    {/* Options will be populated dynamically */}
+  </select>
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" name="date" required>
+
+  <button type="submit">Book Appointment</button>
+</form>
+
+<script>
+  // Client-side logic for form handling will go here
+  console.log('Booking form loaded');
+</script>
