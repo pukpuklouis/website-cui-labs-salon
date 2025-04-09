@@ -1,36 +1,26 @@
 ---
 // src/components/StylistBio.astro
-// Enhanced component to display a stylist's full profile information with CSS hover animation.
+// Refactored component to display stylist info dynamically from a Stylist prop.
 import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
 
-// Define component props using TypeScript interface
+// Define component props using the imported Stylist interface
 interface Props {
-  name: string;
-  imageSrc: string; // Expecting a path relative to src/assets or public/
-  imageAlt: string;
-  specializations: string[]; // Array of strings for specializations
-  bio: string; // Longer bio text
-  contactInfo: string; // e.g., email or phone
-  availability: string; // e.g., "Mon-Fri, 9am-5pm"
+  stylist: CollectionEntry<'stylistbio'>['data'][number];
 }
 
-// Destructure props with default values for placeholders
-const {
-  name = 'Stylist Name',
-  imageSrc = '/placeholder-stylist.jpg', // Default placeholder image path
-  imageAlt = 'Portrait of Stylist',
-  specializations = ['Hair Cutting', 'Coloring', 'Styling'],
-  bio = 'Detailed bio highlighting experience, techniques, and personal style. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  contactInfo = 'contact@example.com',
-  availability = 'Available by appointment',
-} = Astro.props;
+// Destructure the stylist object from Astro.props
+const { stylist } = Astro.props;
+
+// Helper function to capitalize the first letter (for social media keys)
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 ---
 
 <div class="stylist-card flex flex-col md:flex-row items-center md:items-start gap-6 p-6 border border-gray-200 rounded-lg shadow-md dark:border-gray-700 bg-white dark:bg-gray-800 transition-transform duration-200 ease-in-out hover:scale-105">
   <div class="flex-shrink-0">
     <Image
-      src={imageSrc}
-      alt={imageAlt}
+      src={stylist.profileImagePath}
+      alt={`Portrait of ${stylist.name}`}
       width={200}
       height={200}
       format="webp"
@@ -39,19 +29,34 @@ const {
     />
   </div>
   <div class="flex-grow text-center md:text-left">
-    <h3 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">{name}</h3>
+    <h3 class="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{stylist.name}</h3>
+    <p class="text-lg text-indigo-600 dark:text-indigo-400 mb-2">{stylist.specialty}</p>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{stylist.yearsExperience} years of experience</p>
+
     <div class="mb-4">
-      <h4 class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">Specializations:</h4>
+      <h4 class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">Featured Services:</h4>
       <ul class="flex flex-wrap justify-center md:justify-start gap-2">
-        {specializations.map((spec) => (
-          <li class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{spec}</li>
+        {stylist.featuredServices.map((service) => (
+          <li class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{service}</li>
         ))}
       </ul>
     </div>
-    <p class="text-base text-gray-600 dark:text-gray-400 mb-4">{bio}</p>
+
+    <div class="mb-4">
+        <h4 class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">Connect:</h4>
+        <div class="flex flex-wrap justify-center md:justify-start gap-3">
+            {Object.entries(stylist.socialMediaLinks).map(([platform, url]) => (
+                url ? (
+                    <a href={url} target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors">
+                        {capitalize(platform)}
+                    </a>
+                ) : null
+            ))}
+        </div>
+    </div>
+
     <div class="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-      <p><span class="font-semibold">Contact:</span> {contactInfo}</p>
-      <p><span class="font-semibold">Availability:</span> {availability}</p>
+      <p><span class="font-semibold">Availability:</span> {stylist.availability}</p>
     </div>
   </div>
 </div>

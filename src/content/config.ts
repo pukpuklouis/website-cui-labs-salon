@@ -16,12 +16,68 @@ const blogCollection = defineCollection({
     categories: z.array(z.string()).optional(), // Array of categories
     featured: z.boolean().default(false), // Optional flag for featured posts
     // Add other fields as needed, e.g., draft status
-    // draft: z.boolean().optional().default(false), 
+    // draft: z.boolean().optional().default(false),
   }),
+});
+
+/**
+ * Social media links schema reused for stylist data
+ */
+const socialMediaLinksSchema = z.object({
+  instagram: z.string().optional(),
+  facebook: z.string().optional(),
+  twitter: z.string().optional(),
+  linkedin: z.string().optional(),
+  // Add other potential social media platforms as needed
+});
+
+/**
+ * Schema for a single stylist object
+ */
+const stylistSchema = z.object({
+  id: z.string().optional(),
+  name: z.string(),
+  specialty: z.string(),
+  yearsExperience: z.number(),
+  profileImagePath: z.string(),
+  socialMediaLinks: socialMediaLinksSchema,
+  availability: z.string(),
+  featuredServices: z.array(z.string()),
+});
+
+/**
+ * Define the 'stylistbio' data collection, which is an array of stylist objects
+ */
+const stylistbioCollection = defineCollection({
+  type: 'data',
+  schema: z.array(stylistSchema),
+});
+
+/**
+ * Schema for a single service object based on services.json
+ */
+const serviceSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  price: z.string(),
+  duration: z.string(),
+  image: z.object({
+    src: z.string(),
+    alt: z.string(),
+  }),
+});
+
+/**
+ * Define the 'services' data collection, which is an array of service objects
+ */
+const servicesCollection = defineCollection({
+  type: 'data',
+  schema: z.array(serviceSchema),
 });
 
 // Export a `collections` object to register the collection(s)
 export const collections = {
   'blog': blogCollection,
-  // Add other collections here if needed in the future
+  'stylistbio': stylistbioCollection,
+  'services': servicesCollection,
 };

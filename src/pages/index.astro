@@ -6,11 +6,14 @@ import ServiceCard from '../components/ServiceCard.astro';
 import StylistBio from '../components/StylistBio.astro';
 import BlogPostPreview from '../components/BlogPostPreview.astro';
 import { getCollection } from 'astro:content';
+import stylistsData from '../content/stylistbio/stylistbio.json';
 
 // Fetch featured blog posts
 const featuredPosts = (await getCollection('blog', ({ data }) => data.featured === true))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+const services = (await getCollection('services'))[0].data;
 
 // SEO Metadata
 const pageTitle = "Home - CUI Labs Salon";
@@ -24,24 +27,9 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
       <div class="max-w-7xl mx-auto">
         <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Featured Services</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <ServiceCard 
-            name="Precision Cut & Style" 
-            description="Tailored haircutting experience using advanced techniques." 
-            price="$80+" 
-            imageUrl="/placeholder-service-1.jpg" 
-          />
-          <ServiceCard 
-            name="Vivid Color Transformation" 
-            description="Bold and beautiful custom color creations." 
-            price="$150+" 
-            imageUrl="/placeholder-service-2.jpg" 
-          />
-          <ServiceCard 
-            name="AI Hair Analysis & Treatment" 
-            description="Deep scalp and hair analysis followed by a personalized treatment plan." 
-            price="$120" 
-            imageUrl="/placeholder-service-3.jpg" 
-          />
+          {services.map((service) => (
+            <ServiceCard service={service} />
+          ))}
         </div>
       </div>
     </section>
@@ -50,37 +38,9 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
       <div class="max-w-5xl mx-auto">
         <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Meet Our Stylists</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <StylistBio 
-            name="Alex Chen" 
-            bio="Alex blends artistry with technology, specializing in vibrant colors and using AI for personalized consultations."
-            imageSrc="/placeholder-stylist-1.jpg"
-            imageAlt="Portrait of Alex Chen"
-            specializations={['Creative Color', 'AI Integration']}
-            contactInfo="alex.chen@example.com"
-            availability="Mon, Wed, Fri"
-          />
-          <StylistBio 
-            name="Jamie Lee" 
-            bio="Jamie excels in contemporary cuts and mastering texture, ensuring every style is effortlessly chic."
-            imageSrc="/placeholder-stylist-2.jpg"
-            imageAlt="Portrait of Jamie Lee"
-            specializations={['Modern Cuts', 'Texture Expert']}
-            contactInfo="jamie.lee@example.com"
-            availability="Tue, Thu, Sat"
-          />
-           <StylistBio 
-            name="Sam Rivera" 
-            bio="Sam focuses on the science of hair care, offering treatments that restore vitality and shine from within."
-            imageSrc="/placeholder-stylist-3.jpg"
-            imageAlt="Portrait of Sam Rivera"
-            specializations={['Holistic Hair Health', 'Scalp Treatments']}
-            contactInfo="sam.rivera@example.com"
-            availability="By Appointment Only"
-            imageAlt="Portrait of Sam Rivera"
-            specializations={['Holistic Hair Health', 'Scalp Treatments']}
-            contactInfo="sam.rivera@example.com"
-            availability="By Appointment Only"
-          />
+          {stylistsData.map((stylist) => (
+            <StylistBio stylist={stylist} />
+          ))}
         </div>
       </div>
     </section>

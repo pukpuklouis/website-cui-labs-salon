@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "name": "Alex Chen",
+    "specialty": "Color Specialist",
+    "yearsExperience": 8,
+    "profileImagePath": "/images/stylists/alex-chen.jpg",
+    "socialMediaLinks": {
+      "instagram": "https://instagram.com/alexchenhair",
+      "facebook": "https://facebook.com/alexchenstylist"
+    },
+    "availability": "Tue-Sat, 10am-7pm",
+    "featuredServices": ["Balayage", "Creative Color", "Color Correction"]
+  },
+  {
+    "id": "2",
+    "name": "Maria Garcia",
+    "specialty": "Cutting Expert",
+    "yearsExperience": 12,
+    "profileImagePath": "/images/stylists/maria-garcia.jpg",
+    "socialMediaLinks": {
+      "instagram": "https://instagram.com/mariagarciacuts"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+  }
+]

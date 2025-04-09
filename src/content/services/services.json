@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Haircut & Style",
+    "description": "Precision haircut with personalized styling to suit your look.",
+    "price": "$50+",
+    "duration": "45 minutes",
+    "image": {
+      "src": "/placeholder-service-1.jpg",
+      "alt": "Haircut and styling service"
+    }
+  },
+  {
+    "name": "Full Color",
+    "description": "All-over color application for a vibrant, refreshed look.",
+    "price": "From $75",
+    "duration": "1 hour 30 minutes",
+    "image": {
+      "src": "/placeholder-service-2.jpg",
+      "alt": "Full hair coloring service"
+    }
+  },
+  {
+    "name": "Balayage Highlights",
+    "description": "Hand-painted highlights for a natural, sun-kissed effect.",
+    "price": "From $120",
+    "duration": "2 hours",
+    "image": {
+      "src": "/placeholder-service-3.jpg",
+      "alt": "Balayage highlighting service"
+    }
+  }
+]
