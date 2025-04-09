@@ -5,6 +5,12 @@ import AnimatedHero from '../components/AnimatedHero.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import StylistBio from '../components/StylistBio.astro';
 import BlogPostPreview from '../components/BlogPostPreview.astro';
+import { getCollection } from 'astro:content';
+
+// Fetch featured blog posts
+const featuredPosts = (await getCollection('blog', ({ data }) => data.featured === true))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 
 // SEO Metadata
 const pageTitle = "Home - CUI Labs Salon";
@@ -83,30 +89,9 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
       <div class="max-w-7xl mx-auto">
         <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Latest Blog Posts</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <BlogPostPreview 
-            title="Exploring AI in Hair Care" 
-            pubDate="Mar 15, 2025"
-            excerpt="Discover how artificial intelligence is revolutionizing personalized hair treatments and diagnostics."
-            slug="exploring-ai-hair-care"
-            imageUrl="/placeholder-blog-1.jpg"
-            imageAlt="AI analyzing hair strands"
-          />
-          <BlogPostPreview 
-            title="Top 5 Spring Hair Color Trends"
-            pubDate="Mar 28, 2025"
-            excerpt="Get inspired for the new season with the hottest hair color trends predicted by our expert stylists."
-            slug="spring-hair-color-trends"
-            imageUrl="/placeholder-blog-2.jpg"
-            imageAlt="Model with vibrant spring hair color"
-          />
-          <BlogPostPreview 
-            title="The Science Behind Healthy Scalp Care"
-            pubDate="Apr 5, 2025"
-            excerpt="Learn why a healthy scalp is the foundation for beautiful hair and how our treatments can help."
-            slug="healthy-scalp-care"
-            imageUrl="/placeholder-blog-3.jpg"
-            imageAlt="Microscopic view of a healthy scalp"
-          />
+          {featuredPosts.map(post => (
+            <BlogPostPreview post={post} />
+          ))}
         </div>
         <div class="text-center mt-12">
           <a href="/blog" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">

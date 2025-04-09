@@ -1,6 +1,6 @@
 ---
 import { SEO } from 'astro-seo';
-import Header from '../components/Header.astro'; // Import the Header component
+import Nav from '../components/nav.astro'; // Import the Nav component
 import Footer from '../components/Footer.astro'; // Import the Footer component
 // import { ViewTransitions } from 'astro:transitions'; // Optional: Import if using View Transitions
 import '../styles/global.css'; // Import global styles
@@ -41,7 +41,7 @@ const {
 		{/* <link rel="stylesheet" href="/styles/global.css"> */}
 	</head>
 	<body class="bg-white text-black dark:bg-black dark:text-white min-h-screen flex flex-col">
-		<Header /> {/* Add the Header component */}
+		<Nav /> {/* Add the Nav component */}
 		
 		{/* Main content slot */}
 		<main class="flex-grow container mx-auto px-4 py-8"> {/* Added basic container styling */}

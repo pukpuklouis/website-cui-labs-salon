@@ -7,6 +7,7 @@ image:
     url: '/placeholder.jpg'
     alt: 'Placeholder image'
 tags: ["astro", "blogging", "learning in public"]
+featured: false
 ---
 
 # Welcome to the Blog

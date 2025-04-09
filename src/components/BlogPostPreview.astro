@@ -2,36 +2,26 @@
 // src/components/BlogPostPreview.astro
 import { Image } from 'astro:assets';
 
-// Define props for the component (using placeholder types for now)
+import type { CollectionEntry } from 'astro:content';
+
+// Define props for the component to accept a blog post entry
 interface Props {
-  title: string;
-  pubDate: string; // Placeholder, will be Date later
-  excerpt: string;
-  slug: string; // e.g., 'post-slug'
-  imageUrl?: string; // Optional image URL
-  imageAlt?: string; // Alt text for image
+  post: CollectionEntry<'blog'>;
 }
 
-const {
-  title = "Placeholder Title",
-  pubDate = "Jan 1, 2025",
-  excerpt = "This is a short placeholder excerpt for the blog post preview. More details inside...",
-  slug = "placeholder-slug",
-  imageUrl = "https://via.placeholder.com/400x250", // Placeholder image
-  imageAlt = "Placeholder image description"
-} = Astro.props;
-
-const postUrl = `/blog/${slug}`;
+const { post } = Astro.props;
+const { title, pubDate, description, image } = post?.data ?? {};
+const excerpt = description || (post?.body?.slice(0, 150) ?? '') + '...'; // Generate excerpt if description is missing
+const postUrl = `/blog/${post.slug}`; // Use the slug from the post entry
+const imageUrl = image?.url; // Use image URL from post data
+const imageAlt = image?.alt || `Image for ${title}`; // Use alt text or generate default
+const formattedDate = pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 <article class="border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden bg-white dark:bg-gray-800">
   {imageUrl && (
     <a href={postUrl} aria-label={`Read more about ${title}`}>
-      <!-- Basic Image component usage, replace with optimized <Image> if needed -->
-       <img src={imageUrl} alt={imageAlt} width="400" height="250" class="w-full h-48 object-cover" loading="lazy" />
-       {/*
-         Potential Astro Image component usage (requires image import or remote config):
-         <Image src={imageUrl} alt={imageAlt} width={400} height={250} format="webp" class="w-full h-48 object-cover" loading="lazy" />
-       */}
+      {/* Use Astro's Image component for optimization */}
+       <Image src={imageUrl} alt={imageAlt} width={400} height={250} format="webp" class="w-full h-48 object-cover" loading="lazy" />
     </a>
   )}
   <div class="p-4 md:p-6">
@@ -39,7 +29,7 @@ const postUrl = `/blog/${slug}`;
       <a href={postUrl} class="hover:underline">{title}</a>
     </h3>
     <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
-      Published on <time datetime={pubDate}>{pubDate}</time> {/* Use actual date formatting later */}
+      Published on <time datetime={pubDate.toISOString()}>{formattedDate}</time>
     </p>
     <p class="text-gray-700 dark:text-gray-300 mb-4 text-base">
       {excerpt}

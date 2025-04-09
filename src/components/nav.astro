@@ -1,0 +1,104 @@
+---
+// src/components/nav.astro
+// Basic structure for the responsive navigation component
+---
+<nav class="bg-gray-800 text-white p-4 sticky top-0 z-50"> {/* Added sticky positioning */}
+  <div class="container mx-auto flex justify-between items-center">
+    {/* Logo/Brand Name */}
+    <div class="text-xl font-bold">
+      <a href="/">SalonSite</a> {/* Placeholder Brand Name */}
+    </div>
+
+    {/* Desktop Navigation Links */}
+    <div class="hidden md:flex space-x-4">
+      <a href="/" class="hover:text-gray-300">Home</a>
+      <a href="/services" class="hover:text-gray-300">Services</a>
+      <a href="/gallery" class="hover:text-gray-300">Gallery</a> {/* Placeholder link */}
+      <a href="/stylists" class="hover:text-gray-300">Stylists</a>
+      <a href="/about" class="hover:text-gray-300">About</a> {/* Placeholder link */}
+      <a href="/contact" class="hover:text-gray-300">Contact</a> {/* Placeholder link */}
+      <a href="/booking" class="bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded">Book Online</a>
+    </div>
+
+    {/* Mobile Menu Button */}
+    <div class="md:hidden">
+      <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        {/* Hamburger Icon */}
+        <svg id="menu-icon-open" class="w-6 h-6 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        {/* Close Icon (Initially Hidden) */}
+        <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {/* Mobile Menu - Added transition classes */}
+  <div id="mobile-menu" class="md:hidden overflow-hidden transition-max-height duration-300 ease-in-out max-h-0">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"> {/* Added padding */}
+      <a href="/" class="block px-3 py-2 rounded hover:bg-gray-700">Home</a>
+      <a href="/services" class="block px-3 py-2 rounded hover:bg-gray-700">Services</a>
+      <a href="/gallery" class="block px-3 py-2 rounded hover:bg-gray-700">Gallery</a>
+      <a href="/stylists" class="block px-3 py-2 rounded hover:bg-gray-700">Stylists</a>
+      <a href="/about" class="block px-3 py-2 rounded hover:bg-gray-700">About</a>
+      <a href="/contact" class="block px-3 py-2 rounded hover:bg-gray-700">Contact</a>
+      <a href="/booking" class="block bg-pink-500 hover:bg-pink-600 px-3 py-2 rounded mt-1 text-center">Book Online</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Enhanced script for mobile menu toggle with animation and ARIA attributes
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const openIcon = document.getElementById('menu-icon-open');
+  const closeIcon = document.getElementById('menu-icon-close');
+
+  menuButton?.addEventListener('click', () => {
+    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+    
+    if (isExpanded) {
+      // Collapse menu
+      mobileMenu?.style.setProperty('max-height', '0px');
+      menuButton.setAttribute('aria-expanded', 'false');
+      openIcon?.classList.remove('hidden');
+      openIcon?.classList.add('block');
+      closeIcon?.classList.remove('block');
+      closeIcon?.classList.add('hidden');
+    } else {
+      // Expand menu - Calculate height based on content
+      mobileMenu?.style.setProperty('max-height', `${mobileMenu.scrollHeight}px`);
+      menuButton.setAttribute('aria-expanded', 'true');
+      openIcon?.classList.remove('block');
+      openIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('block');
+    }
+  });
+
+  // Optional: Close menu if clicked outside (basic implementation)
+  document.addEventListener('click', (event) => {
+    if (!menuButton?.contains(event.target as Node) && !mobileMenu?.contains(event.target as Node)) {
+       if (menuButton?.getAttribute('aria-expanded') === 'true') {
+         menuButton.click(); // Simulate click to collapse
+       }
+    }
+  });
+
+  // Optional: Close menu on window resize if moving to larger screen
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768 && menuButton?.getAttribute('aria-expanded') === 'true') {
+      menuButton.click(); // Simulate click to collapse
+    }
+  });
+
+</script>
+
+<style>
+  /* Custom transition for max-height */
+  #mobile-menu {
+    transition: max-height 0.3s ease-in-out;
+  }
+</style>

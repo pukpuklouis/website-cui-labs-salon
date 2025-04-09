@@ -4,17 +4,51 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import BlogPostPreview from '../../components/BlogPostPreview.astro';
 
-const posts = await getCollection('blog');
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Extract unique tags and categories
+const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))];
+const allCategories = [...new Set(posts.flatMap(post => post.data.categories || []))];
 ---
 
 <Layout title="Blog">
   <h1>Blog</h1>
-  <p>Read our latest posts.</p>
-  <ul>
+  <p class="mb-8">Read our latest posts.</p>
+
+  {/* Optional: Display Tags and Categories */}
+  {(allTags.length > 0 || allCategories.length > 0) && (
+    <div class="mb-8 p-4 border rounded-lg dark:border-gray-700">
+      {allTags.length > 0 && (
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold mb-2">Tags</h2>
+          <div class="flex flex-wrap gap-2">
+            {allTags.map(tag => (
+              <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300">{tag}</span>
+              // TODO: Make these links for filtering in a future step/task
+            ))}
+          </div>
+        </div>
+      )}
+      {allCategories.length > 0 && (
+         <div>
+          <h2 class="text-xl font-semibold mb-2">Categories</h2>
+           <div class="flex flex-wrap gap-2">
+            {allCategories.map(category => (
+              <span class="inline-block bg-blue-100 dark:bg-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 dark:text-blue-200">{category}</span>
+               // TODO: Make these links for filtering in a future step/task
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+
+  {/* Blog Post List */}
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
     {posts.map(post => (
-      <li>
-        <BlogPostPreview post={post} />
-      </li>
+      <BlogPostPreview post={post} />
     ))}
-  </ul>
+  </div>
 </Layout>
