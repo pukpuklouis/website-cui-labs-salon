@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import partytown from '@astrojs/partytown';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
 import { imageService } from '@unpic/astro/service'; // Corrected import
 import tailwindcss from '@tailwindcss/vite';
 
@@ -15,7 +16,8 @@ export default defineConfig({
   }),
   integrations: [ 
     partytown(), 
-    sitemap()
+    sitemap(),
+    react()
   ],
   vite: {
     plugins: [
