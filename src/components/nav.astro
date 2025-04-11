@@ -1,40 +1,43 @@
 ---
 import { getNavLinks } from '../lib/navlink';
 import type { NavLink } from '../lib/navlink';
-
 const navLinks = getNavLinks(Astro.url.pathname);
 ---
-<nav class="bg-gray-800 text-white p-4 sticky top-0 z-50"> {/* Added sticky positioning */}
-  <div class="container mx-auto flex justify-between items-center">
-    {/* Logo/Brand Name */}
-    <div class="text-xl font-bold">
-      <a href="/">SalonSite</a> {/* Placeholder Brand Name */}
+
+<nav id="main-nav" class="bg-gray-100/90 text-gray-800 sticky backdrop-blur-md top-0 z-50 duration-300 ease-in-out"> {/* Removed transition-transform */}
+  <div id="nav-container" class="container mx-auto flex flex-col items-center py-6">
+    <!-- Logo/Brand Name -->
+    <div class="text-xl font-bold mb-8 transition-all duration-300">
+      <a href="/" class="cursor-pointer">
+        <img src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+      </a>
     </div>
 
-    {/* Desktop Navigation Links */}
-    <div class="hidden md:flex space-x-4">
+    <!-- Desktop Navigation Links -->
+    <div id="desktop-links" class="hidden md:flex space-x-16 text-sm uppercase tracking-wide font-medium transition-opacity duration-300 ease-out opacity-100">
       {navLinks.map((link: NavLink) => (
         <a
           href={link.href}
-          class={`hover:text-gray-300 ${
-            link.isActive ? 'font-semibold underline' : ''
+          class={`hover:font-bold relative pb-2 ${
+            link.isActive ? 'font-semibold' : ''
           } ${
-            link.href === '/booking' ? 'bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded' : ''
+            link.href === '/booking' ? 'text-gray-700 hover:text-gray-800' : ''
           }`}
         >
           {link.text}
+          {link.isActive && <div class="absolute bottom-0 left-0 w-full h-0.5 bg-black"></div>}
         </a>
       ))}
     </div>
 
-    {/* Mobile Menu Button */}
-    <div class="md:hidden">
-      <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-        {/* Hamburger Icon */}
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden absolute right-4 top-4">
+      <button id="mobile-menu-button" class="text-black focus:outline-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <!-- Hamburger Icon -->
         <svg id="menu-icon-open" class="w-6 h-6 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
-        {/* Close Icon (Initially Hidden) */}
+        <!-- Close Icon (Initially Hidden) -->
         <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
@@ -42,16 +45,16 @@ const navLinks = getNavLinks(Astro.url.pathname);
     </div>
   </div>
 
-  {/* Mobile Menu - Added transition classes */}
-  <div id="mobile-menu" class="md:hidden overflow-hidden transition-max-height duration-300 ease-in-out max-h-0">
-    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3"> {/* Added padding */}
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden overflow-hidden transition-max-height duration-300 ease-in-out max-h-0 text-left bg-white border-t border-gray-200">
+    <div class="container mx-auto px-4 py-3 space-y-2">
       {navLinks.map((link: NavLink) => (
         <a
           href={link.href}
-          class={`block px-3 py-2 rounded hover:bg-gray-700 ${
-            link.isActive ? 'font-semibold underline' : ''
+          class={`block py-2 uppercase text-sm tracking-wider ${
+            link.isActive ? 'font-semibold' : ''
           } ${
-            link.href === '/booking' ? 'bg-pink-500 hover:bg-pink-600 mt-1 text-center' : ''
+            link.href === '/booking' ? 'text-pink-500' : ''
           }`}
         >
           {link.text}
@@ -61,51 +64,125 @@ const navLinks = getNavLinks(Astro.url.pathname);
   </div>
 </nav>
 
-<script>
-  // Enhanced script for mobile menu toggle with animation and ARIA attributes
-  const menuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const openIcon = document.getElementById('menu-icon-open');
-  const closeIcon = document.getElementById('menu-icon-close');
+<script is:inline>
+  // This script runs as soon as it's loaded
+  document.addEventListener('DOMContentLoaded', setupNav);
+  document.addEventListener('astro:page-load', setupNav);
 
-  menuButton?.addEventListener('click', () => {
-    const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-    
-    if (isExpanded) {
-      // Collapse menu
-      mobileMenu?.style.setProperty('max-height', '0px');
-      menuButton.setAttribute('aria-expanded', 'false');
-      openIcon?.classList.remove('hidden');
-      openIcon?.classList.add('block');
-      closeIcon?.classList.remove('block');
-      closeIcon?.classList.add('hidden');
-    } else {
-      // Expand menu - Calculate height based on content
-      mobileMenu?.style.setProperty('max-height', `${mobileMenu.scrollHeight}px`);
-      menuButton.setAttribute('aria-expanded', 'true');
-      openIcon?.classList.remove('block');
-      openIcon?.classList.add('hidden');
-      closeIcon?.classList.remove('hidden');
-      closeIcon?.classList.add('block');
+  function setupNav() {
+    console.log('Setting up navigation...');
+
+    // Mobile menu toggle functionality
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    if (menuButton) {
+      menuButton.addEventListener('click', () => {
+        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+        if (isExpanded) {
+          mobileMenu?.style.setProperty('max-height', '0px');
+          menuButton.setAttribute('aria-expanded', 'false');
+          openIcon?.classList.remove('hidden');
+          openIcon?.classList.add('block');
+          closeIcon?.classList.remove('block');
+          closeIcon?.classList.add('hidden');
+        } else {
+          mobileMenu?.style.setProperty('max-height', `${mobileMenu.scrollHeight}px`);
+          menuButton.setAttribute('aria-expanded', 'true');
+          openIcon?.classList.remove('block');
+          openIcon?.classList.add('hidden');
+          closeIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('block');
+        }
+      });
     }
-  });
 
-  // Optional: Close menu if clicked outside (basic implementation)
-  document.addEventListener('click', (event) => {
-    if (!menuButton?.contains(event.target as Node) && !mobileMenu?.contains(event.target as Node)) {
-       if (menuButton?.getAttribute('aria-expanded') === 'true') {
-         menuButton.click(); // Simulate click to collapse
-       }
+    // Scroll animation functionality
+    const nav = document.getElementById('main-nav');
+    const navContainer = document.getElementById('nav-container');
+    const desktopLinks = document.getElementById('desktop-links');
+    const navLogo = document.getElementById('nav-logo');
+
+    let lastScrollY = window.scrollY;
+    let scrollingDown = false;
+    let isNavCompact = false;
+
+    // Function to handle scroll animation
+    function handleScroll() {
+      const currentScrollY = window.scrollY;
+
+      // Determine scroll direction
+      scrollingDown = currentScrollY > lastScrollY;
+
+      console.log(`Scroll detected - Direction: ${scrollingDown ? 'down' : 'up'}, Position: ${currentScrollY}px`);
+
+      // Apply animations based on scroll direction and position
+      if (scrollingDown && currentScrollY > 50 && !isNavCompact) {
+        // Scrolling down - shrink nav
+        console.log('Shrinking navigation');
+        isNavCompact = true;
+
+        // Add compact class to nav
+        nav?.classList.add('nav-compact');
+
+        // Shrink nav container padding
+        navContainer?.classList.remove('py-6');
+        navContainer?.classList.add('py-2');
+
+        // Shrink logo
+        if (navLogo) {
+          navLogo.style.width = '70px';
+          navLogo.style.height = '70px';
+        }
+
+        // Hide nav links with a slight delay
+        setTimeout(() => {
+          desktopLinks?.classList.add('opacity-0');
+        }, 50);
+
+      } else if ((!scrollingDown || currentScrollY <= 50) && isNavCompact) {
+        // Scrolling up - expand nav
+        console.log('Expanding navigation');
+        isNavCompact = false;
+
+        // Remove compact class from nav
+        nav?.classList.remove('nav-compact');
+
+        // Expand nav container padding
+        navContainer?.classList.remove('py-2');
+        navContainer?.classList.add('py-6');
+
+        // Expand logo
+        if (navLogo) {
+          navLogo.style.width = '80px';
+          navLogo.style.height = '80px';
+        }
+
+        // Show nav links
+        desktopLinks?.classList.remove('opacity-0');
+      }
+
+      lastScrollY = currentScrollY;
     }
-  });
 
-  // Optional: Close menu on window resize if moving to larger screen
-  window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768 && menuButton?.getAttribute('aria-expanded') === 'true') {
-      menuButton.click(); // Simulate click to collapse
-    }
-  });
+    // Add scroll event listener with throttling for performance
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
 
+    // Initialize state
+    console.log('Initializing navigation state');
+    handleScroll();
+  }
 </script>
 
 <style>
@@ -113,4 +190,30 @@ const navLinks = getNavLinks(Astro.url.pathname);
   #mobile-menu {
     transition: max-height 0.3s ease-in-out;
   }
+
+  /* Smooth transitions for nav elements */
+  #nav-logo {
+    transition: width 0.3s ease, height 0.3s ease;
+  }
+
+  #desktop-links {
+    transition: opacity 0.3s ease, height 0.3s ease, margin 0.3s ease;
+  }
+
+  /* Ensure smooth transitions for nav container padding */
+  #nav-container {
+    transition: padding 0.3s ease-in-out;
+  }
+
+  /* Compact nav styles */
+  #main-nav.nav-compact {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Ensure the nav links fade out properly */
+  #desktop-links.opacity-0 {
+    opacity: 0;
+    pointer-events: none;
+  }
 </style>
+

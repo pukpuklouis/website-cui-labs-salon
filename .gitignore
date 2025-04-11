@@ -27,10 +27,6 @@ pnpm-debug.log*
 .wrangler
 .dev.vars*
 
-#roorules
-.roomodes
-.windsurfrules
-.cursorrules
 
 # Added by Claude Task Master
 # Logs
@@ -49,23 +45,33 @@ dev-debug.log
 *.sw?
 # OS specific
 
-# Task files
-tasks/
-README-task-master.md
-scripts/*
-scripts/
 
 #.env
 .env.local
 .env
 
-#prd/ taskmaster 
-prd.md
+#Everything above is alway ignored
 
+
+# Ignore below by default - remove * below temporarily when working with roo/windsur/cursor,  add * before committing
+*
+!/.gitignore/
+!/.cursor/
+#roorules
+!/.roomodes/
+!/.roo/**
+!/.windsurfrules/
+!/.cursorrules/
+# Task files
+!/tasks/**
+!/README-task-master.md/
+# Scripts
+!/scripts/
+#prd taskmaster 
+!/prd.md/
 #cursor
-.cursor/
-.cursor/*
+!/.cursor/
 
-# Roo rules
-.roo/*
-.roomodes
+!/anime-js-docs/
+#Memory Bank
+/memory-bank/
