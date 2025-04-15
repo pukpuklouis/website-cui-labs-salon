@@ -2,20 +2,24 @@
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';
 import partytown from '@astrojs/partytown';
-import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 import { imageService } from '@unpic/astro/service'; // Corrected import
 import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
+site: "http://localhost:4321";
 export default defineConfig({
   adapter: cloudflare({
     platformProxy: {
       enabled: true
     }
   }),
-  integrations: [ 
-    partytown(), 
+  integrations: [
+    partytown({ 
+      config: { 
+        debug: true, 
+        forward: ['dataLayer.push'] } }),
     sitemap(),
     react()
   ],
@@ -27,4 +31,4 @@ export default defineConfig({
   image: {
     service: imageService()
   }
-}); 
+});
