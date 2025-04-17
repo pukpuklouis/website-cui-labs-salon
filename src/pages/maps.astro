@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Navigation properties - hide this page from navigation
+export const navlinkData = {
+  navTitle: 'Maps',
+  navVisibility: 'all'
+};
+
+const title = "Maps - CUI Labs Salon";
+const description = "Find our salon location and directions.";
+---
+
+<Layout title={title} description={description}>
+  <main class="container mx-auto py-12 px-4">
+    <h1 class="text-4xl font-bold mb-8">Maps</h1>
+    <p class="mb-8">This is a basic page generated automatically.</p>
+    <div class="bg-gray-200 p-8 rounded-lg text-center">
+      <p>Map will be embedded here.</p>
+    </div>
+  </main>
+</Layout>
