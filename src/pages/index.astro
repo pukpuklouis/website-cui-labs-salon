@@ -8,6 +8,13 @@ import BlogPostPreview from '../components/BlogPostPreview.astro';
 import { getCollection } from 'astro:content';
 import stylistsData from '../content/stylistbio/stylistbio.json';
 
+// Navigation properties
+export const navlinkData = {
+  navTitle: 'Home',
+  navOrder: 1,
+  navVisibility: 'all'
+};
+
 // Fetch featured blog posts
 const featuredPosts = (await getCollection('blog', ({ data }) => data.featured === true))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())

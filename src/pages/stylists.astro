@@ -4,6 +4,13 @@ import Layout from '../layouts/Layout.astro';
 import StylistBio from '../components/StylistBio.astro'; // Import the enhanced component
 import { getCollection } from 'astro:content';
 
+// Navigation properties
+export const navlinkData = {
+  navTitle: 'Stylists',
+  navOrder: 3,
+  navVisibility: 'all'
+};
+
 // SEO Metadata
 const pageTitle = "Meet Our Stylists - CUI Labs Salon";
 const pageDescription = "Get to know the talented stylists at CUI Labs Salon. Discover their specialties and book your next appointment.";

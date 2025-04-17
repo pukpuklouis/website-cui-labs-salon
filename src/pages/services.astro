@@ -4,6 +4,13 @@ import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import GalleryImage from '../components/GalleryImage.astro';
 
+// Navigation properties
+export const navlinkData = {
+  navTitle: 'Services',
+  navOrder: 2,
+  navVisibility: 'all'
+};
+
 // Placeholder data for categories - replace later
 const categories = ['Haircuts', 'Coloring', 'Styling', 'Treatments'];
 
@@ -17,10 +24,9 @@ const services = [
   { name: 'Deep Conditioning Mask', description: 'Intensive treatment to restore moisture and strength to dry or damaged hair.', imageUrl: '/images/treatment.jpg', price: '$45' },
 ];
 ---
----
 
-<Layout 
-  title="Our Services - CUI Labs Salon" 
+<Layout
+  title="Our Services - CUI Labs Salon"
   description="Explore the wide range of professional hair services offered at CUI Labs Salon, including cuts, coloring, styling, and treatments."
 >
   <main class="container mx-auto px-4 py-12">

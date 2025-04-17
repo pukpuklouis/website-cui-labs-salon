@@ -2,6 +2,13 @@
 // src/pages/booking.astro
 import Layout from '../layouts/Layout.astro';
 import BookingContainer from '../components/BookingContainer';
+
+// Navigation properties
+export const navlinkData = {
+  navTitle: 'Booking',
+  navOrder: 5,
+  navVisibility: 'all'
+};
 ---
 
 <Layout title="Book an Appointment">

@@ -4,6 +4,13 @@ import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import BlogPostPreview from '../../components/BlogPostPreview.astro';
 
+// Navigation properties
+export const navlinkData = {
+  navTitle: 'Blog',
+  navOrder: 4,
+  navVisibility: 'all'
+};
+
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );

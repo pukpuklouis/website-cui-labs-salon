@@ -51,11 +51,10 @@ dev-debug.log
 .env
 
 #Everything above is alway ignored
+!/src/**
 
-*
 # Ignore below by default - remove * below temporarily when working with roo/windsur/cursor,  add * before committing
-
-!/.gitignore/
+*
 #roorules
 !/.roomodes/
 !/.roo/**
@@ -70,7 +69,6 @@ dev-debug.log
 !/prd.md/
 #cursor
 !/.cursor/
-
 !/anime-js-docs/
 #Memory Bank
 /memory-bank/
