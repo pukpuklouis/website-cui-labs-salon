@@ -52,11 +52,10 @@ dev-debug.log
 
 #Everything above is alway ignored
 
-
-# Ignore below by default - remove * below temporarily when working with roo/windsur/cursor,  add * before committing
 *
+# Ignore below by default - remove * below temporarily when working with roo/windsur/cursor,  add * before committing
+
 !/.gitignore/
-!/.cursor/
 #roorules
 !/.roomodes/
 !/.roo/**

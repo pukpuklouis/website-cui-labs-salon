@@ -1,5 +1,5 @@
-import React from 'react';
-import BookingPlaceholder from './BookingPlaceholder';
+import React from "react";
+import BookingPlaceholder from "./BookingPlaceholder";
 
 interface BookingContainerProps {
   /** Future iframe URL for booking system */
@@ -11,9 +11,9 @@ interface BookingContainerProps {
 /**
  * Container for the booking component.
  * Currently renders a static placeholder.
- * 
+ *
  * In the future, replace the placeholder with an iframe:
- * 
+ *
  * {iframeUrl && (
  *   <iframe src={iframeUrl} title={iframeTitle} className="w-full h-[800px] border-0" />
  * )}

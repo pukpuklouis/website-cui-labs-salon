@@ -1,25 +1,102 @@
 ---
-// src/components/AnimatedHero.astro
-// Basic structure for the hero section. Animations will be added later.
+import { Image } from 'astro:assets';
 ---
-<section class="min-h-screen flex items-center justify-center text-center p-8 bg-gradient-to-br from-purple-100 to-indigo-100 dark:from-gray-800 dark:to-gray-900">
-  <div class="max-w-3xl">
-    <h1 class="font-soligant text-6xl md:text-6xl font-base tracking-wide mb-4 text-gray-900 dark:text-white animate-placeholder">
-      CUI Labs Salon
-    </h1>
-    <p class="text-lg md:text-xl mb-8 text-gray-700 dark:text-gray-300 animate-placeholder">
-      Experience the future of hair design and conversational user interfaces.
-    </p>
-    <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 animate-placeholder">
-      Book Your Appointment
-    </button>
-  </div>
-</section>
 
-<style>
-  /* Placeholder for potential future custom styles or complex animations */
-  .animate-placeholder {
-    /* Basic placeholder styles, actual animation via anime.js later */
-    opacity: 1; 
-  }
-</style>
+<section id="animated-hero-container" class="bg-gray-50 relative overflow-hidden min-h-screen">
+    <!-- Block 1: Top Logo -->
+    <h1 id="hero-top-logo" class="opacity-0 text-3xl font-bold text-gray-800">AETHER ATTIRE</h1>
+
+    <!-- Block 2: Main Model Image -->
+    <Image 
+        id="hero-main-image" 
+        src="https://placehold.co/1920x1080?text=Main+Model" 
+        alt="Main Model" 
+        class="opacity-0 scale-95 w-full h-auto" 
+        width={1920} 
+        height={1080} 
+        densities={[1, 2]}
+        loading="eager"
+        decoding="sync"
+        fetchpriority="high"
+        sizes="(max-width: 768px) 100vw, 1920px"
+        quality={90}
+    />
+
+    <!-- Block 3: About Text + Embedded Image -->
+    <div id="hero-about-section" class="mt-16">
+        <p id="hero-about-text1" class="opacity-0.1 translate-y-10 text-lg text-gray-700">OUR FUTURISTIC...</p>
+        <Image 
+            id="hero-about-image" 
+            src="https://placehold.co/1200x800?text=About+Image" 
+            alt="About Image" 
+            class="opacity-0 scale-90 w-full h-auto mt-4" 
+            width={1200} 
+            height={800} 
+            loading="eager"
+            sizes="(max-width: 768px) 100vw, 1200px"
+            quality={85}
+        />
+        <p id="hero-about-text2" class="opacity-0.1 translate-y-10 text-lg text-gray-700 mt-4">WHERE BEIGE...</p>
+    </div>
+
+    <!-- Block 4: New Arrivals -->
+    <div id="hero-arrivals-section" class="mt-16">
+        <h2 id="hero-arrivals-title" class="opacity-0.1 translate-y-10 text-2xl font-semibold text-gray-800">NEW ARRIVALS</h2>
+        <div class="grid grid-cols-3 gap-4 mt-4">
+            <Image 
+                id="hero-arrival-1" 
+                src="https://placehold.co/600x800?text=Arrival+1" 
+                alt="Arrival 1" 
+                class="hero-arrival-item opacity-0 translate-y-10 w-full h-auto" 
+                width={600} 
+                height={800} 
+                sizes="(max-width: 768px) 33vw, 600px"
+                quality={80}
+            />
+            <Image 
+                id="hero-arrival-2" 
+                src="https://placehold.co/600x800?text=Arrival+2" 
+                alt="Arrival 2" 
+                class="hero-arrival-item opacity-0 translate-y-10 w-full h-auto" 
+                width={600} 
+                height={800} 
+                sizes="(max-width: 768px) 33vw, 600px"
+                quality={80}
+            />
+            <Image 
+                id="hero-arrival-3" 
+                src="https://placehold.co/600x800?text=Arrival+3" 
+                alt="Arrival 3" 
+                class="hero-arrival-item opacity-0 translate-y-10 w-full h-auto" 
+                width={600} 
+                height={800} 
+                sizes="(max-width: 768px) 33vw, 600px"
+                quality={80}
+            />
+        </div>
+    </div>
+
+    <!-- Block 5: Elevate Text -->
+    <div id="hero-elevate-section" class="mt-16">
+        <h2 id="hero-elevate-text" class="opacity-0 translate-y-10 text-4xl font-bold text-gray-900">ELEVATE...</h2>
+    </div>
+
+    <!-- Block 6: Bottom Image + Overlay -->
+    <div id="hero-bottom-section" class="relative mt-16">
+        <Image 
+            id="hero-bottom-image" 
+            src="https://placehold.co/1920x1080?text=Bottom+Image" 
+            alt="Bottom Image" 
+            class="opacity-0 translate-y-10 w-full h-auto" 
+            width={1920} 
+            height={1080} 
+            sizes="(max-width: 768px) 100vw, 1920px"
+            quality={85}
+        />
+        <div id="hero-bottom-overlay" class="absolute inset-0 flex items-center justify-center opacity-0 bg-black text-white text-xl">
+            AETHER ATTIRE 2024
+        </div>
+    </div>
+
+    <script src="../scripts/animateHero.ts"></script>
+</section>
