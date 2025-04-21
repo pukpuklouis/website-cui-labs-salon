@@ -51,7 +51,6 @@ dev-debug.log
 .env
 
 #Everything above is alway ignored
-!/src/**
 
 # Ignore below by default - remove * below temporarily when working with roo/windsur/cursor,  add * before committing
 *
