@@ -1,0 +1,69 @@
+---
+export interface Props {
+  message: string;
+  className?: string;
+}
+
+const { message, className } = Astro.props;
+
+// 將訊息拆分成單詞
+const words = message.split(" ");
+---
+
+<div
+  class={`relative h-screen overflow-y-scroll ${className}`}
+  id="scroll-container"
+>
+  <div class="flex h-screen items-center justify-center">
+    <p class="font-soligant uppercase text-6xl md:text-9xl text-gray-800 font-bold tracking-relaxed">
+      {words.map((word, i) => (
+        <span
+          class="inline-block mr-2"
+          data-word-index={i}
+        >
+          {word}
+          {" "}
+        </span>
+      ))}
+    </p>
+  </div>
+  {/* 空白空間已被移除 */}
+</div>
+
+<script>
+  import { scroll, animate, stagger } from "motion";
+
+  // 確保在 DOM 載入後執行
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById("scroll-container");
+    const wordSpans = container?.querySelectorAll("span[data-word-index]");
+
+    // 檢查元素是否存在
+    if (!container || !wordSpans || wordSpans.length === 0) {
+      console.error("Scroll container or word spans not found.");
+      return; // 如果找不到元素，則停止執行
+    }
+
+    // 創建動畫
+    const animation = animate(
+      Array.from(wordSpans),
+      {
+        opacity: [0.1, 1],
+      },
+      {
+        type: "spring",
+        delay: stagger(0.05),
+        duration: 1,
+        bounce: 0.3,
+      }
+    );
+
+    // 將動畫連結到捲動進度
+    // 動畫進度會與 container 元素的捲動進度同步
+    // 當元素進入視窗時動畫向前播放，捲動回溯時動畫會反向播放
+    scroll(animation, {
+      target: container,
+      offset: ["start center", "end center"]
+    });
+  });
+</script>

@@ -6,11 +6,12 @@ import ServiceCard from '../components/ServiceCard.astro';
 import StylistBio from '../components/StylistBio.astro';
 import BlogPostPreview from '../components/BlogPostPreview.astro';
 import { getCollection } from 'astro:content';
-import stylistsData from '../content/stylistbio/stylistbio.json';
-
+import InfiniteSlider from '../components/InfiniteSlider.astro';
+import { Image } from 'astro:assets';
+import ImageReveal from '../components/ui/ImageReveal.astro';
 // Navigation properties
 export const navlinkData = {
-  navTitle: 'Home',
+  navTitle: '首頁',
   navOrder: 1,
   navVisibility: 'all'
 };
@@ -21,6 +22,9 @@ const featuredPosts = (await getCollection('blog', ({ data }) => data.featured =
   .slice(0, 3);
 
 const services = (await getCollection('services'))[0].data;
+
+//fetch stylistbio
+const stylistbio = (await getCollection('stylistbio'))[0].data;
 
 // SEO Metadata
 const pageTitle = "Home - CUI Labs Salon";
@@ -40,12 +44,22 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
         </div>
       </div>
     </section>
-
-    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
+    <!-- brands Section -->
+    <section>
+      <InfiniteSlider gap={56} speed={20} direction="normal" class="mb-8 bg-gray-50" mask={true} duplicateCount={4}>
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+      </InfiniteSlider>
+    </section>
+    <ImageReveal />
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50s dark:bg-gray-900">
       <div class="max-w-5xl mx-auto">
         <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Meet Our Stylists</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stylistsData.map((stylist) => (
+          {stylistbio.map((stylist) => (
             <StylistBio stylist={stylist} />
           ))}
         </div>

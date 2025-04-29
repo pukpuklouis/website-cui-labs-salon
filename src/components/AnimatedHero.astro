@@ -1,10 +1,11 @@
 ---
 import { Image } from 'astro:assets';
+import ScrollTextReveal from './ui/ScrollTextReveal.astro';
 ---
 
-<section id="animated-hero-container" class="bg-gray-50 relative overflow-hidden min-h-screen">
+<section id="animated-hero-container" class="bg-gray-50 relative overflow-hidden min-h-screen my-8">
     <!-- Block 1: Top Logo -->
-    <h1 id="hero-top-logo" class="opacity-0 text-3xl font-bold text-gray-800">AETHER ATTIRE</h1>
+    <h1 id="hero-top-logo" class="font-soligant opacity-0 text-6xl font-bold text-gray-800">Cui A萃</h1>
 
     <!-- Block 2: Main Model Image -->
     <Image 
@@ -78,7 +79,7 @@ import { Image } from 'astro:assets';
 
     <!-- Block 5: Elevate Text -->
     <div id="hero-elevate-section" class="mt-16">
-        <h2 id="hero-elevate-text" class="opacity-0 translate-y-10 text-4xl font-bold text-gray-900">ELEVATE...</h2>
+        <h2 id="hero-elevate-text" class="opacity-0 translate-y-10 text-6xl font-bold text-gray-900">ELEVATE ELEVATE ELEVATE ELEVATE ELEVATE ELEVATE ELEVATE</h2>
     </div>
 
     <!-- Block 6: Bottom Image + Overlay -->
@@ -93,10 +94,13 @@ import { Image } from 'astro:assets';
             sizes="(max-width: 768px) 100vw, 1920px"
             quality={85}
         />
-        <div id="hero-bottom-overlay" class="absolute inset-0 flex items-center justify-center opacity-0 bg-black text-white text-xl">
+        <div id="hero-bottom-overlay" class="text-5xl font-bold absolute inset-0 flex items-center justify-center opacity-0 bg-black text-white">
             AETHER ATTIRE 2024
         </div>
     </div>
 
     <script src="../scripts/animateHero.ts"></script>
+</section>
+<section>
+    <ScrollTextReveal message="Welcome asdas dhkl alskdjl kjasldk asldkkljasd to CUI Labs Salon" />
 </section>

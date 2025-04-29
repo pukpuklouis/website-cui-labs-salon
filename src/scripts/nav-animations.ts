@@ -1,4 +1,4 @@
-import { animate, scroll } from "motion";
+import { animate } from "motion";
 import type { AnimationOptionsWithValueOverrides } from "motion";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,9 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isMenuOpen = false;
 
   if (menuButton && mobileMenu && menuIconOpen && menuIconClose) {
-    // Initial state: menu closed
-    mobileMenu.style.display = 'block';
-    animate(mobileMenu, { height: '0px', opacity: '0' }, { duration: 0 });
+    // Initial state: menu closed (handled by 'hidden' attribute in HTML)
     menuIconClose.style.display = 'none';
     menuIconOpen.style.display = 'block';
     menuButton.setAttribute('aria-expanded', 'false');
@@ -21,26 +19,50 @@ document.addEventListener('DOMContentLoaded', () => {
       isMenuOpen = !isMenuOpen;
       menuButton.setAttribute('aria-expanded', String(isMenuOpen));
 
-      // Calculate the full height of the menu
-      const fullHeight = mobileMenu.scrollHeight;
-      
-      // Set up animation options
-      const options: AnimationOptionsWithValueOverrides = {
+      let fullHeight = 0;
+      let animationTarget: Record<string, any>;
+      let options: AnimationOptionsWithValueOverrides = {
         duration: 0.3,
-        ease: "easeInOut"
+        ease: "easeInOut",
       };
 
-      // Animate both height and opacity
-      animate(
-        mobileMenu,
-        { 
-          height: isMenuOpen ? [0, fullHeight] : [fullHeight, 0],
-          opacity: isMenuOpen ? ['0', '1'] : ['1', '0']
-        },
-        options
-      );
+      if (isMenuOpen) {
+        // --- 開啟選單 ---
+        mobileMenu.hidden = false; // 移除 hidden 屬性
+        mobileMenu.style.display = 'block'; // 確保 display 為 block
+        mobileMenu.style.overflow = 'visible'; // 允許內容溢出
 
-      // Toggle icons
+        // 計算高度
+        mobileMenu.style.height = 'auto'; // 暫時設為 auto 以計算 scrollHeight
+        fullHeight = mobileMenu.scrollHeight;
+        mobileMenu.style.height = '0px'; // 設回 0 以便動畫開始
+
+        animationTarget = {
+          height: [0, fullHeight],
+          opacity: ['0', '1']
+        };
+
+      } else {
+        // --- 關閉選單 ---
+        // 先取得目前高度，避免直接設為 0
+        fullHeight = mobileMenu.scrollHeight; // 取得關閉前的實際高度
+
+        animationTarget = {
+          height: [fullHeight, 0],
+          opacity: ['1', '0']
+        };
+
+        options.onComplete = () => {
+          mobileMenu.hidden = true; // 動畫結束後隱藏
+          mobileMenu.style.overflow = 'hidden'; // 隱藏溢出
+          mobileMenu.style.display = 'none'; // 確保 display 為 none
+        };
+      }
+
+      // 執行動畫
+      animate(mobileMenu, animationTarget, options);
+
+      // 切換圖示
       menuIconOpen.style.display = isMenuOpen ? 'none' : 'block';
       menuIconClose.style.display = isMenuOpen ? 'block' : 'none';
     });
@@ -57,18 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (mainNav && navContainer && navLogo && logoContainer && desktopLinks) {
     const initialPaddingY = 24;
-    const shrunkPaddingY = 12;
+    const shrunkPaddingY = 6;
     const initialLogoSize = 80;
-    const shrunkLogoSize = 50;
+    const shrunkLogoSize = 60;
     const initialLogoMarginBottom = 32;
-    const shrunkLogoMarginBottom = 8;
+    const shrunkLogoMarginBottom = 4;
     
     // Add scroll direction detection with improvements
     let lastScrollY = window.scrollY;
     let scrollDirection: 'up' | 'down' = 'up';
     let isAnimating = false;
     let lastDirectionChange = Date.now();
-    const scrollThreshold = 5; // Minimum scroll difference to trigger direction change
+    const scrollThreshold = 8; // Minimum scroll difference to trigger direction change
     const directionChangeDelay = 200; // Minimum time between direction changes in ms
 
     // Initialize desktop links visibility
@@ -83,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
       logoContainer.style.marginBottom = `${shrunkLogoMarginBottom}px`;
       mainNav.style.boxShadow = `0 4px 10px rgba(0, 0, 0, 0.1)`;
       mainNav.classList.add('nav-compact');
+      desktopLinks.hidden = true;
     };
 
     // Function to apply expanded styles
@@ -94,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       logoContainer.style.marginBottom = `${initialLogoMarginBottom}px`;
       mainNav.style.boxShadow = 'none';
       mainNav.classList.remove('nav-compact');
+      desktopLinks.hidden = false;
     };
 
     // Debounced animation function to prevent rapid state changes

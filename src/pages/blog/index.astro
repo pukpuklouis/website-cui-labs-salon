@@ -6,7 +6,7 @@ import BlogPostPreview from '../../components/BlogPostPreview.astro';
 
 // Navigation properties
 export const navlinkData = {
-  navTitle: 'Blog',
+  navTitle: '文章',
   navOrder: 4,
   navVisibility: 'all'
 };
@@ -51,7 +51,7 @@ const allCategories = [...new Set(posts.flatMap(post => post.data.categories || 
       )}
     </div>
   )}
-
+  <!-- brand infinity slider -->
   {/* Blog Post List */}
   <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
     {posts.map(post => (

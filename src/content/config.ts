@@ -75,9 +75,31 @@ const servicesCollection = defineCollection({
   schema: z.array(serviceSchema),
 });
 
+// Define the schema for the footer data collection
+const footerCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    salonInfo: z.object({
+      name: z.string(),
+      address: z.string(),
+      city: z.string(),
+      phone: z.string()
+    }),
+    statement: z.object({
+      description: z.string()
+    }),
+    socialMedia: z.array(z.object({
+      name: z.string(),
+      url: z.string().url().or(z.literal('#')), // Allow URL or '#' placeholder
+      iconPath: z.string() // SVG path data
+    }))
+  })
+});
+
 // Export a `collections` object to register the collection(s)
 export const collections = {
   'blog': blogCollection,
   'stylistbio': stylistbioCollection,
   'services': servicesCollection,
+  'footer': footerCollection,
 };

@@ -1,4 +1,4 @@
-import { animate, scroll, stagger, type AnimationSequence, type SequenceOptions, easeOut } from "motion";
+import { animate, stagger, inView, easeOut } from "motion";
 
 // 確保 DOM 完全載入後再執行動畫設定
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("Element #hero-main-image not found.");
     }
 
-    // --- 滾動連結動畫 (使用 scroll 和 animate sequence) ---
+    // --- 滾動觸發動畫 (使用 inView) ---
 
     // 獲取所有需要滾動動畫的元素
     const aboutText1 = document.querySelector('#hero-about-text1') as HTMLElement | null;
@@ -50,16 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const elevateText = document.querySelector('#hero-elevate-text') as HTMLElement | null;
     const bottomImage = document.querySelector('#hero-bottom-image') as HTMLElement | null;
     const bottomOverlay = document.querySelector('#hero-bottom-overlay') as HTMLElement | null;
-    const heroAboutSection = document.querySelector('#hero-about-section') as HTMLElement | null;
-    const animatedHeroContainer = document.querySelector('#animated-hero-container') as HTMLElement | null;
 
-    // 檢查目標元素是否存在
-    if (!animatedHeroContainer) {
-        console.warn("Target element #hero-about-section for scroll animation not found.");
-        return; // 如果目標元素不存在，則不執行後續滾動動畫設定
-    }
-
-    // 初始設置透明度，避免閃爍
+    // 初始設置透明度和變形，避免閃爍並設置動畫起始狀態
     const elementsToAnimate = [
         aboutText1, aboutImage, aboutText2, arrivalsTitle,
         ...Array.from(arrivalItems), // 將 NodeList 轉換為陣列
@@ -68,55 +60,112 @@ document.addEventListener('DOMContentLoaded', () => {
     elementsToAnimate.forEach(el => {
         if (el instanceof HTMLElement) {
             el.style.opacity = '0.01'; // 使用 0.01 避免 FCP 問題
+            // 根據原始 scrollSequence 設置初始 transform
+            switch (el.id) {
+                case 'hero-about-text1':
+                    el.style.transform = 'translateX(40px)';
+                    break;
+                case 'hero-about-image':
+                    el.style.transform = 'translateX(400px) scale(0.75)';
+                    break;
+                case 'hero-about-text2':
+                case 'hero-arrivals-title':
+                case 'hero-elevate-text':
+                    el.style.transform = 'translateY(100px)'; // 原始 aboutText2 和 arrivalsTitle 是 Y:100
+                    break;
+                case 'hero-bottom-image':
+                    el.style.transform = 'translateY(50px)';
+                    break;
+                // arrivalItems 在下方單獨處理 transform
+            }
         }
     });
 
-    // 定義滾動觸發的動畫序列
-    const scrollSequence: AnimationSequence = [];
-    const sequenceOptions: SequenceOptions = {
-        // 預設的過渡效果，可以被單個動畫覆蓋
-        defaultTransition: { ease: easeOut } // 移除預設 duration，讓 scroll 完全控制進度
-    };
+    // 為 arrivalItems 單獨設置初始 transform
+    arrivalItems.forEach(item => {
+        if (item instanceof HTMLElement) {
+            item.style.transform = 'translateY(60px) scale(0.9)';
+        }
+    });
 
-    // 根據元素是否存在，將動畫添加到序列中
-    // 進一步調整 'at' 值，使其在 0-1 範圍內更分散
-    if (aboutText1) scrollSequence.push([aboutText1, { opacity: [0, 1], x: [40, 0] }, { at: 0.6, duration: 0.3 }]);    // 滾動進度 10%
-    if (aboutImage) scrollSequence.push([aboutImage, { opacity: [0, 1], x: [400, 0], scale: [0.75, 1] }, { at: 0.65 , duration: 0.3 }]); // 滾動進度 18%
-    if (aboutText2) scrollSequence.push([aboutText2, { opacity: [0, 1], y: [100, 0] }, { at: 0.4 }]); // 滾動進度 40%
-    if (arrivalsTitle) scrollSequence.push([arrivalsTitle, { opacity: [0, 1], y: [100, 0] }, { at: 0.55 }]); // 滾動進度 55%
 
-    // 為 arrivalItems 添加交錯動畫，調整起始點和間隔
+    // 使用 inView 為每個元素設置滾動觸發動畫
+    if (aboutText1) {
+        inView(aboutText1, (el) => {
+            animate(el, { opacity: 1, x: 0 }, { duration: 0.3, ease: easeOut });
+            return () => {
+                animate(el, { opacity: 0.01, x: 40 }, { delay: 0.8, duration: 0.3, ease: easeOut });
+            };
+        }, { amount: 0.5 }); // 當元素 50% 進入視窗時觸發
+    }
+
+    if (aboutImage) {
+        inView(aboutImage, (el) => {
+            animate(el, { opacity: 1, x: 0, scale: 1 }, { duration: 0.3, ease: easeOut });
+             return () => {
+                animate(el, { opacity: 0.01, x: 400, scale: 0.75 }, { delay: 1,  duration: 0.3, ease: easeOut });
+            };
+        }, { amount: 0.5 });
+    }
+
+    if (aboutText2) {
+        inView(aboutText2, (el) => {
+            animate(el, { opacity: 1, y: 0 }, { duration: 0.3, ease: easeOut });
+             return () => {
+                animate(el, { opacity: 0.01, y: 100 }, { delay: 1, duration: 0.3, ease: easeOut });
+            };
+        }, { amount: 0.5 });
+    }
+
+    if (arrivalsTitle) {
+        inView(arrivalsTitle, (el) => {
+            animate(el, { opacity: 1, y: 0 }, { duration: 0.3, ease: easeOut });
+             return () => {
+                animate(el, { opacity: 0.01, y: 100 }, { delay: 1, duration: 0.3, ease: easeOut });
+            };
+        }, { amount: 0.5 });
+    }
+
+    // 為每個 arrivalItem 設置 inView 監聽器並添加交錯延遲
     if (arrivalItems.length > 0) {
-        const arrivalStartTime = 0.8; // arrival items 動畫開始的時間點 (再延後)
-        const arrivalStagger = 0.1;  // 每個 item 的交錯間隔 (再縮小一點以適應更多項目)
         arrivalItems.forEach((item, index) => {
             if (item instanceof HTMLElement) {
-                const startTime = arrivalStartTime + index * arrivalStagger;
-                // 確保 startTime 不超過 1
-                if (startTime <= 1) {
-                    // 每個 item 的動畫持續時間可以短一些，讓交錯感更明顯
-                    scrollSequence.push([item, { opacity: [0, 1], y: [60, 0], scale: [0.9, 1] }, { at: startTime, duration: 0.3 }]); // 縮短 duration
-                }
+                inView(item, (el) => {
+                    // 添加基於索引的延遲來模擬交錯效果
+                    animate(el, { opacity: 1, y: 0, scale: 1 }, { duration: 0.3, ease: easeOut, delay: index * 0.2 });
+                     return () => {
+                        animate(el, { opacity: 0.01, y: 60, scale: 0.9 }, { delay: 1, duration: 0.3, ease: easeOut });
+                    };
+                }, { amount: 0.5 });
             }
         });
     }
 
-    // 調整後續元素的 'at' 值
-    if (elevateText) scrollSequence.push([elevateText, { opacity: [0, 1], y: [60, 0] }, { duration: 1.0, at: 0.80 }]); // 滾動進度 80%
-    if (bottomImage) scrollSequence.push([bottomImage, { opacity: [0, 1], y: [50, 0] }, { duration: 1.2, at: 0.85 }]); // 滾動進度 85%
-    if (bottomOverlay) scrollSequence.push([bottomOverlay, { opacity: [0, 1] }, { duration: 2.0, at: 0.95 }]); // 滾動進度 95%
+    if (elevateText) {
+        inView(elevateText, (el) => {
+            animate(el, { opacity: 1, y: 0 }, { duration: 1.0, ease: easeOut });
+             return () => {
+                animate(el, { opacity: 0.01, y: 100 }, { delay: 1, duration: 1.0, ease: easeOut });
+            };
+        }, { amount: 0.5 });
+    }
 
-    // 創建一個（暫停的）動畫實例
-    const scrollAnimation = animate(scrollSequence, sequenceOptions);
-    scrollAnimation.pause(); // 立即暫停，等待 scroll 控制
+    if (bottomImage) {
+        inView(bottomImage, (el) => {
+            animate(el, { opacity: 1, y: 0 }, { duration: 1.2, ease: easeOut });
+             return () => {
+                animate(el, { opacity: 0.01, y: 50 }, { delay: 1, duration: 1.2, ease: easeOut });
+            };
+        }, { amount: 0.5 });
+    }
 
-    // 使用 scroll 將動畫進度連結到滾動，並調整 offset
-    const stopScroll = scroll(scrollAnimation, {
-        target: animatedHeroContainer,
-        offset: ["start end", "end start"] // 進一步調整 offset 擴大滾動範圍
-    });
-
-    // 如果需要，可以保留 stopScroll 函數以便後續停止連結
-    // 例如：window.addEventListener('unload', stopScroll);
+    if (bottomOverlay) {
+        inView(bottomOverlay, (el) => {
+            animate(el, { opacity: 1 }, { duration: 2.0, ease: easeOut });
+             return () => {
+                animate(el, { opacity: 0.01 }, { delay: 1, duration: 2.0, ease: easeOut });
+            };
+        }, { amount: 0.5 });
+    }
 
 });

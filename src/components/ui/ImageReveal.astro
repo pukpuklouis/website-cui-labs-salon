@@ -1,0 +1,127 @@
+---
+// Define the cards array with image sources and initial rotation angles
+const cards = [
+  { src: "https://placehold.co/1920x1080?text=Image1", angle: "-5deg" },
+  { src: "https://placehold.co/1920x1080?text=Image2", angle: "3deg" },
+  { src: "https://placehold.co/1920x1080?text=Image3", angle: "-2deg" },
+  { src: "https://placehold.co/1920x1080?text=Image4", angle: "4deg" },
+  { src: "https://placehold.co/1920x1080?text=Image5", angle: "-3deg" },
+];
+
+interface Props {
+  title?: string;
+  class?: string;
+  spacing?: string;
+  delay?: number;
+}
+
+const { title = "Image Gallery", class: className, spacing = "-ml-10 md:-ml-20", delay = 300 } = Astro.props;
+---
+
+<div class:list={["image-reveal-container", className]}>
+  {title && <h2 class="text-2xl font-bold mb-6">{title}</h2>}
+  
+  <div class:list={["relative my-10 ml-10 flex flex-row justify-center md:ml-20", spacing]}>
+    {cards.map((card, i) => (
+      <div class="relative">
+      <img
+        class="image-card aspect-square relative -ml-10 md:-ml-20 size-24 md:size-56 rounded-2xl border-1 border-gray-100 object-cover shadow-xl"
+        src={card.src}
+        alt="Gallery image"
+        data-index={i}
+        data-angle={card.angle}
+        data-delay={delay}
+        style={`opacity: 0; transform: scale(0.2); rotate: ${card.angle};`}
+      />
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .image-reveal-container {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .image-card {
+    transition-property: opacity, transform;
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  
+  .image-card:hover {
+    transform: scale(1) rotate(0deg) !important;
+    z-index: 10;
+  }
+</style>
+
+<script>
+  // Import the Motion library
+  // Note: Make sure to install motion with: npm install motion
+  import { animate, inView } from "motion";
+
+  // Wait for the DOM to be ready
+  document.addEventListener('DOMContentLoaded', () => {
+    // Use inView to trigger animations when element is visible
+    inView('.image-reveal-container', (element) => {
+      const target = element;
+      const cards = target.querySelectorAll('.image-card');
+      
+      cards.forEach((card) => {
+        const index = parseInt(card.getAttribute('data-index') || '0');
+        const angle = card.getAttribute('data-angle') || '0deg';
+        const delayValue = parseInt(card.getAttribute('data-delay') || '100');
+        
+        // Animate with Motion library when in view
+        animate(card, 
+          { 
+            opacity: 1, 
+            scale: 1, 
+            rotate: angle 
+          }, 
+          { 
+            type: "spring",
+            delay: index * (delayValue / 1000), // Convert ms to seconds
+            duration: 0.3,
+            bounce: 0.3
+          }
+        );
+      });
+      
+      // Add hover effects
+      cards.forEach((card) => {
+        card.addEventListener('mouseenter', () => {
+          animate(card, 
+            { 
+              scale: 1, 
+              rotate: "0deg", 
+              zIndex: 10 
+            }, 
+            { 
+              type: "spring",
+              duration: 0.3,
+              bounce: 0.3
+            }
+          );
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          const angle = card.getAttribute('data-angle') || '0deg';
+          animate(card, 
+            { 
+              scale: 1, 
+              rotate: angle,
+              zIndex: 0
+            }, 
+            { 
+              type: "spring",
+              duration: 0.3,
+              bounce: 0.3
+            }
+          );
+        });
+      });
+    });
+  });
+</script>

@@ -1,38 +1,116 @@
 ---
-// src/components/Footer.astro
+import { Image } from 'astro:assets';
+import { getEntry, type CollectionEntry } from 'astro:content';
+import { getNavLinks } from '../lib/navlink';
+import type { NavLink } from '../lib/navlink';
+
+// Fetch the single entry from the 'footer' data collection
+// Note: If type errors persist after this edit, try restarting the Astro dev server.
+const footerEntry = await getEntry('footer', 'footer');
+// Handle case where entry might not be found
+if (!footerEntry) {
+  throw new Error("Footer content entry ('src/content/footer/footer.json') not found. Check if the file exists and the collection is configured correctly in src/content/config.ts.");
+}
+
+// Type assertion might be needed if TS still struggles after server restart
+// const { salonInfo, socialMedia } = footerEntry.data as CollectionEntry<'footer'>['data']; 
+const { salonInfo, socialMedia } = footerEntry.data;
 const currentYear = new Date().getFullYear();
+// get navlink from navlink.ts
+const navLinks = await getNavLinks(Astro.url.pathname);
 ---
 
-<footer class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-8 mt-12">
-  <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+<footer id="footer-container" class=" dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-24 mt-12 grayscale-100 brightness-110 bg-[url(/bg/1912_Art_Deco_Elegance.avif)]">
+  <div class="container mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
     
     <!-- Salon Information -->
-    <div>
-      <h3 class="text-lg font-semibold mb-2">CUI Labs Salon</h3>
-      <p class="text-sm">123 Salon Street</p>
-      <p class="text-sm">Cityville, ST 12345</p>
-      <p class="text-sm">Phone: (123) 456-7890</p>
+    <div id="salon-info">
+      <div class="flex flex-row items-center gap-4">
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/cui-logo-zh.svg" alt="Logo" width="30" height="40" class="inline-block transition-all duration-300" id="nav-logo" />
+      </div >
+      <!-- <h3 class="text-sm font-soligant font-semibold mb-2">{salonInfo.name}</h3> -->
+      <p class="text-sm mr-24 mb-4 tracking-widest text-pretty">{footerEntry.data.statement.description}</p>
+      <p class="text-sm">{salonInfo.address}</p>
+      <p class="text-sm">{salonInfo.city}</p>
+      <p class="mt-4 text-sm no-underline">
+        <span class="font-bold">
+        電話:
+        </span> 
+        {salonInfo.phone}
+      </p>
     </div>
 
     <!-- Social Media Links -->
-    <div>
-      <h3 class="text-lg font-semibold mb-2">Follow Us</h3>
+    <div class="mt-3">
+      <h3 class="text-lg font-semibold mb-2">追蹤我們</h3>
       <div class="flex justify-center md:justify-start space-x-4">
-        <a href="#" class="hover:text-pink-500 dark:hover:text-pink-400" aria-label="Facebook">
-          <!-- Placeholder for Facebook Icon -->
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
-        </a>
-        <a href="#" class="hover:text-pink-500 dark:hover:text-pink-400" aria-label="Instagram">
-          <!-- Placeholder for Instagram Icon -->
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
+        {/* Explicitly type the 'social' parameter */} 
+        {socialMedia.map((social: CollectionEntry<'footer'>['data']['socialMedia'][number]) => (
+          <a href={social.url} class="hover:text-pink-500 dark:hover:text-pink-400" aria-label={social.name}>
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d={social.iconPath}></path></svg>
+          </a>
+        ))}
         <!-- Add more social links as needed -->
       </div>
+    </div>
+    <!-- pages link -->
+    <div class="mt-4">
+      <h3 class="text-lg font-semibold mb-2">頁面連結</h3>
+      <div class="flex justify-center md:justify-start space-x-4"></div>
+      {navLinks
+        .filter((link: NavLink) => link.visibility === 'all' || link.visibility === 'desktop')
+        .map((link: NavLink) => (
+          <a
+            href={link.href}
+            class={`flex flex-col font-light pl-1 hover:font-bold hover:text-gray-800 transition-all duration-300 ease-out relative pb-2 ${
+              link.isActive ? 'font-semibold' : ''
+            } ${
+              link.href === '/booking' ? 'text-gray-700 hover:text-gray-800' : ''
+            }`}
+          >
+            {link.text}
+          </a>
+        ))}
     </div>
 
     <!-- Copyright -->
     <div class="md:col-span-3 mt-8 md:mt-0 border-t border-gray-300 dark:border-gray-700 pt-4 text-center text-sm">
-      <p>&copy; {currentYear} CUI Labs Salon. All rights reserved.</p>
+      <p>&copy; {currentYear} {salonInfo.name}. All rights reserved.</p>
     </div>
   </div>
 </footer>
+<script>
+  import { animate, stagger, scroll } from "motion";
+    // 確保在 DOM 載入後執行
+    document.addEventListener('DOMContentLoaded', () => {
+
+    // 檢查元素是否存在
+
+    // 如果找不到元素，則停止執行
+    // 創建動畫
+    const footercontainer = document.querySelector("#footer-container") as HTMLElement | null;
+    const salonInfo = document.querySelector("#salon-info") as HTMLElement | null;
+
+    if (footercontainer && salonInfo) {
+      scroll(
+        animate(
+          salonInfo,
+          { opacity: [0.01, 1], y: [20, 0] },
+          { 
+            type: "spring", 
+            duration: 1, 
+            bounce: 0.3, 
+          }
+        ),
+        {
+          target: footercontainer,
+          offset: ["start 0.75", "end end"],
+        }
+      );
+    } else {
+      console.warn("Footer container or salon info element not found.");
+    }
+  }
+);    
+</script>

@@ -4,7 +4,7 @@ import Nav from '../components/nav.astro'; // Import the Nav component
 import Footer from '../components/Footer.astro'; // Import the Footer component
 // import { ViewTransitions } from 'astro:transitions'; // Optional: Import if using View Transitions
 import '../styles/global.css'; // Import global styles
-
+import {  ClientRouter } from 'astro:transitions';
 // Define props for title and description, allowing pages to override defaults
 interface Props {
 	title?: string;
@@ -39,6 +39,7 @@ const {
 
 		{/* Global Styles (Tailwind is applied via integration) */}
 		{/* <link rel="stylesheet" href="/styles/global.css"> */}
+	<ClientRouter />
 	</head>
 	<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
 		
@@ -51,19 +52,6 @@ const {
 		</main>
 		
 		{/* Footer Component */}
-		<Footer />
+		<Footer/>
 	</body>
 </html>
-
-<style is:global>
-	/*
-	  Import fonts or add global styles here if needed,
-	  but prefer Tailwind utilities where possible.
-	  Example:
-	  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
-	  html {
-		font-family: 'Inter', sans-serif;
-	  }
-	*/
-</style>
