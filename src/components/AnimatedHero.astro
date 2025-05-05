@@ -3,16 +3,48 @@ import { Image } from 'astro:assets';
 import ScrollTextReveal from './ui/ScrollTextReveal.astro';
 ---
 
-<section id="animated-hero-container" class="bg-gray-50 relative overflow-hidden min-h-screen my-8">
+<section id="animated-hero-container" class="relative w-screen bg-gray-50 h-full mt-16 md:mt-24 lg:mt-32 mb-8 md:mb-12 overflow-hidden px-4 md:px-6 lg:px-8">
     <!-- Block 1: Top Logo -->
-    <h1 id="hero-top-logo" class="font-soligant opacity-0 text-6xl font-bold text-gray-800">Cui A萃</h1>
-
+    <div class="flex flex-row w-5xl mx-auto my-32">
+        <div class="mask-[url(/mask/mask-2.svg)] mask-right mask-contain mask-no-repeat order-last h-auto w-auto z-0">
+            <Image 
+                id="hero-main-image-2" 
+                src="/Cui_Salon_img/Cui_Salon_IMG_013.avif" 
+                alt="Main Model" 
+                class="w-full h-auto object-fill" 
+                width={1920} 
+                height={1080} 
+                densities={[1, 2]}
+                loading="eager"
+                decoding="sync"
+                fetchpriority="high"
+                sizes="(max-width: 768px) 100vw, 1920px"
+                quality={90}
+            />
+        </div>
+        <div class="h-auto w-auto grid grid-cols-1 md:grid-cols-1 items-left gap-0 justify-around z-20">
+            <p id="hero-header-tagline" class="opacity-[0.01] text-base font-light text-left text-gray-700 mt-4">
+                深厚美學素養與精湛技藝的設計師</br>
+                精心雕琢每款造型</br>
+                探索技術深度</br>
+                美學眼光與匠人精神的融合
+            </p>
+            <h1 id="hero-header-h1" class="opacity-[0.01] text-left text-6xl font-bold text-gray-800 mt-4">
+                頂級髮藝體驗</br>
+                臻選頂級養護</br>
+            </h1>
+            <h2 id="hero-header-bg-text" class="font-soligant uppercase w-[85vw] font-basic text-[9rem] opacity-80">Cui Salon</h2>
+        </div>
+    </div>
+    <div class="absolute right-0 z-30">
+        <Image src="/logo/cui-logo-zh.svg" alt="萃-logo" width={1080} height={1080} class="aspect-square w-[300px] object-contain" />
+    </div>
     <!-- Block 2: Main Model Image -->
     <Image 
         id="hero-main-image" 
-        src="https://placehold.co/1920x1080?text=Main+Model" 
+        src="/Cui_Salon_img/Cui_Salon_IMG_016.avif" 
         alt="Main Model" 
-        class="opacity-0 scale-95 w-full h-auto" 
+        class="opacity-[0.01] scale-95 w-full h-auto rounded-2xl perspective-dramatic" 
         width={1920} 
         height={1080} 
         densities={[1, 2]}
@@ -30,7 +62,7 @@ import ScrollTextReveal from './ui/ScrollTextReveal.astro';
             id="hero-about-image" 
             src="https://placehold.co/1200x800?text=About+Image" 
             alt="About Image" 
-            class="opacity-0 scale-90 w-full h-auto mt-4" 
+            class="opacity-0 scale-90 w-full h-auto mt-4 " 
             width={1200} 
             height={800} 
             loading="eager"

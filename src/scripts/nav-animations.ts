@@ -2,6 +2,38 @@ import { animate } from "motion";
 import type { AnimationOptionsWithValueOverrides } from "motion";
 
 document.addEventListener('DOMContentLoaded', () => {
+  // --- Nav Spacer Setup ---
+  const mainNav = document.getElementById('main-nav') as HTMLElement | null;
+  const navSpacer = document.getElementById('nav-spacer') as HTMLElement | null;
+  
+  // Create nav spacer if it doesn't exist
+  if (mainNav && !navSpacer) {
+    const spacer = document.createElement('div');
+    spacer.id = 'nav-spacer';
+    spacer.className = 'w-full';
+    mainNav.parentNode?.insertBefore(spacer, mainNav.nextSibling);
+    
+    // Update spacer height function
+    const updateNavSpacer = () => {
+      const navHeight = mainNav.offsetHeight;
+      spacer.style.height = `${navHeight}px`;
+    };
+    
+    // Initial update
+    updateNavSpacer();
+    
+    // Update on resize
+    window.addEventListener('resize', updateNavSpacer);
+    
+    // Create observer to watch for nav changes
+    const observer = new MutationObserver(updateNavSpacer);
+    observer.observe(mainNav, {
+      attributes: true,
+      attributeFilter: ['class', 'style'],
+      subtree: true
+    });
+  }
+
   // --- Mobile Menu Toggle ---
   const menuButton = document.getElementById('mobile-menu-button') as HTMLButtonElement | null;
   const mobileMenu = document.getElementById('mobile-menu') as HTMLElement | null;
@@ -70,155 +102,163 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error("Mobile menu elements not found.");
   }
 
-  // --- Shrink/Grow Scroll Animation ---
-  const mainNav = document.getElementById('main-nav') as HTMLElement | null;
+  // --- Nav Shrink/Grow Animation ---
+  // Use the already defined mainNav
   const navContainer = document.getElementById('nav-container') as HTMLElement | null;
   const navLogo = document.getElementById('nav-logo') as HTMLImageElement | null;
   const logoContainer = navContainer?.querySelector('div:first-child') as HTMLElement | null;
   const desktopLinks = document.getElementById('desktop-links') as HTMLElement | null;
 
   if (mainNav && navContainer && navLogo && logoContainer && desktopLinks) {
-    const initialPaddingY = 24;
-    const shrunkPaddingY = 6;
-    const initialLogoSize = 80;
-    const shrunkLogoSize = 60;
-    const initialLogoMarginBottom = 32;
-    const shrunkLogoMarginBottom = 4;
+    // Configuration
+    const config = {
+      expanded: {
+        paddingY: 24,
+        logoSize: 80,
+        logoMarginBottom: 32,
+        boxShadow: 'none',
+        transform: 'translateY(0)',
+        opacity: 1
+      },
+      shrunk: {
+        paddingY: 6,
+        logoSize: 60,
+        logoMarginBottom: 4,
+        boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+        transform: 'translateY(-10px)',
+        opacity: 0
+      },
+      animationOptions: {
+        duration: 0.3,
+        ease: "easeInOut" as const
+      }
+    };
+
+    // State management
+    let navState: 'expanded' | 'shrunk' = window.scrollY > 0 ? 'shrunk' : 'expanded';
+    let navAnimation: ReturnType<typeof animate> | null = null;
+    let isHovering = false;
+    let isAnimating = false; // Flag to prevent multiple animations
     
-    // Add scroll direction detection with improvements
-    let lastScrollY = window.scrollY;
-    let scrollDirection: 'up' | 'down' = 'up';
-    let isAnimating = false;
-    let lastDirectionChange = Date.now();
-    const scrollThreshold = 8; // Minimum scroll difference to trigger direction change
-    const directionChangeDelay = 200; // Minimum time between direction changes in ms
-
-    // Initialize desktop links visibility
-    animate(desktopLinks, { opacity: '1' }, { duration: 0 });
-
-    // Function to apply shrunk styles
-    const applyShrunkStyles = () => {
-      navContainer.style.paddingTop = `${shrunkPaddingY}px`;
-      navContainer.style.paddingBottom = `${shrunkPaddingY}px`;
-      navLogo.style.width = `${shrunkLogoSize}px`;
-      navLogo.style.height = `${shrunkLogoSize}px`;
-      logoContainer.style.marginBottom = `${shrunkLogoMarginBottom}px`;
-      mainNav.style.boxShadow = `0 4px 10px rgba(0, 0, 0, 0.1)`;
-      mainNav.classList.add('nav-compact');
-      desktopLinks.hidden = true;
-    };
-
-    // Function to apply expanded styles
-    const applyExpandedStyles = () => {
-      navContainer.style.paddingTop = `${initialPaddingY}px`;
-      navContainer.style.paddingBottom = `${initialPaddingY}px`;
-      navLogo.style.width = `${initialLogoSize}px`;
-      navLogo.style.height = `${initialLogoSize}px`;
-      logoContainer.style.marginBottom = `${initialLogoMarginBottom}px`;
-      mainNav.style.boxShadow = 'none';
-      mainNav.classList.remove('nav-compact');
-      desktopLinks.hidden = false;
-    };
-
-    // Debounced animation function to prevent rapid state changes
-    const updateNavState = (direction: 'up' | 'down', currentScrollY: number) => {
-      if (isAnimating) return;
-      
-      // Don't update if we've changed direction too recently
-      const now = Date.now();
-      if (now - lastDirectionChange < directionChangeDelay) return;
+    // Apply nav state
+    const applyNavState = (state: 'expanded' | 'shrunk') => {
+      // Don't apply the same state twice or animate while another animation is running
+      if (navState === state || isAnimating) return;
       
       isAnimating = true;
-      lastDirectionChange = now;
       
-      if (currentScrollY > 0) {
-        if (direction === 'up') {
-          // When scrolling up, expand nav
-          applyExpandedStyles();
-          animate(
-            desktopLinks,
-            { 
-              transform: 'translateY(0)',
-              opacity: '1'
-            } as any,
-            { 
-              duration: 0.3,
-              ease: "easeInOut",
-              onComplete: () => {
-                isAnimating = false;
-              }
-            }
-          );
-        } else {
-          // When scrolling down, shrink nav
-          applyShrunkStyles();
-          animate(
-            desktopLinks,
-            { 
-              transform: 'translateY(-10px)',
-              opacity: '0'
-            } as any,
-            { 
-              duration: 0.3,
-              ease: "easeInOut",
-              onComplete: () => {
-                isAnimating = false;
-              }
-            }
-          );
-        }
+      const settings = config[state];
+      
+      // Stop any running animation
+      if (navAnimation) {
+        navAnimation.pause();
+      }
+      
+      // Apply styles
+      navContainer.style.paddingTop = `${settings.paddingY}px`;
+      navContainer.style.paddingBottom = `${settings.paddingY}px`;
+      navLogo.style.width = `${settings.logoSize}px`;
+      navLogo.style.height = `${settings.logoSize}px`;
+      logoContainer.style.marginBottom = `${settings.logoMarginBottom}px`;
+      mainNav.style.boxShadow = settings.boxShadow;
+      
+      if (state === 'expanded') {
+        mainNav.classList.remove('nav-compact');
+        desktopLinks.hidden = false;
       } else {
-        // At the top of the page, always show expanded nav
-        applyExpandedStyles();
-        animate(
-          desktopLinks,
-          { 
-            transform: 'translateY(0)',
-            opacity: '1'
-          } as any,
-          { 
-            duration: 0.3,
-            onComplete: () => {
-              isAnimating = false;
-            }
-          }
-        );
+        mainNav.classList.add('nav-compact');
+        desktopLinks.hidden = true;
       }
-    };
-
-    // Use the scroll library for smoother scroll handling
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      const scrollDifference = Math.abs(currentScrollY - lastScrollY);
       
-      // Only change direction if scroll difference exceeds threshold
-      if (scrollDifference >= scrollThreshold) {
-        const newDirection = currentScrollY < lastScrollY ? 'up' : 'down';
-        
-        // Only update if direction has changed
-        if (newDirection !== scrollDirection) {
-          scrollDirection = newDirection;
-          updateNavState(scrollDirection, currentScrollY);
-        }
-        
-        lastScrollY = currentScrollY;
-      }
-    }, { passive: true });
-
-    // Initial state based on scroll position
-    if (window.scrollY > 0) {
-      applyShrunkStyles();
-      animate(
+      // Animate desktop links
+      navAnimation = animate(
         desktopLinks,
         { 
-          transform: 'translateY(-10px)',
-          opacity: '0'
+          transform: settings.transform,
+          opacity: String(settings.opacity)
         } as any,
-        { duration: 0 }
+        {
+          ...config.animationOptions,
+          onComplete: () => {
+            isAnimating = false;
+            navAnimation = null;
+          }
+        }
       );
-    } else {
-      applyExpandedStyles();
-    }
+      
+      navState = state;
+      
+      // Update nav spacer after state change
+      if (navSpacer) {
+        navSpacer.style.height = `${mainNav.offsetHeight}px`;
+      }
+    };
+    
+    // Initialize nav state based on scroll position
+    applyNavState(navState);
+    
+    // Scroll handler with debounce
+    let lastScrollY = window.scrollY;
+    let lastScrollTime = Date.now();
+    let scrollTimer: number | null = null;
+    const scrollThreshold = 8;
+    const scrollTimeThreshold = 100; // Reduced from 200ms
+    
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+      const currentTime = Date.now();
+      const scrollDifference = Math.abs(currentScrollY - lastScrollY);
+      const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+      
+      // Clear any pending scroll timer
+      if (scrollTimer) {
+        window.clearTimeout(scrollTimer);
+      }
+      
+      // Handle first scroll up immediately for better responsiveness
+      if (scrollDirection === 'up' && scrollDifference >= scrollThreshold && !isAnimating && !isHovering && navState === 'shrunk') {
+        applyNavState('expanded');
+        lastScrollY = currentScrollY;
+        lastScrollTime = currentTime;
+      } 
+      // For other scroll events, use debounce
+      else if (scrollDifference >= scrollThreshold && currentTime - lastScrollTime > scrollTimeThreshold) {
+        // Set a timer to apply changes after scrolling stops
+        scrollTimer = window.setTimeout(() => {
+          // Don't change nav state if user is hovering
+          if (!isHovering) {
+            if (currentScrollY <= 0) {
+              // At top of page - always expand
+              applyNavState('expanded');
+            } else {
+              // Scrolling down - shrink
+              if (scrollDirection === 'down') {
+                applyNavState('shrunk');
+              }
+            }
+          }
+          
+          lastScrollY = currentScrollY;
+          lastScrollTime = currentTime;
+          scrollTimer = null;
+        }, 30); // Reduced from 50ms for better responsiveness
+      }
+    }, { passive: true });
+    
+    // Mouse enter/leave handlers
+    mainNav.addEventListener('mouseenter', () => {
+      isHovering = true;
+      applyNavState('expanded');
+    });
+    
+    mainNav.addEventListener('mouseleave', () => {
+      isHovering = false;
+      
+      // When mouse leaves, return to state based on scroll position/direction
+      if (window.scrollY > 0) {
+        applyNavState('shrunk');
+      }
+    });
   } else {
     console.error("Navigation elements not found.");
   }

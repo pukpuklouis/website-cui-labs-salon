@@ -1,4 +1,5 @@
-import { animate, stagger, inView, easeOut } from "motion";
+import { animate, stagger, inView, easeOut, scroll, easeInOut } from "motion";
+
 
 // 確保 DOM 完全載入後再執行動畫設定
 document.addEventListener('DOMContentLoaded', () => {
@@ -6,40 +7,62 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 初始動畫 (頁面載入時播放) ---
 
     // Block 1: Top Logo
-    const topLogo = document.querySelector('#hero-top-logo') as HTMLElement | null;
-    if (topLogo) {
-        topLogo.style.opacity = '0.01';
-        topLogo.style.transform = 'translateY(-30px)';
-        animate(topLogo,
-            { opacity: 1, y: 0 },
+    const topElements = document.querySelectorAll('#hero-header-h1, #hero-header-tagline');
+    animate(topElements,
+        { opacity: [0.01, 1], 
+          y: [0, -30], 
+        },
+        {
+            type: 'spring',    
+            duration: 0.9, // s
+            delay: stagger(0.2), // 0.1s stagger between elements
+            bounce: 0.5,
+        }
+    );
+    //block1 background text
+    const bgText = document.querySelector('#hero-header-bg-text') as HTMLElement | null;
+    if (bgText) {
+        animate(bgText,
+            { opacity: [0.01, 0.8], 
+              "filter" : ["blur(15px)", "blur(0px)"] 
+            },
             {
-                duration: 1.2, // s
-                delay: 0.3, // s
-                ease: easeOut,
+                type: 'spring',    
+                duration: 12, // s
+                bounce: 0.5,
             }
         );
-    } else {
-        console.warn("Element #hero-top-logo not found.");
     }
 
     // Block 2: Main Model Image
     const mainImage = document.querySelector('#hero-main-image') as HTMLElement | null;
-    if (mainImage) {
-        mainImage.style.opacity = '0.01';
-        mainImage.style.transform = 'scale(0.9)';
-        animate(mainImage,
-            { opacity: 1, scale: 1 },
+    // Create animation but don't run it immediately
+    const mainImageAnimation = animate(
+        mainImage,
+        { 
+            opacity: [0.01,1], 
+            scale: [0.8, 1],
+            rotateY : [30, 0]
+        },
+        { 
+            duration: 0.8,
+            ease: easeInOut,
+        }
+        );
+        
+        // Link animation to scroll position
+        scroll(
+            (progress: number) => {
+                // Update animation progress based on scroll
+                mainImageAnimation.time = progress * mainImageAnimation.duration;
+            },
             {
-                duration: 1.5, // s
-                delay: 0.5, // s
-                ease: easeOut,
+                target: mainImage,
+                offset: ["start 0.5", "end 0.2"] // Start when element enters viewport, end when it leaves
             }
         );
-    } else {
-        console.warn("Element #hero-main-image not found.");
-    }
 
-    // --- 滾動觸發動畫 (使用 inView) ---
+
 
     // 獲取所有需要滾動動畫的元素
     const aboutText1 = document.querySelector('#hero-about-text1') as HTMLElement | null;
@@ -92,36 +115,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // 使用 inView 為每個元素設置滾動觸發動畫
     if (aboutText1) {
         inView(aboutText1, (el) => {
-            animate(el, { opacity: 1, x: 0 }, { duration: 0.3, ease: easeOut });
+            animate(el, { opacity: 1, x: 0 } as any, { duration: 0.3, ease: easeOut });
             return () => {
-                animate(el, { opacity: 0.01, x: 40 }, { delay: 0.8, duration: 0.3, ease: easeOut });
+                animate(el, { opacity: 0.01, x: 40 } as any, { delay: 0.8, duration: 0.3, ease: easeOut });
             };
         }, { amount: 0.5 }); // 當元素 50% 進入視窗時觸發
     }
 
     if (aboutImage) {
         inView(aboutImage, (el) => {
-            animate(el, { opacity: 1, x: 0, scale: 1 }, { duration: 0.3, ease: easeOut });
+            animate(el, { opacity: 1, x: 0, scale: 1 } as any, { duration: 0.3, ease: easeOut });
              return () => {
-                animate(el, { opacity: 0.01, x: 400, scale: 0.75 }, { delay: 1,  duration: 0.3, ease: easeOut });
+                animate(el, { opacity: 0.01, x: 400, scale: 0.75 } as any, { delay: 1,  duration: 0.3, ease: easeOut });
             };
         }, { amount: 0.5 });
     }
 
     if (aboutText2) {
         inView(aboutText2, (el) => {
-            animate(el, { opacity: 1, y: 0 }, { duration: 0.3, ease: easeOut });
+            animate(el, { opacity: 1, y: 0 } as any, { duration: 0.3, ease: easeOut });
              return () => {
-                animate(el, { opacity: 0.01, y: 100 }, { delay: 1, duration: 0.3, ease: easeOut });
+                animate(el, { opacity: 0.01, y: 100 } as any, { delay: 1, duration: 0.3, ease: easeOut });
             };
         }, { amount: 0.5 });
     }
 
     if (arrivalsTitle) {
         inView(arrivalsTitle, (el) => {
-            animate(el, { opacity: 1, y: 0 }, { duration: 0.3, ease: easeOut });
+            animate(el, { opacity: 1, y: 0 } as any, { duration: 0.3, ease: easeOut });
              return () => {
-                animate(el, { opacity: 0.01, y: 100 }, { delay: 1, duration: 0.3, ease: easeOut });
+                animate(el, { opacity: 0.01, y: 100 } as any, { delay: 1, duration: 0.3, ease: easeOut });
             };
         }, { amount: 0.5 });
     }
@@ -132,9 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (item instanceof HTMLElement) {
                 inView(item, (el) => {
                     // 添加基於索引的延遲來模擬交錯效果
-                    animate(el, { opacity: 1, y: 0, scale: 1 }, { duration: 0.3, ease: easeOut, delay: index * 0.2 });
+                    animate(el, { opacity: 1, y: 0, scale: 1 } as any, { duration: 0.3, ease: easeOut, delay: index * 0.2 });
                      return () => {
-                        animate(el, { opacity: 0.01, y: 60, scale: 0.9 }, { delay: 1, duration: 0.3, ease: easeOut });
+                        animate(el, { opacity: 0.01, y: 60, scale: 0.9 } as any, { delay: 1, duration: 0.3, ease: easeOut });
                     };
                 }, { amount: 0.5 });
             }
@@ -143,27 +166,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (elevateText) {
         inView(elevateText, (el) => {
-            animate(el, { opacity: 1, y: 0 }, { duration: 1.0, ease: easeOut });
+            animate(el, { opacity: 1, y: 0 } as any, { duration: 1.0, ease: easeOut });
              return () => {
-                animate(el, { opacity: 0.01, y: 100 }, { delay: 1, duration: 1.0, ease: easeOut });
+                animate(el, { opacity: 0.01, y: 100 } as any, { delay: 1, duration: 1.0, ease: easeOut });
             };
         }, { amount: 0.5 });
     }
 
     if (bottomImage) {
         inView(bottomImage, (el) => {
-            animate(el, { opacity: 1, y: 0 }, { duration: 1.2, ease: easeOut });
+            animate(el, { opacity: 1, y: 0 } as any, { duration: 1.2, ease: easeOut });
              return () => {
-                animate(el, { opacity: 0.01, y: 50 }, { delay: 1, duration: 1.2, ease: easeOut });
+                animate(el, { opacity: 0.01, y: 50 } as any, { delay: 1, duration: 1.2, ease: easeOut });
             };
         }, { amount: 0.5 });
     }
 
     if (bottomOverlay) {
         inView(bottomOverlay, (el) => {
-            animate(el, { opacity: 1 }, { duration: 2.0, ease: easeOut });
+            animate(el, { opacity: 1 } as any, { duration: 2.0, ease: easeOut });
              return () => {
-                animate(el, { opacity: 0.01 }, { delay: 1, duration: 2.0, ease: easeOut });
+                animate(el, { opacity: 0.01 } as any, { delay: 1, duration: 2.0, ease: easeOut });
             };
         }, { amount: 0.5 });
     }

@@ -20,8 +20,8 @@ interface BookingContainerProps {
  */
 const BookingContainer: React.FC<BookingContainerProps> = (_props) => {
   return (
-    <div className="w-full">
-      <BookingPlaceholder />
+    <div className="w-full" data-oid="xv6p:ub">
+      <BookingPlaceholder data-oid="_8f1::g" />
     </div>
   );
 };

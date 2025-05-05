@@ -75,6 +75,25 @@ const servicesCollection = defineCollection({
   schema: z.array(serviceSchema),
 });
 
+/**
+ * Schema for a single portfolio image item
+ */
+const portfolioItemSchema = z.object({
+  src: z.string(),
+  angle: z.string(),
+  alt: z.string().optional().default('Gallery image'),
+  title: z.string().optional(),
+  category: z.string().optional(),
+});
+
+/**
+ * Define the 'portfolio' data collection, which is an array of portfolio image objects
+ */
+const portfolioCollection = defineCollection({
+  type: 'data',
+  schema: z.array(portfolioItemSchema),
+});
+
 // Define the schema for the footer data collection
 const footerCollection = defineCollection({
   type: 'data',
@@ -102,4 +121,5 @@ export const collections = {
   'stylistbio': stylistbioCollection,
   'services': servicesCollection,
   'footer': footerCollection,
+  'portfolio': portfolioCollection,
 };

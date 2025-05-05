@@ -9,14 +9,97 @@ interface Props {
 const { service } = Astro.props;
 ---
 
-<article class="border border-gray-200 rounded-lg shadow-sm overflow-hidden dark:border-gray-700">
-  <Image src={service.image.src} alt={service.image.alt} width={300} height={200} class="w-full h-48 object-cover" />
-  <div class="p-4">
-    <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{service.name}</h3>
-    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">{service.description}</p>
-    <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Duration: {service.duration}</p>
+<article class="overflow-hidden opacity-0 flex flex-col md:flex-col  items-center md:items-start gap-4 p-4 md:p-6 lg:p-8">
+  <div class="relative rounded-t-full rounded-e-full w-[300px] md:w-[250px] lg:w-[300px] aspect-[9/16] overflow-hidden z-0">
+    <Image src={service.image.src} alt={service.image.alt} width={300} height={800} class="w-full h-full object-cover" />
+  </div>
+  <div class="relative translate-x-1/4 text-right p-4 w-3/4 md:w-full lg:w-3/4 -mt-56 z-10">
+    <h3 class="text-3xl md:text-3xl lg:text-3xl font-semibold mb-2 text-gray-900 dark:text-white service-element">{service.name}</h3>
+    <p class="text-sm md:text-base lg:text-sm text-gray-600 dark:text-gray-400 mb-2 service-element">{service.description}</p>
+    <p class="text-sm md:text-base lg:text-sm text-gray-600 dark:text-gray-400 mb-2 service-element">Duration: {service.duration}</p>
     {service.price && (
-      <p class="text-md font-medium text-gray-800 dark:text-gray-200">{service.price}</p>
+      <p class="text-md font-medium text-gray-800 dark:text-gray-200 service-element">{service.price}</p>
     )}
   </div>
 </article>
+
+<script>
+  import { animate, inView, stagger } from "motion";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const articles = document.querySelectorAll("article");
+    
+    // Apply staggered delay to the article elements themselves
+    articles.forEach((article, index) => {
+      // Animate the article container with staggered delay based on index
+      inView(article, (element) => {
+        // Entry animation
+        animate(
+          element,
+          {
+            opacity: [0, 1],
+            y: [20, 0],
+            rotate: [-9, 0],
+          },
+          {
+            type: "spring",
+            duration: 0.8,
+            delay: index * 0.2, // Fixed delay based on article index
+            bounce: 0.3
+          }
+        );
+        
+        // Animate the individual service elements with staggered offset
+        const serviceElements = element.querySelectorAll(".service-element");
+        
+        // Convert NodeList to Array to use forEach with index
+        Array.from(serviceElements).forEach((el, i) => {
+          animate(
+            el,
+            {
+              opacity: [0, 1],
+              x: [100, 0], // Slide in from right
+            },
+            {
+              type: "spring",
+              delay: i * 0.1 + (index * 0.2), // Element index delay + article index delay
+              duration: 0.6,
+              bounce: 0.3
+            }
+          );
+        });
+        
+        // Return function for exit animation
+        return () => {
+          // Exit animation for the container
+          animate(
+            element,
+            {
+              opacity: [1, 0],
+            },
+            {
+              duration: 0.3,
+            }
+          );
+          
+          // Exit animation for the service elements
+          const exitElements = element.querySelectorAll(".service-element");
+          Array.from(exitElements).forEach((el, i) => {
+            animate(
+              el,
+              {
+                opacity: [1, 0],
+                x: [0, 100], // Slide back to right
+              },
+              {
+                delay: i * 0.05 + (index * 0.2), // Element index delay + article index delay
+                duration: 0.4,
+                ease: "easeIn"
+              }
+            );
+          });
+        };
+      }, { margin: "0px 0px -30% 0px" }); // Offset parameter for inView
+    });
+  });
+</script>

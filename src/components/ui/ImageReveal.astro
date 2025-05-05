@@ -1,12 +1,21 @@
 ---
-// Define the cards array with image sources and initial rotation angles
-const cards = [
-  { src: "https://placehold.co/1920x1080?text=Image1", angle: "-5deg" },
-  { src: "https://placehold.co/1920x1080?text=Image2", angle: "3deg" },
-  { src: "https://placehold.co/1920x1080?text=Image3", angle: "-2deg" },
-  { src: "https://placehold.co/1920x1080?text=Image4", angle: "4deg" },
-  { src: "https://placehold.co/1920x1080?text=Image5", angle: "-3deg" },
-];
+// Import the portfolio collection
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+// Define the type for portfolio items
+interface PortfolioItem {
+  src: string;
+  angle: string;
+  alt?: string;
+  title?: string;
+  category?: string;
+}
+
+// Get the portfolio images from the content collection
+const portfolioEntries = await getCollection('portfolio');
+// Access the first entry's data, which should be the array of portfolio items
+const cards: PortfolioItem[] = portfolioEntries.length > 0 ? portfolioEntries[0].data : [];
 
 interface Props {
   title?: string;
@@ -15,113 +24,128 @@ interface Props {
   delay?: number;
 }
 
-const { title = "Image Gallery", class: className, spacing = "-ml-10 md:-ml-20", delay = 300 } = Astro.props;
+const { title = "Image Gallery", class: className, spacing = "-ml-24 md:-ml-30", delay = 200 } = Astro.props;
 ---
 
-<div class:list={["image-reveal-container", className]}>
+<div class:list={["w-full py-24 overflow-hidden", className]} id="image-reveal">
   {title && <h2 class="text-2xl font-bold mb-6">{title}</h2>}
   
-  <div class:list={["relative my-10 ml-10 flex flex-row justify-center md:ml-20", spacing]}>
+  <div class:list={["relative my-10 ml-10 flex flex-row justify-center md:ml-50"]}>
     {cards.map((card, i) => (
-      <div class="relative">
-      <img
-        class="image-card aspect-square relative -ml-10 md:-ml-20 size-24 md:size-56 rounded-2xl border-1 border-gray-100 object-cover shadow-xl"
-        src={card.src}
-        alt="Gallery image"
-        data-index={i}
-        data-angle={card.angle}
-        data-delay={delay}
-        style={`opacity: 0; transform: scale(0.2); rotate: ${card.angle};`}
-      />
+      <div id={`image-${i}`} class={`relative group size-36 md:size-64 ${spacing}`}>
+        <Image
+          class="relative rounded-2xl border-1 aspect-[3/4] border-gray-100 object-cover shadow-xl transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:scale-100 hover:rotate-0 hover:z-10"
+          src={card.src}
+          alt={card.alt || "Gallery image"}
+          width={300}
+          height={300}
+          data-index={i}
+          data-angle={card.angle}
+          data-delay={delay}
+          style={`opacity: 0; transform: scale(0.2); rotate: ${card.angle};`}
+        />
       </div>
     ))}
   </div>
 </div>
 
-<style>
-  .image-reveal-container {
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .image-card {
-    transition-property: opacity, transform;
-    transition-duration: 0.3s;
-    transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  
-  .image-card:hover {
-    transform: scale(1) rotate(0deg) !important;
-    z-index: 10;
-  }
-</style>
-
 <script>
-  // Import the Motion library
-  // Note: Make sure to install motion with: npm install motion
   import { animate, inView } from "motion";
 
-  // Wait for the DOM to be ready
-  document.addEventListener('DOMContentLoaded', () => {
-    // Use inView to trigger animations when element is visible
-    inView('.image-reveal-container', (element) => {
-      const target = element;
-      const cards = target.querySelectorAll('.image-card');
-      
-      cards.forEach((card) => {
-        const index = parseInt(card.getAttribute('data-index') || '0');
-        const angle = card.getAttribute('data-angle') || '0deg';
-        const delayValue = parseInt(card.getAttribute('data-delay') || '100');
-        
-        // Animate with Motion library when in view
-        animate(card, 
+  // Wait for the DOM to be fully loaded
+  document.addEventListener("DOMContentLoaded", () => {
+    // Apply inView to each image wrapper individually
+    const imageWrappers = document.querySelectorAll('.relative.group');
+    
+    // Set up hover effects for all images
+    const setupHoverEffects = (imgElement: HTMLImageElement): void => {
+      imgElement.addEventListener('mouseenter', () => {
+        animate(
+          imgElement,
           { 
-            opacity: 1, 
-            scale: 1, 
-            rotate: angle 
-          }, 
+            scale: 1,
+            rotate: "0deg",
+            zIndex: 10
+          },
           { 
             type: "spring",
-            delay: index * (delayValue / 1000), // Convert ms to seconds
-            duration: 0.3,
+            duration: 0.2,
             bounce: 0.3
           }
         );
       });
       
-      // Add hover effects
-      cards.forEach((card) => {
-        card.addEventListener('mouseenter', () => {
-          animate(card, 
-            { 
-              scale: 1, 
-              rotate: "0deg", 
-              zIndex: 10 
-            }, 
-            { 
-              type: "spring",
-              duration: 0.3,
-              bounce: 0.3
-            }
-          );
-        });
-        
-        card.addEventListener('mouseleave', () => {
-          const angle = card.getAttribute('data-angle') || '0deg';
-          animate(card, 
-            { 
-              scale: 1, 
-              rotate: angle,
-              zIndex: 0
-            }, 
-            { 
-              type: "spring",
-              duration: 0.3,
-              bounce: 0.3
-            }
-          );
-        });
+      imgElement.addEventListener('mouseleave', () => {
+        const angle = imgElement.getAttribute('data-angle') || "0deg";
+        animate(
+          imgElement,
+          { 
+            scale: 0.8,
+            rotate: angle,
+            zIndex: 0
+          },
+          { 
+            type: "spring",
+            duration: 0.4,
+            bounce: 0.83
+          }
+        );
       });
+    };
+
+    // Apply inView to each image wrapper
+    imageWrappers.forEach((wrapper, index) => {
+      // Get the image inside this wrapper
+      const imgElement = wrapper.querySelector('img');
+      
+      if (imgElement) {
+        // Set up hover effects
+        setupHoverEffects(imgElement as HTMLImageElement);
+        
+        // Apply inView to this specific wrapper
+        inView(wrapper, (element, entry) => {
+          // Calculate staggered delay based on index
+          const staggerDelay = index * 0.1;
+          
+          // Get the rotation angle from the data attribute
+          const angle = imgElement.getAttribute('data-angle') || "0deg";
+          
+          // Animate the image when it enters the viewport
+          animate(
+            imgElement,
+            {
+              opacity: 1,
+              scale: 0.8,
+              rotate: angle
+            },
+            {
+              delay: staggerDelay,
+              duration: 0.8
+            }
+          );
+          
+          // Return a function that handles when the element leaves the viewport
+          return (leaveEntry) => {
+            // Reverse animation when element leaves viewport
+            animate(
+              imgElement,
+              {
+                opacity: 0,
+                scale: 0.2,
+                rotate: angle
+              },
+              {
+                duration: 0.5
+              }
+            );
+          };
+        }, {
+          // Only trigger when the element is at least 50% visible
+        //   amount: 0.5,
+          // Add a margin to trigger the animation slightly before the element is in view
+          margin: "0px 0px -200px 0px"
+        });
+      }
     });
   });
 </script>

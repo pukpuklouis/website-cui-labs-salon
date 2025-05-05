@@ -5,7 +5,7 @@
     "price": "$50+",
     "duration": "45 minutes",
     "image": {
-      "src": "/placeholder-service-1.jpg",
+      "src": "https://placehold.co/1920x1080?text=Haircut+Style",
       "alt": "Haircut and styling service"
     }
   },
@@ -15,7 +15,7 @@
     "price": "From $75",
     "duration": "1 hour 30 minutes",
     "image": {
-      "src": "/placeholder-service-2.jpg",
+      "src": "https://placehold.co/1920x1080?text=Full+Color",
       "alt": "Full hair coloring service"
     }
   },
@@ -25,7 +25,37 @@
     "price": "From $120",
     "duration": "2 hours",
     "image": {
-      "src": "/placeholder-service-3.jpg",
+      "src": "https://placehold.co/1920x1080?text=Balayage+Highlights",
+      "alt": "Balayage highlighting service"
+    }
+  },
+  {
+    "name": "Full Color",
+    "description": "All-over color application for a vibrant, refreshed look.",
+    "price": "From $75",
+    "duration": "1 hour 30 minutes",
+    "image": {
+      "src": "https://placehold.co/1920x1080?text=Full+Color",
+      "alt": "Full hair coloring service"
+    }
+  },
+  {
+    "name": "Balayage Highlights",
+    "description": "Hand-painted highlights for a natural, sun-kissed effect.",
+    "price": "From $120",
+    "duration": "2 hours",
+    "image": {
+      "src": "https://placehold.co/1920x1080?text=Full+Color",
+      "alt": "Full hair coloring service"
+    }
+  },
+  {
+    "name": "Balayage Highlights",
+    "description": "Hand-painted highlights for a natural, sun-kissed effect.",
+    "price": "From $120",
+    "duration": "2 hours",
+    "image": {
+      "src": "https://placehold.co/1920x1080?text=Balayage+Highlights",
       "alt": "Balayage highlighting service"
     }
   }

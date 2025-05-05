@@ -3,6 +3,14 @@
 import Layout from '../layouts/Layout.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import GalleryImage from '../components/GalleryImage.astro';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  items: number;
+}
+
+const { items } = Astro.props;
+
 
 // Navigation properties
 export const navlinkData = {
@@ -15,16 +23,14 @@ export const navlinkData = {
 const categories = ['Haircuts', 'Coloring', 'Styling', 'Treatments'];
 
 // Placeholder data for services - replace later with actual data source
-const services = [
-  { name: 'Precision Haircut', description: 'A tailored haircut designed to suit your style and face shape. Includes wash and blow-dry.', imageUrl: '/images/haircut.jpg', price: '$65+' },
-];
+const services =  (await getCollection('services'))[0].data;
 ---
 
 <Layout
   title="Our Services - CUI Labs Salon"
   description="Explore the wide range of professional hair services offered at CUI Labs Salon, including cuts, coloring, styling, and treatments."
 >
-  <main class="container mx-auto px-4 py-12">
+  <main class="container mx-auto px-4 pt-48 pb-12">
     <h1 class="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200">
       Our Services
     </h1>
@@ -52,10 +58,7 @@ const services = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map(service => (
           <ServiceCard
-            name={service.name}
-            description={service.description}
-            imageUrl={service.imageUrl}
-            price={service.price}
+            service={service}
           />
         ))}
       </div>

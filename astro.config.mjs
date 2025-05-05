@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { imageService } from '@unpic/astro/service'; // Corrected import
 import tailwindcss from '@tailwindcss/vite';
-
+  
 
 // https://astro.build/config
 site: "http://localhost:4321";

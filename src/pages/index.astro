@@ -6,9 +6,10 @@ import ServiceCard from '../components/ServiceCard.astro';
 import StylistBio from '../components/StylistBio.astro';
 import BlogPostPreview from '../components/BlogPostPreview.astro';
 import { getCollection } from 'astro:content';
-import InfiniteSlider from '../components/InfiniteSlider.astro';
+import InfiniteSlider from '../components/ui/InfiniteSlider.astro';
 import { Image } from 'astro:assets';
 import ImageReveal from '../components/ui/ImageReveal.astro';
+import SplitText from '../components/ui/SplitText.astro';
 // Navigation properties
 export const navlinkData = {
   navTitle: '首頁',
@@ -21,7 +22,9 @@ const featuredPosts = (await getCollection('blog', ({ data }) => data.featured =
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const services = (await getCollection('services'))[0].data;
+const services = (await getCollection('services'))[0].data.slice(0, 3);
+//add number of services
+
 
 //fetch stylistbio
 const stylistbio = (await getCollection('stylistbio'))[0].data;
@@ -32,9 +35,8 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <main>
     <AnimatedHero />
-    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
+    <section id="featured-services" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
       <div class="max-w-7xl mx-auto">
         <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Featured Services</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -43,17 +45,29 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
           ))}
         </div>
       </div>
-    </section>
+    </section>    
+    <SplitText 
+    text={`This is the first line. 
+    This is the second line. 
+    And the third one.`}
+    splitBy="lines" 
+    tag="h1" 
+    animationType="fadeUp" 
+    className="text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-12" 
+    options={{ duration: 0.5, stagger: 0.2, }} 
+    inView={true} 
+    />
     <!-- brands Section -->
     <section>
       <InfiniteSlider gap={56} speed={20} direction="normal" class="mb-8 bg-gray-50" mask={true} duplicateCount={4}>
-        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/brand-GaBee.svg" alt="Logo" width="160" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/brand-Zenz.svg" alt="Logo" width="120" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/brand-simply-zen.svg" alt="Logo" width="220" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        <Image src="/logo/brand-zone-concept.svg" alt="Logo" width="280" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
         <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
       </InfiniteSlider>
     </section>
+    <!-- Stylist Bio Section -->
     <ImageReveal />
     <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50s dark:bg-gray-900">
       <div class="max-w-5xl mx-auto">
@@ -94,5 +108,4 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
     </section>
     {/* Blog Preview section will be added here */}
     {/* Other sections (Featured Services, Stylist Bios, Blog Preview) will be added here in later tasks */}
-  </main>
 </Layout>

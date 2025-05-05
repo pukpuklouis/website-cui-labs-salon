@@ -6,69 +6,75 @@ import { Image } from 'astro:assets';
 const navLinks = await getNavLinks(Astro.url.pathname);
 ---
 
-<nav id="main-nav" class="bg-gray-100/90 text-gray-500 sticky backdrop-blur-md top-0 z-50 duration-300 ease-in-out"> {/* Removed transition-transform */}
-  <div id="nav-container" class="container mx-auto flex flex-col items-center py-6">
-    <!-- Logo/Brand Name -->
-    <div class="text-xl font-bold mb-8 transition-all duration-300">
-      <a href="/" class="cursor-pointer">
-        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-      </a>
+<header class="fixed top-0 left-0 w-full z-50">
+  <div id="nav-spacer" class="fixed top-0 left-0 w-full h-[192px]"></div>
+  <nav id="main-nav" class="bg-gray-100/90 text-gray-500 backdrop-blur-md duration-300 ease-in-out">
+    <div id="nav-container" class="container mx-auto flex flex-col items-center py-6">
+      <!-- Logo/Brand Name -->
+      <div class="text-xl font-bold mb-8 transition-all duration-300">
+        <a href="/" class="cursor-pointer">
+          <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
+        </a>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <div id="desktop-links" class="hidden md:flex space-x-16 text-md uppercase tracking-wider font-medium transition-opacity duration-300 ease-out opacity-100">
+        {navLinks
+          .filter((link: NavLink) => link.visibility === 'all' || link.visibility === 'desktop')
+          .map((link: NavLink) => (
+            <a
+              href={link.href}
+              class={`hover:font-bold hover:text-gray-800 transition-all duration-300 ease-out relative pb-2 ${
+                link.isActive ? 'font-semibold' : ''
+              } ${
+                link.href === '/booking' ? 'text-gray-700 hover:text-gray-800' : ''
+              }`}
+            >
+              {link.text}
+              {link.isActive && <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800"></div>}
+            </a>
+          ))}
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden absolute right-4 top-7">
+        <button id="mobile-menu-button" class="text-black focus:outline-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+          <!-- Hamburger Icon -->
+          <svg id="menu-icon-open" class="w-6 h-6 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+          <!-- Close Icon (Initially Hidden) -->
+          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
     </div>
 
-    <!-- Desktop Navigation Links -->
-    <div id="desktop-links" class="hidden md:flex space-x-16 text-md uppercase tracking-wider font-medium transition-opacity duration-300 ease-out opacity-100">
-      {navLinks
-        .filter((link: NavLink) => link.visibility === 'all' || link.visibility === 'desktop')
-        .map((link: NavLink) => (
-          <a
-            href={link.href}
-            class={`hover:font-bold hover:text-gray-800 transition-all duration-300 ease-out relative pb-2 ${
-              link.isActive ? 'font-semibold' : ''
-            } ${
-              link.href === '/booking' ? 'text-gray-700 hover:text-gray-800' : ''
-            }`}
-          >
-            {link.text}
-            {link.isActive && <div class="absolute bottom-0 left-0 w-full h-0.5 bg-gray-800"></div>}
-          </a>
-        ))}
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden overflow-hidden text-left bg-white border-t border-gray-200" hidden>
+      <div class="container mx-auto px-4 py-3 space-y-2">
+        {navLinks
+          .filter((link: NavLink) => link.visibility === 'all' || link.visibility === 'mobile')
+          .map((link: NavLink) => (
+            <a
+              href={link.href}
+              class={`block py-2 px-8 uppercase text-sm tracking-wide hover:bg-gray-100 hover:rounded-md ${
+                link.isActive ? 'font-semibold' : ''
+              } ${
+                link.href === '/booking' ? 'text-pink-500' : ''
+              }`}
+            >
+              {link.text}
+            </a>
+          ))}
+      </div>
     </div>
+  </nav>
+</header>
 
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden absolute right-4 top-7">
-      <button id="mobile-menu-button" class="text-black focus:outline-none" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-        <!-- Hamburger Icon -->
-        <svg id="menu-icon-open" class="w-6 h-6 block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-        </svg>
-        <!-- Close Icon (Initially Hidden) -->
-        <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden overflow-hidden text-left bg-white border-t border-gray-200" hidden>
-    <div class="container mx-auto px-4 py-3 space-y-2">
-      {navLinks
-        .filter((link: NavLink) => link.visibility === 'all' || link.visibility === 'mobile')
-        .map((link: NavLink) => (
-          <a
-            href={link.href}
-            class={`block py-2 px-8 uppercase text-sm tracking-wide hover:bg-gray-100 hover:rounded-md ${
-              link.isActive ? 'font-semibold' : ''
-            } ${
-              link.href === '/booking' ? 'text-pink-500' : ''
-            }`}
-          >
-            {link.text}
-          </a>
-        ))}
-    </div>
-  </div>
-</nav>
+<!-- Spacer to prevent content from being hidden under the fixed nav -->
+<div id="nav-spacer" class="w-full"></div>
 
 <!-- Load animations from external module -->
 <script src="../scripts/nav-animations.ts"></script>
@@ -104,3 +110,33 @@ const navLinks = await getNavLinks(Astro.url.pathname);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 </style>
+
+<script>
+  // Set initial nav spacer height to match the navigation height
+  document.addEventListener('DOMContentLoaded', () => {
+    const updateNavSpacer = () => {
+      const navHeight = document.getElementById('main-nav')?.offsetHeight || 0;
+      const navSpacer = document.getElementById('nav-spacer');
+      if (navSpacer) {
+        navSpacer.style.height = `${navHeight}px`;
+      }
+    };
+    
+    // Update spacer height initially
+    updateNavSpacer();
+    
+    // Update spacer height when window is resized
+    window.addEventListener('resize', updateNavSpacer);
+    
+    // Create a MutationObserver to watch for changes to the nav height
+    const navElement = document.getElementById('main-nav');
+    if (navElement) {
+      const observer = new MutationObserver(updateNavSpacer);
+      observer.observe(navElement, { 
+        attributes: true, 
+        attributeFilter: ['class', 'style'],
+        subtree: true 
+      });
+    }
+  });
+</script>
