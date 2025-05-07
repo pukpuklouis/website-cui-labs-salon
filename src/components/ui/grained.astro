@@ -1,0 +1,68 @@
+---
+interface Props {
+    id: string;
+    animate?: boolean;
+    opacity?: number;
+    density?: number;
+    speed?: number;
+    color?: string;
+    blendMode?: "difference" | "multiply" | "screen" | "soft-light";
+    className?:string;
+}
+
+const { 
+    id, 
+    animate = true,
+    opacity = 0.1, 
+    density = 1, 
+    speed = 2,
+    color = "#ffffff",
+    blendMode = "soft-light", // difference, multiply, screen, soft-light
+    className = ""
+} = Astro.props;
+
+const containerId = `grained-${id}`;
+---
+
+<div id={containerId} class={`grained-container w-auto h-full pointer-events-none overflow-hidden bg-transparent ${className}`} transition:persist>
+</div>
+
+<!-- Include the grained library from public directory -->
+<script src="/js/grained.js" is:inline></script>
+
+<script define:vars={{ containerId, opacity, density, speed, color, blendMode, animate }}>
+document.addEventListener('DOMContentLoaded', function() {
+    const options = {
+        animate: animate,
+        patternWidth: 700,
+        patternHeight: 700,
+        grainOpacity: opacity,
+        grainDensity: density,
+        grainWidth: 1,
+        grainHeight: 1,
+        grainChaos: 0.2,
+        grainSpeed: speed
+    };
+
+    // Initialize grained
+    if (typeof grained === 'function') {
+        grained(`#${containerId}`, options);
+        
+        // Apply color overlay and ensure full coverage
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.style.backgroundColor = color;
+            container.style.mixBlendMode = blendMode;
+            container.style.width = '100%';
+            container.style.height = '100%';
+            container.style.position = 'absolute';
+            container.style.top = '0';
+            container.style.left = '0';
+            container.style.right = '0';
+            container.style.bottom = '0';
+        }
+    } else {
+        console.error('Grained library not available. Make sure it is properly installed.');
+    }
+});
+</script>

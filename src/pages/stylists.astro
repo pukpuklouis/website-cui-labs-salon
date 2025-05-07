@@ -19,7 +19,6 @@ const stylistsData = (await getCollection('stylistbio'))[0].data;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-  <main class="container mx-auto py-12 px-4">
     <h1 class="text-4xl font-extrabold mb-10 text-center text-gray-900 dark:text-white">Meet Our Talented Stylists</h1>
 
     <section class="grid grid-cols-1 lg:grid-cols-1 gap-10">
@@ -27,5 +26,4 @@ const stylistsData = (await getCollection('stylistbio'))[0].data;
         <StylistBio stylist={stylist} />
       ))}
     </section>
-  </main>
 </Layout>

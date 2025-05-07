@@ -1,0 +1,111 @@
+---
+import type { HTMLTag } from 'astro/types';
+
+interface MotionOptions {
+  delay?: number;
+  duration?: number;
+  stagger?: number | { from?: string | number; startDelay?: number; ease?: string | number[] };
+  ease?: string | number[];
+  repeat?: number;
+  repeatType?: "loop" | "reverse" | "mirror";
+  repeatDelay?: number;
+  inViewAmount?: number;
+  // Add other motion.dev supported options as needed
+}
+
+interface Props {
+  text: string;
+  splitBy: 'words' | 'chars' | 'lines';
+  animationType: 'fadeUp' | 'blurColorIn';
+  tag?: HTMLTag;
+  options?: MotionOptions;
+  inView?: boolean;
+  inViewAmount?: number;
+  delay?: number;
+  className?: string; // Add className prop for styling
+}
+
+const {
+  text,
+  splitBy,
+  animationType,
+  tag: Tag = 'p',
+  options = {},
+  inView = true,
+  inViewAmount = 0.5,
+  delay = 0,
+  className = '' // Default empty string for className
+} = Astro.props;
+
+const motionOptionsString = JSON.stringify(options);
+
+// Basic line splitting logic for server-side rendering (approximation)
+// More accurate line splitting will be done in the client-side script
+let processedText = text;
+const lines = text.split(/\r?\n/);
+
+if (splitBy === 'lines') {
+  // For lines, just wrap each line in a div
+  processedText = lines.map(line => `<div class="split-line">${line || '&nbsp;'}</div>`).join('');
+} else if (splitBy === 'words') {
+  // For words, maintain line structure but also split words
+  processedText = lines.map(line => {
+    const words = line ? line.split(' ').map(word => `<span class="split-word">${word}</span>`).join(' ') : '&nbsp;';
+    return `<div class="split-line">${words}</div>`;
+  }).join('');
+} else if (splitBy === 'chars') {
+  // For chars, maintain line structure but also split characters
+  processedText = lines.map(line => {
+    const chars = line ? line.split('').map(char => `<span class="split-char">${char}</span>`).join('') : '&nbsp;';
+    return `<div class="split-line">${chars}</div>`;
+  }).join('');
+}
+
+---
+
+<Tag
+  class={`split-text-container ${className}`}
+  data-split-by={splitBy}
+  data-animation-type={animationType}
+  data-options={motionOptionsString}
+  data-in-view={inView}
+>
+  <slot set:html={processedText} />
+</Tag>
+
+<script src="../../scripts/splitTextAnimate.ts"></script>
+
+<style>
+  .split-text-container {
+    /* Ensure spans are inline-block for line splitting to work visually */
+    /* Add initial styles for animations (e.g., opacity: 0, transform) */
+    /* These will be overridden by the motion.dev animations */
+    overflow: hidden; /* Add overflow hidden to container */
+  }
+
+  .split-text-container .split-word,
+  .split-text-container .split-char {
+    display: inline-block; /* Keep inline-block for words and chars */
+    white-space: pre-line; /* Preserve whitespace */
+  }
+
+  .split-text-container .split-line {
+     display: block; /* Lines should be block elements */
+     width: 100%; /* Ensure lines take full width */
+     /* Add any specific line styling if needed */
+     min-height: 1em; /* Ensure empty lines have height */
+  }
+
+  /* Initial states for animations */
+  .split-text-container[data-animation-type="fadeUp"] .split-line,
+  .split-text-container[data-animation-type="slideUp"] .split-line,
+  .split-text-container[data-animation-type="fadeUp"] .split-word,
+  .split-text-container[data-animation-type="slideUp"] .split-word,
+  .split-text-container[data-animation-type="fadeUp"] .split-char,
+  .split-text-container[data-animation-type="slideUp"] .split-char {
+    opacity: 0.01; /* Use 0.01 instead of 0 for potential FCP improvement */
+    transform: translateY(100%); /* Initial position for slide up */
+  }
+
+  /* Add styles for randomScroll if needed */
+</style>

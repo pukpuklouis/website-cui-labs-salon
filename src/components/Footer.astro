@@ -21,9 +21,9 @@ const currentYear = new Date().getFullYear();
 const navLinks = await getNavLinks(Astro.url.pathname);
 ---
 
-<footer id="footer-container" class="relative dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-24 mt-12 grayscale-100 brightness-110 bg-[url(/bg/Flooring_Grained.webp)] overflow-hidden">
+<footer id="footer-container" class="dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-24 mt-12 grayscale-100 brightness-110 bg-[url(/bg/Flooring_Grained.webp)] overflow-hidden">
   <Grained id="footer-noise" opacity={0.5} density={2} speed={20} color="#fff" blendMode="soft-light" className="z-0" transition:persist/>
-  <div class="container relative mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+  <div class=" relative mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
     
     <!-- Salon Information -->
     <div id="salon-info">

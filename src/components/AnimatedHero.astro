@@ -1,136 +1,56 @@
 ---
 import { Image } from 'astro:assets';
 import ScrollTextReveal from './ui/ScrollTextReveal.astro';
+import SplitText from './ui/SplitText.astro';
 ---
 
-<section id="animated-hero-container" class="relative w-screen bg-gray-50 h-full mt-16 md:mt-24 lg:mt-32 mb-8 md:mb-12 overflow-hidden px-4 md:px-6 lg:px-8">
+<section id="animated-hero-container" class="relative w-full bg-gray-50 h-full mt-16 md:mt-24 lg:mt-32 mb-8 md:mb-12 overflow-hidden px-4 md:px-6 lg:px-8">
     <!-- Block 1: Top Logo -->
-    <div class="flex flex-row w-5xl mx-auto my-32">
-        <div class="mask-[url(/mask/mask-2.svg)] mask-right mask-contain mask-no-repeat order-last h-auto w-auto z-0">
-            <Image 
-                id="hero-main-image-2" 
-                src="/Cui_Salon_img/Cui_Salon_IMG_013.avif" 
-                alt="Main Model" 
-                class="w-full h-auto object-fill" 
-                width={1920} 
-                height={1080} 
-                densities={[1, 2]}
-                loading="eager"
-                decoding="sync"
-                fetchpriority="high"
-                sizes="(max-width: 768px) 100vw, 1920px"
-                quality={90}
-            />
-        </div>
-        <div class="h-auto w-auto grid grid-cols-1 md:grid-cols-1 items-left gap-0 justify-around z-20">
-            <p id="hero-header-tagline" class="opacity-[0.01] text-base font-light text-left text-gray-700 mt-4">
-                深厚美學素養與精湛技藝的設計師</br>
-                精心雕琢每款造型</br>
-                探索技術深度</br>
-                美學眼光與匠人精神的融合
-            </p>
-            <h1 id="hero-header-h1" class="opacity-[0.01] text-left text-6xl font-bold text-gray-800 mt-4">
-                頂級髮藝體驗</br>
-                臻選頂級養護</br>
-            </h1>
-            <h2 id="hero-header-bg-text" class="font-soligant uppercase w-[85vw] font-basic text-[9rem] opacity-80">Cui Salon</h2>
-        </div>
-    </div>
-    <div class="absolute right-0 z-30">
-        <Image src="/logo/cui-logo-zh.svg" alt="萃-logo" width={1080} height={1080} class="aspect-square w-[300px] object-contain" />
-    </div>
-    <!-- Block 2: Main Model Image -->
-    <Image 
-        id="hero-main-image" 
-        src="/Cui_Salon_img/Cui_Salon_IMG_016.avif" 
-        alt="Main Model" 
-        class="opacity-[0.01] scale-95 w-full h-auto rounded-2xl perspective-dramatic" 
-        width={1920} 
-        height={1080} 
-        densities={[1, 2]}
-        loading="eager"
-        decoding="sync"
-        fetchpriority="high"
-        sizes="(max-width: 768px) 100vw, 1920px"
-        quality={90}
-    />
-
-    <!-- Block 3: About Text + Embedded Image -->
-    <div id="hero-about-section" class="mt-16">
-        <p id="hero-about-text1" class="opacity-0.1 translate-y-10 text-lg text-gray-700">OUR FUTURISTIC...</p>
-        <Image 
-            id="hero-about-image" 
-            src="https://placehold.co/1200x800?text=About+Image" 
-            alt="About Image" 
-            class="opacity-0 scale-90 w-full h-auto mt-4 " 
-            width={1200} 
-            height={800} 
+    <div class="flex flex-row items-center justify-center w-5xl mx-auto my-32">
+        <div class="mask-[url(/mask/mask-2.svg)] mask-right mask-contain mask-no-repeat order-last h-2/3 min-h-[400px] w-auto min-w-[900px] z-0 relative -translate-x-15">
+            <Image
+            id="hero-main-image-2"
+            src="/Cui_Salon_img/Cui_Salon_IMG_007.avif"
+            alt="Main Model"
+            class="w-full h-full object-cover object-right absolute inset-0"
+            width={1920}
+            height={1080}
+            densities={[1, 2]}
             loading="eager"
-            sizes="(max-width: 768px) 100vw, 1200px"
-            quality={85}
-        />
-        <p id="hero-about-text2" class="opacity-0.1 translate-y-10 text-lg text-gray-700 mt-4">WHERE BEIGE...</p>
-    </div>
-
-    <!-- Block 4: New Arrivals -->
-    <div id="hero-arrivals-section" class="mt-16">
-        <h2 id="hero-arrivals-title" class="opacity-0.1 translate-y-10 text-2xl font-semibold text-gray-800">NEW ARRIVALS</h2>
-        <div class="grid grid-cols-3 gap-4 mt-4">
-            <Image 
-                id="hero-arrival-1" 
-                src="https://placehold.co/600x800?text=Arrival+1" 
-                alt="Arrival 1" 
-                class="hero-arrival-item opacity-0 translate-y-10 w-full h-auto" 
-                width={600} 
-                height={800} 
-                sizes="(max-width: 768px) 33vw, 600px"
-                quality={80}
-            />
-            <Image 
-                id="hero-arrival-2" 
-                src="https://placehold.co/600x800?text=Arrival+2" 
-                alt="Arrival 2" 
-                class="hero-arrival-item opacity-0 translate-y-10 w-full h-auto" 
-                width={600} 
-                height={800} 
-                sizes="(max-width: 768px) 33vw, 600px"
-                quality={80}
-            />
-            <Image 
-                id="hero-arrival-3" 
-                src="https://placehold.co/600x800?text=Arrival+3" 
-                alt="Arrival 3" 
-                class="hero-arrival-item opacity-0 translate-y-10 w-full h-auto" 
-                width={600} 
-                height={800} 
-                sizes="(max-width: 768px) 33vw, 600px"
-                quality={80}
-            />
-        </div>
-    </div>
-
-    <!-- Block 5: Elevate Text -->
-    <div id="hero-elevate-section" class="mt-16">
-        <h2 id="hero-elevate-text" class="opacity-0 translate-y-10 text-6xl font-bold text-gray-900">ELEVATE ELEVATE ELEVATE ELEVATE ELEVATE ELEVATE ELEVATE</h2>
-    </div>
-
-    <!-- Block 6: Bottom Image + Overlay -->
-    <div id="hero-bottom-section" class="relative mt-16">
-        <Image 
-            id="hero-bottom-image" 
-            src="https://placehold.co/1920x1080?text=Bottom+Image" 
-            alt="Bottom Image" 
-            class="opacity-0 translate-y-10 w-full h-auto" 
-            width={1920} 
-            height={1080} 
+            decoding="sync"
+            fetchpriority="high"
             sizes="(max-width: 768px) 100vw, 1920px"
-            quality={85}
-        />
-        <div id="hero-bottom-overlay" class="text-5xl font-bold absolute inset-0 flex items-center justify-center opacity-0 bg-black text-white">
-            AETHER ATTIRE 2024
+            quality={90}
+            />
+        </div>
+        <div class="w-[60vw] h-auto grid grid-cols-1 md:grid-cols-1 items-left gap-0 justify-around z-20">
+            <SplitText 
+            text={`深厚美學素養與精湛技藝的設計師
+                精心雕琢每款造型
+                探索技術深度
+                美學眼光與匠人精神的融合`}
+            splitBy="chars"
+            tag='div' 
+            animationType="blurColorIn" 
+            className="w-[60vw] text-sm md:text-lg text-left font-light text-gray-700 mb-4" 
+            options={{ duration: 0.2, stagger: 0.02 }} 
+            inView={false} 
+            inViewAmount={0.8}
+            />
+            <SplitText 
+            text={`頂級髮藝體驗
+            臻選頂級養護`}
+            splitBy="lines"  
+            tag="h1" 
+            animationType="fadeUp" 
+            className="w-[60vw] text-4xl md:text-6xl text-left font-extrabold text-gray-900 mb-4" 
+            options={{ duration: 0.8, stagger: 0.3 }} 
+            inView={true} 
+            inViewAmount={0.8}
+            />
+            <h2 id="hero-header-bg-text" class="w-[60vw] font-soligant uppercase font-basic text-[8rem] opacity-80">Cui Salon</h2>
         </div>
     </div>
-
     <script src="../scripts/animateHero.ts"></script>
 </section>
 <section>

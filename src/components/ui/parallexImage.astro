@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import SimpleParallaxWrapper from './simpleParallaxwrapper.tsx';
+
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  orientation?: 'up' | 'down' | 'left' | 'right' | 'up left' | 'up right' | 'down left' | 'down right';
+  scale?: number;
+  overflow?: boolean;
+  delay?: number;
+  transition?: string;
+  maxTransition?: number;
+}
+
+const { 
+  src, 
+  alt, 
+  width = 1920, 
+  height = 1080, 
+  class: className = '',
+  orientation = 'up',
+  scale = 1.3,
+  overflow = false,
+  delay = 0,
+  transition = 'ease',
+  maxTransition = 60
+} = Astro.props;
+---
+<SimpleParallaxWrapper 
+  client:load
+  orientation={orientation}
+  scale={scale}
+  overflow={overflow}
+  delay={delay}
+  transition={transition}
+  maxTransition={maxTransition}
+>
+  <Image 
+    src={src} 
+    alt={alt} 
+    width={width} 
+    height={height} 
+    loading="lazy"
+  />
+</SimpleParallaxWrapper>

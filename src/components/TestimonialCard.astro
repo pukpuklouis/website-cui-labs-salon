@@ -1,0 +1,117 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  testimonial: {
+    quote: string;
+    author: string;
+    role: string;
+    image: string;
+  };
+  featured?: boolean;
+}
+
+const { testimonial, featured = false } = Astro.props;
+---
+
+<div class={`testimonial-card group h-full w-full overflow-hidden ${featured ? 'featured-testimonial' : ''}`}>
+  <div class="relative h-full w-full bg-off-white p-6 md:p-8 flex flex-col">
+    <!-- Quote Icon -->
+    <div class="absolute top-6 right-6 opacity-10">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="text-champagne-gold">
+        <path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16.036-.33.084-.51.144-.09.030-.17.063-.25.096h-.02c-.38.152-.77.336-1.14.552-.36.210-.68.47-.94.76-.26.293-.47.622-.63.984-.16.367-.24.76-.24 1.175 0 .657.22 1.194.64 1.607.43.414.96.62 1.58.62.61 0 1.13-.205 1.56-.614.43-.41.65-.934.65-1.585 0-.52-.17-.954-.51-1.303-.34-.348-.78-.523-1.32-.523-.14 0-.27.01-.4.03-.13.02-.24.05-.35.08-.11.03-.2.06-.26.09-.06.03-.1.05-.12.05-.06 0-.09-.02-.09-.05 0-.03.03-.08.08-.15.05-.08.13-.17.24-.28.11-.11.27-.22.47-.34.2-.12.46-.23.77-.34.31-.1.68-.18 1.09-.24.41-.06.88-.08 1.39-.08.79 0 1.47.11 2.05.32.57.21 1.03.51 1.38.88.35.37.6.81.75 1.31.15.5.22 1.03.22 1.58 0 .7-.11 1.34-.34 1.93-.23.59-.55 1.1-.96 1.53-.41.43-.89.77-1.44 1.01-.55.24-1.15.36-1.8.36-.32 0-.61-.03-.87-.08-.26-.05-.49-.12-.69-.2-.2-.08-.37-.17-.5-.28-.13-.11-.23-.23-.3-.38-.07-.15-.1-.33-.1-.55 0-.44.17-.8.51-1.09.34-.29.77-.43 1.29-.43.29 0 .56.04.8.13.24.09.45.22.61.39.16.17.29.38.38.61.09.23.13.5.13.8 0 .22-.03.43-.08.65-.05.22-.13.43-.23.64-.1.21-.24.39-.4.55-.17.16-.37.28-.61.38-.24.1-.52.15-.82.15-.34 0-.67-.11-.98-.33-.31-.22-.47-.58-.47-1.09 0-.2.03-.39.08-.59.05-.2.13-.39.24-.59.11-.2.26-.37.44-.52.18-.15.41-.28.69-.38.28-.1.61-.15.99-.15.43 0 .83.05 1.2.15.37.1.7.24.99.43.29.19.53.43.72.74.19.31.29.68.29 1.09 0 .43-.09.8-.27 1.11-.18.31-.42.57-.71.78-.29.21-.61.37-.97.49-.36.12-.72.18-1.09.18-.39 0-.78-.06-1.15-.18-.37-.12-.71-.29-1-.51-.29-.22-.53-.49-.71-.81-.18-.32-.27-.67-.27-1.07 0-.36.08-.69.23-.96.15-.28.36-.51.61-.69.25-.18.55-.32.88-.41.33-.09.68-.13 1.05-.13.38 0 .72.05 1.03.15.31.1.57.24.79.43.22.19.39.43.51.72.12.29.18.62.18.99 0 .56-.19 1.03-.56 1.41-.37.38-.88.57-1.52.57-.62 0-1.12-.19-1.51-.57-.39-.38-.58-.86-.58-1.41 0-.38.07-.71.2-.99.13-.28.32-.51.56-.67.24-.16.52-.28.84-.35.32-.07.67-.11 1.05-.11h.62z"/>
+      </svg>
+    </div>
+    
+    <!-- Testimonial Quote -->
+    <div class="mb-6 relative z-10">
+      <p class="text-charcoal text-lg md:text-xl leading-relaxed font-light">
+        "{testimonial.quote}"
+      </p>
+    </div>
+    
+    <!-- Author Info -->
+    <div class="mt-auto flex items-center">
+      <div class="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
+        <Image 
+          src={testimonial.image} 
+          alt={testimonial.author} 
+          width={100} 
+          height={100} 
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div>
+        <h4 class="text-charcoal font-medium">{testimonial.author}</h4>
+        <p class="text-charcoal/60 text-sm">{testimonial.role}</p>
+      </div>
+    </div>
+    
+    <!-- Background Pattern (Only for featured testimonials) -->
+    {featured && (
+      <div class="absolute -bottom-20 -right-20 w-64 h-64 opacity-5 pointer-events-none">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" class="text-champagne-gold" d="M47.1,-57.3C59.9,-47.3,68.7,-31.6,72.1,-14.7C75.6,2.2,73.6,20.3,65.5,35.2C57.3,50.1,43,61.8,26.7,67.8C10.4,73.8,-7.9,74.2,-24.5,68.5C-41.1,62.8,-56,51.1,-65.8,35.4C-75.6,19.7,-80.3,0,-76.1,-17.1C-71.9,-34.2,-58.8,-48.7,-44.1,-58.5C-29.4,-68.3,-13.1,-73.4,2.2,-76C17.5,-78.6,34.3,-67.4,47.1,-57.3Z" transform="translate(100 100)" />
+        </svg>
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .testimonial-card {
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Custom color variables */
+  :root {
+    --color-off-white: #f8f7f4;
+    --color-charcoal: #2d2d2d;
+    --color-champagne-gold: #e6d2b5;
+  }
+  
+  .bg-off-white {
+    background-color: var(--color-off-white);
+  }
+  
+  .text-charcoal {
+    color: var(--color-charcoal);
+  }
+  
+  .text-champagne-gold {
+    color: var(--color-champagne-gold);
+  }
+</style>
+
+<script>
+  import { inView, animate } from "motion";
+  
+  // Animate testimonial cards when they come into view
+  document.addEventListener('DOMContentLoaded', () => {
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    
+    testimonialCards.forEach((card) => {
+      inView(card, () => {
+        if (card instanceof HTMLElement) {
+          animate(
+            card,
+            { 
+              opacity: [0, 1],
+              y: [20, 0],
+              scale: [0.98, 1]
+            },
+            { 
+              duration: 0.7,
+              easing: [0.22, 1, 0.36, 1]
+            }
+          );
+        }
+      }, { amount: 0.2 });
+    });
+  });
+</script>

@@ -1,0 +1,73 @@
+---
+/**
+ * ParallaxSection Component
+ * 
+ * Creates a subtle parallax effect on scroll for its children.
+ * Uses Motion JS for smooth animation with spring physics.
+ */
+
+interface Props {
+  speed?: number;  // Parallax speed (default: 0.1)
+  direction?: 'up' | 'down';  // Parallax direction (default: 'up')
+  class?: string;  // Additional CSS classes
+}
+
+const { 
+  speed = 0.1, 
+  direction = 'up', 
+  class: className = '' 
+} = Astro.props;
+
+// Generate a unique ID for this parallax section
+const sectionId = `parallax-section-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div id={sectionId} class={`parallax-section relative overflow-hidden ${className}`}>
+  <slot />
+</div>
+
+<script define:vars={{ sectionId, speed, direction }}>
+  import { scroll, animate } from 'motion';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    
+    // Find the first direct child element to apply parallax to
+    const content = section.querySelector(':scope > *');
+    if (!content) return;
+    
+    // Calculate parallax distance based on direction
+    const getParallaxValues = () => {
+      // Direction determines if we move up or down on scroll
+      const directionMultiplier = direction === 'up' ? -1 : 1;
+      // Speed factor determines how much movement occurs
+      const distance = 50 * speed * directionMultiplier;
+      
+      return [0, distance];
+    };
+    
+    // Apply scroll-linked animation
+    scroll(
+      animate(content, { 
+        y: getParallaxValues(),
+        // Optional: add a subtle scale effect
+        scale: [1, direction === 'up' ? 1.05 : 0.98]
+      }, {
+        // Use spring physics for more natural motion
+        easing: [0.22, 1, 0.36, 1]
+      }),
+      { 
+        target: section,
+        // Start animation when section enters viewport, end when it leaves
+        offset: ["start end", "end start"]
+      }
+    );
+  });
+</script>
+
+<style>
+  .parallax-section {
+    will-change: transform;
+  }
+</style>
