@@ -9,8 +9,8 @@ import tailwindcss from '@tailwindcss/vite';
   
 
 // https://astro.build/config
-site: "http://localhost:4321";
 export default defineConfig({
+  site: "https://website-cui-labs-salon.pages.dev",
   adapter: cloudflare({
     platformProxy: {
       enabled: true
