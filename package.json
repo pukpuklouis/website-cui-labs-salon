@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "astro dev --host",
     "build": "astro build",
-    "preview": "astro build && wrangler pages dev",
+    "preview": "astro build && wrangler pages dev ./dist",
     "astro": "astro",
-    "deploy": "astro build && wrangler pages deploy",
+    "deploy": "astro build && wrangler pages deploy ./dist",
     "cf-typegen": "wrangler types",
     "list": "node scripts/dev.js list",
     "generate": "node scripts/dev.js generate",
@@ -53,6 +53,6 @@
     "@cloudflare/workers-types": "^4.20250407.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
-    "wrangler": "^4.9.0"
+    "wrangler": "^4.14.4"
   }
 }

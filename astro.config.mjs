@@ -13,7 +13,20 @@ export default defineConfig({
   site: "https://website-cui-labs-salon.pages.dev",
   adapter: cloudflare({
     platformProxy: {
+      mode: 'directory',
+      functionPerRoute: true,
+      runtime: {
+        mode: 'local',
+        type: 'pages',
+        bindings: {
+          // Add any environment variables your app needs
+        }
+      },
       enabled: true
+    },
+    // Add compatibility flags for MessageChannel
+    compatibility: {
+      flags: ["nodejs_compat"]
     }
   }),
   integrations: [
@@ -31,6 +44,12 @@ export default defineConfig({
     optimizeDeps: {  
       include: ['simple-parallax-js']  
     } ,
+    resolve: {
+      // 只在 production 時 alias
+      alias:{
+        "react-dom/server": "react-dom/server.edge",
+      },
+    },
     plugins: [
       tailwindcss()
     ]
