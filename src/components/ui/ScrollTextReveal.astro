@@ -2,27 +2,48 @@
 export interface Props {
   message: string;
   className?: string;
+  fontStyle?: "font-sans" | "font-serif" | "font-soligant";
+  fontSize?: string;
+  animationType?: "spring" | "tween" | "keyframes";
+  animationDelay?: number;
+  animationDuration?: number;
+  animationBounce?: number;
 }
 
-const { message, className } = Astro.props;
+const { 
+  message, 
+  className, 
+  fontSize,
+  fontStyle,
+  animationType = "spring",
+  animationDelay = 0.1,
+  animationDuration = 2.3,
+  animationBounce = 0.0 
+} = Astro.props;
+const uniqueId = `scroll-text-reveal-${crypto.randomUUID()}`;
 
 // 將訊息拆分成單詞
 const words = message.split(" ");
 ---
 
 <div
-  class={`relative h-screen overflow-hidden ${className}`}
-  id="scroll-container"
+  class={`relative h-full overflow-hidden ${className} ${fontStyle}`}
+  id={uniqueId}
+  data-unique-id={uniqueId}
+  data-animation-type={animationType}
+  data-animation-delay={animationDelay}
+  data-animation-duration={animationDuration}
+  data-animation-bounce={animationBounce}
 >
-  <div class="flex h-screen items-center justify-center">
-    <p class="font-soligant uppercase text-6xl md:text-9xl text-gray-800 tracking-relaxed">
+  <div class="flex w-[100%] h-auto items-center justify-center">
+    <p class={`uppercase ${fontSize} text-gray-800 tracking-relaxed`}>
       {words.map((word, i) => (
         <span
-          class="inline-block mr-2"
+          class="inline-block"
           data-word-index={i}
+          style={`margin-right: ${i < words.length - 1 ? '0.2em' : '0'};`}
         >
           {word}
-          {" "}
         </span>
       ))}
     </p>
@@ -35,35 +56,45 @@ const words = message.split(" ");
 
   // 確保在 DOM 載入後執行
   document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById("scroll-container");
-    const wordSpans = container?.querySelectorAll("span[data-word-index]");
+    // Select all reveal components on the page
+    const revealContainers = document.querySelectorAll('[data-unique-id^="scroll-text-reveal-"]');
 
-    // 檢查元素是否存在
-    if (!container || !wordSpans || wordSpans.length === 0) {
-      console.error("Scroll container or word spans not found.");
-      return; // 如果找不到元素，則停止執行
-    }
+    revealContainers.forEach(container => {
+      const wordSpans = container.querySelectorAll("span[data-word-index]");
 
-    // 創建動畫
-    const animation = animate(
-      Array.from(wordSpans),
-      {
-        opacity: [0.1, 1],
-      },
-      {
-        type: "spring",
-        delay: stagger(0.05),
-        duration: 1,
-        bounce: 0.3,
+      // 檢查元素是否存在
+      if (!wordSpans || wordSpans.length === 0) {
+        console.error("Word spans not found in container:", container.id);
+        return; // 如果找不到元素，則停止處理此 container
       }
-    );
 
-    // 將動畫連結到捲動進度
-    // 動畫進度會與 container 元素的捲動進度同步
-    // 當元素進入視窗時動畫向前播放，捲動回溯時動畫會反向播放
-    scroll(animation, {
-      target: container,
-      offset: ["start center", "end center"]
+      // Get animation settings from data attributes
+      const animationType = container.getAttribute('data-animation-type') || 'spring';
+      const animationDelay = parseFloat(container.getAttribute('data-animation-delay') || '0.1');
+      const animationDuration = parseFloat(container.getAttribute('data-animation-duration') || '2.3');
+      const animationBounce = parseFloat(container.getAttribute('data-animation-bounce') || '0.0');
+      
+      // 創建動畫
+      const animation = animate(
+        Array.from(wordSpans),
+        {
+          opacity: [0.1, 1],
+        },
+        {
+          type: animationType as any,
+          delay: stagger(animationDelay),
+          duration: animationDuration,
+          bounce: animationBounce,
+        }
+      );
+
+      // 將動畫連結到捲動進度
+      // 動畫進度會與 container 元素的捲動進度同步
+      // 當元素進入視窗時動畫向前播放，捲動回溯時動畫會反向播放
+      scroll(animation, {
+        target: container as HTMLElement, // Cast to HTMLElement
+        offset: ["start 0.6", "end 0.5"]
+      });
     });
   });
 </script>

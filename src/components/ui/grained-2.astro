@@ -1,0 +1,92 @@
+---
+// src/components/ui/grained-2.astro
+interface Props {
+    /** 用於生成唯一容器 ID 的基礎字串 */
+    id: string;
+    /** 是否啟用動畫效果，預設為 true */
+    animate?: boolean;
+    /** 雜訊的透明度 (0 到 1)，預設為 0.1 */
+    opacity?: number;
+    /** 雜訊的密度，預設為 1 */
+    density?: number;
+    /** 動畫速度 (僅在 animate 為 true 時有效)，預設為 10 */
+    speed?: number;
+    /** 雜訊顏色，預設為 '#000000' (黑色) */
+    color?: string;
+    /** CSS 混合模式，預設為 'multiply' */
+    blendMode?: "difference" | "multiply" | "screen" | "soft-light" | "overlay" | "normal";
+    /** 額外添加的 CSS class 名稱 */
+    className?: string;
+}
+
+const {
+    id,
+    animate = true,
+    opacity = 0.1, // 調整預設值，使其更細微
+    density = 1,   // 調整預設值
+    speed = 10,    // 調整預設值
+    color = "#ffffff", // 預設為黑色雜訊
+    blendMode = "soft-screen", // 更改預設混合模式
+    className = ""
+} = Astro.props;
+
+// 確保每個實例都有唯一的 ID
+const containerId = `grained-2-${id}`;
+
+// 準備傳遞給 grained.js 的選項
+// 只包含核心可配置項，其餘讓 grained.js 使用其內部預設值以求簡潔
+const grainedOptions = {
+    animate: animate,
+    grainOpacity: opacity,
+    grainDensity: density,
+    grainSpeed: speed,
+    // 以下參數將使用 grained.js 的預設值：
+    // patternWidth: 700, (預設或函式庫內部處理)
+    // patternHeight: 700, (預設或函式庫內部處理)
+    // grainWidth: 1, (預設或函式庫內部處理)
+    // grainHeight: 1, (預設或函式庫內部處理)
+    // grainChaos: 0.2, (預設或函式庫內部處理)
+};
+---
+
+<div
+    id={containerId}
+    class:list={["grained-2-container", className]}
+    style={`--grained-color: ${color}; --grained-blend-mode: ${blendMode};`}
+>
+</div>
+
+<!-- 依照指示引入 grained.js -->
+<script src="/js/grained.js" is:inline defer></script>
+
+<script define:vars={{ containerId, options: grainedOptions }}>
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof grained === 'function') {
+        try {
+            grained(`#${containerId}`, options);
+        } catch (error) {
+            console.error(`Failed to initialize grained.js for #${containerId}:`, error);
+        }
+    } else {
+        console.error('Grained library not available. Make sure /js/grained.js is loaded correctly.');
+    }
+});
+</script>
+
+<style>
+.grained-2-container {
+    position: absolute;
+    inset: 0; /* 等同於 top: 0; right: 0; bottom: 0; left: 0; */
+    width: 100%;
+    height: 100%;
+    background-color: var(--grained-color);
+    mix-blend-mode: var(--grained-blend-mode);
+    pointer-events: none; /* 確保雜訊層不會阻擋下方元素的互動 */
+    overflow: hidden; /* 避免雜訊圖案超出邊界 */
+}
+/* 
+    提醒：
+    為了讓 .grained-2-container 能夠正確地覆蓋其父元素，
+    父元素通常需要設定 position: relative; position: absolute; position: fixed; 或 position: sticky;
+*/
+</style>

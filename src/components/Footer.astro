@@ -3,7 +3,7 @@ import { Image } from 'astro:assets';
 import { getEntry, type CollectionEntry } from 'astro:content';
 import { getNavLinks } from '../lib/navlink';
 import type { NavLink } from '../lib/navlink';
-import Grained from '../components/ui/grained.astro';
+import Grained from '../components/ui/grained-2.astro';
 
 // Fetch the single entry from the 'footer' data collection
 // Note: If type errors persist after this edit, try restarting the Astro dev server.
@@ -21,13 +21,13 @@ const currentYear = new Date().getFullYear();
 const navLinks = await getNavLinks(Astro.url.pathname);
 ---
 
-<footer id="footer-container" class="dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-24 mt-12 grayscale-100 brightness-110 bg-[url(/bg/Flooring_Grained.webp)] overflow-hidden">
-  <Grained id="footer-noise" opacity={0.5} density={2} speed={20} color="#fff" blendMode="soft-light" className="z-0" transition:persist/>
-  <div class=" relative mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+<footer id="footer-container" class="w-screen dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-24 mt-12 grayscale-100 brightness-110 bg-[url(/bg/Flooring_Grained.webp)] overflow-hidden">
+  <Grained id="footer-noise" className="z-10 h-full w-full" transition:persist/>
+  <div class=" relative mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-left  md:text-left">
     
     <!-- Salon Information -->
     <div id="salon-info">
-      <div class="flex flex-row items-center gap-4">
+      <div class="flex flex-row items-center  gap-4">
         <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
         <Image src="/logo/cui-logo-zh.svg" alt="Logo" width="30" height="40" class="inline-block transition-all duration-300" id="nav-logo" />
       </div >
@@ -44,9 +44,9 @@ const navLinks = await getNavLinks(Astro.url.pathname);
     </div>
 
     <!-- Social Media Links -->
-    <div class="mt-3">
+    <div class="mt-3 order-3 md:order-3">
       <h3 class="text-lg font-semibold mb-2">追蹤我們</h3>
-      <div class="flex justify-center md:justify-start space-x-4">
+      <div class="flex justify-start md:justify-start space-x-4">
         {/* Explicitly type the 'social' parameter */} 
         {socialMedia.map((social: CollectionEntry<'footer'>['data']['socialMedia'][number]) => (
           <a href={social.url} class="hover:text-pink-500 dark:hover:text-pink-400" aria-label={social.name}>
@@ -57,7 +57,7 @@ const navLinks = await getNavLinks(Astro.url.pathname);
       </div>
     </div>
     <!-- pages link -->
-    <div class="mt-4">
+    <div class="mt-4 ">
       <h3 class="text-lg font-semibold mb-2">頁面連結</h3>
       <div class="flex justify-center md:justify-start space-x-4"></div>
       {navLinks
@@ -77,7 +77,7 @@ const navLinks = await getNavLinks(Astro.url.pathname);
     </div>
 
     <!-- Copyright -->
-    <div class="md:col-span-3 mt-8 md:mt-0 border-t border-gray-300 dark:border-gray-700 pt-4 text-center text-sm">
+    <div class="md:col-span-3 mt-8 md:mt-0 border-t border-gray-300 dark:border-gray-700 pt-4 text-center text-sm order-last">
       <p>&copy; {currentYear} {salonInfo.name}. All rights reserved.</p>
     </div>
   </div>

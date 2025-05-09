@@ -13,9 +13,9 @@ interface Props {
 const { 
     id, 
     animate = true,
-    opacity = 0.1, 
-    density = 1, 
-    speed = 2,
+    opacity = 0.5, 
+    density = 2, 
+    speed = 20,
     color = "#ffffff",
     blendMode = "soft-light", // difference, multiply, screen, soft-light
     className = ""
@@ -24,45 +24,43 @@ const {
 const containerId = `grained-${id}`;
 ---
 
-<div id={containerId} class={`grained-container w-auto h-full pointer-events-none overflow-hidden bg-transparent ${className}`} transition:persist>
-</div>
+<div id={containerId} class={`grained-container w-auto h-full pointer-events-none overflow-hidden bg-transparent ${className}`} style={`--grained-color: ${color}; --grained-blend-mode: ${blendMode};`}></div>
 
 <!-- Include the grained library from public directory -->
-<script src="/js/grained.js" is:inline></script>
+<script src="/js/grained.js" is:inline defer></script>
 
-<script define:vars={{ containerId, opacity, density, speed, color, blendMode, animate }}>
+<script define:vars={{ containerId, opacity, density, speed, animate }}>
 document.addEventListener('DOMContentLoaded', function() {
-    const options = {
-        animate: animate,
-        patternWidth: 700,
-        patternHeight: 700,
-        grainOpacity: opacity,
-        grainDensity: density,
-        grainWidth: 1,
-        grainHeight: 1,
-        grainChaos: 0.2,
-        grainSpeed: speed
-    };
+        const options = {
+            animate: animate,
+            patternWidth: 700,
+            patternHeight: 700,
+            grainOpacity: opacity,
+            grainDensity: density,
+            grainWidth: 1,
+            grainHeight: 1,
+            grainChaos: 0.2,
+            grainSpeed: speed
+        };
 
-    // Initialize grained
-    if (typeof grained === 'function') {
-        grained(`#${containerId}`, options);
-        
-        // Apply color overlay and ensure full coverage
-        const container = document.getElementById(containerId);
-        if (container) {
-            container.style.backgroundColor = color;
-            container.style.mixBlendMode = blendMode;
-            container.style.width = '100%';
-            container.style.height = '100%';
-            container.style.position = 'absolute';
-            container.style.top = '0';
-            container.style.left = '0';
-            container.style.right = '0';
-            container.style.bottom = '0';
+        // Initialize grained
+        if (typeof grained === 'function') {
+            grained(`#${containerId}`, options);
+        } else {
+            console.error('Grained library not available. Make sure it is properly installed.');
         }
-    } else {
-        console.error('Grained library not available. Make sure it is properly installed.');
-    }
 });
 </script>
+
+<style>
+/* 注意：父元素必須具有非 static 的定位屬性 (如 position: relative, absolute, fixed, sticky)，
+   以確保雜訊效果能正確覆蓋整個父元素區域。 */
+.grained-container {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--grained-color);
+    mix-blend-mode: var(--grained-blend-mode);
+}
+</style>

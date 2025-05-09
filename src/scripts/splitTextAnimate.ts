@@ -130,7 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return () => {
           const elements = splitText(htmlContainer, splitBy);
           // Reset elements to initial state with a quick fade
-          animate(elements, { opacity: 0, y: '1em' }, { duration: 0.2 });
+          if (animationType === 'blurColorIn') {
+            animate(elements, { 
+              opacity: 0.01, 
+              y: '1em',
+              filter: 'blur(5px)',
+              color: 'var(--color-red-500)'
+            }, { duration: 0.2 });
+          } else {
+            animate(elements, { opacity: 0.01, y: '1em' }, { duration: 0.2 });
+          }
         };
       }, { 
         amount: options.inViewAmount || 0.5,

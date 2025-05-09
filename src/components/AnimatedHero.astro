@@ -1,29 +1,27 @@
 ---
 import { Image } from 'astro:assets';
-import ScrollTextReveal from './ui/ScrollTextReveal.astro';
 import SplitText from './ui/SplitText.astro';
 ---
 
-<section id="animated-hero-container" class="relative w-full bg-gray-50 h-full mt-16 md:mt-24 lg:mt-32 mb-8 md:mb-12 overflow-hidden px-4 md:px-6 lg:px-8">
-    <!-- Block 1: Top Logo -->
-    <div class="flex flex-row items-center justify-center w-5xl mx-auto my-32">
-        <div class="mask-[url(/mask/mask-2.svg)] mask-right mask-contain mask-no-repeat order-last h-2/3 min-h-[400px] w-auto min-w-[900px] z-0 relative -translate-x-15">
+<section id="animated-hero-container" class="relative w-full bg-gray-50 h-full mt-16 object-right overflow-hidden px-0 md:px-6 lg:px-8">
+    <!-- Block 1: H1  hero Image -->
+    <div class="flex flex-col md:flex-row items-center justify-center w-full min-h-[100vh] md:min-h-[calc(100vh-64px)] lg:min-h-[calc(100vh-4rem)] px-4 pt-18 md:py-0">
+        <div class="hero-main-image-2 rounded-2xl md:mask-[url(/mask/mask-2.svg)] mask-right mask-contain mask-no-repeat order-last md:order-last w-full max-w-full md:max-w-[60%] lg:max-w-[50%] h-[40vh] md:h-[50vh] lg:h-[60vh] z-10 relative overflow-hidden">
             <Image
-            id="hero-main-image-2"
             src="/Cui_Salon_img/Cui_Salon_IMG_007.avif"
             alt="Main Model"
-            class="w-full h-full object-cover object-right absolute inset-0"
-            width={1920}
-            height={1080}
+            class="w-full h-full object-cover object-center md:object-right absolute inset-0"
+            width={1200}
+            height={800}
             densities={[1, 2]}
             loading="eager"
             decoding="sync"
             fetchpriority="high"
-            sizes="(max-width: 768px) 100vw, 1920px"
+            sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 60vw, 50vw"
             quality={90}
             />
         </div>
-        <div class="w-[60vw] h-auto grid grid-cols-1 md:grid-cols-1 items-left gap-0 justify-around z-20">
+        <div class="w-[100%] md:w-[60vw] h-auto grid grid-cols-1 md:grid-cols-1 items-left gap-0 justify-around z-20">
             <SplitText 
             text={`深厚美學素養與精湛技藝的設計師
                 精心雕琢每款造型
@@ -32,9 +30,9 @@ import SplitText from './ui/SplitText.astro';
             splitBy="chars"
             tag='div' 
             animationType="blurColorIn" 
-            className="w-[60vw] text-sm md:text-lg text-left font-light text-gray-700 mb-4" 
+            className="w-[100vw] md:w-[60vw] text-sm md:text-sm lg:text-base tracking-widest text-left font-light text-gray-700 mb-4" 
             options={{ duration: 0.2, stagger: 0.02 }} 
-            inView={false} 
+            inView={true} 
             inViewAmount={0.8}
             />
             <SplitText 
@@ -43,16 +41,13 @@ import SplitText from './ui/SplitText.astro';
             splitBy="lines"  
             tag="h1" 
             animationType="fadeUp" 
-            className="w-[60vw] text-4xl md:text-6xl text-left font-extrabold text-gray-900 mb-4" 
+            className="w-[60vw] text-4xl md:text-5xl lg:text-6xl text-left font-extrabold text-gray-900 mb-4" 
             options={{ duration: 0.8, stagger: 0.3 }} 
             inView={true} 
             inViewAmount={0.8}
             />
-            <h2 id="hero-header-bg-text" class="w-[60vw] font-soligant uppercase font-basic text-[8rem] opacity-80">Cui Salon</h2>
+            <h2 id="hero-header-bg-text" class="w-[100%] md:w-[60vw] font-soligant uppercase font-basic text-pretty text-[4.2rem] md:text-[6rem] lg:text-[8rem] opacity-80 z-30">Cui Salon</h2>
         </div>
     </div>
     <script src="../scripts/animateHero.ts"></script>
-</section>
-<section>
-    <ScrollTextReveal message="Welcome asdas dhkl alskdjl kjasldk asldkkljasd to CUI Labs Salon" />
 </section>

@@ -1,6 +1,6 @@
 ---
 // src/components/StylistBio.astro
-// Refactored component to display stylist info dynamically from a Stylist prop.
+// Redesigned component with fashion magazine style layout and interactive animations
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 
@@ -14,53 +14,185 @@ const { stylist } = Astro.props;
 
 // Helper function to capitalize the first letter (for social media keys)
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// Generate a unique ID for this stylist card
+const cardId = `stylist-card-${stylist.name.toLowerCase().replace(/\s+/g, '-')}`;
 ---
 
-<div class="stylist-card flex flex-col md:flex-row items-center md:items-start gap-6 p-6 border border-gray-200 rounded-lg shadow-md dark:border-gray-700 bg-white dark:bg-gray-800 transition-transform duration-200 ease-in-out hover:scale-105">
-  <div class="flex-shrink-0">
-    <Image
-      src={stylist.profileImagePath}
-      alt={`Portrait of ${stylist.name}`}
-      width={200}
-      height={200}
-      format="webp"
-      loading="lazy"
-      class="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover shadow-lg"
-    />
-  </div>
-  <div class="flex-grow text-center md:text-left">
-    <h3 class="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{stylist.name}</h3>
-    <p class="text-lg text-indigo-600 dark:text-indigo-400 mb-2">{stylist.specialty}</p>
-    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">{stylist.yearsExperience} years of experience</p>
-
-    <div class="mb-4">
-      <h4 class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">Featured Services:</h4>
-      <ul class="flex flex-wrap justify-center md:justify-start gap-2">
-        {stylist.featuredServices.map((service) => (
-          <li class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-indigo-900 dark:text-indigo-300">{service}</li>
-        ))}
-      </ul>
+<div id={cardId} class="stylist-card relative overflow-hidden  cursor-pointer">
+  <!-- Fashion Magazine Style Card with Hover Expansion -->
+  <div class="card-container relative w-full max-w-md mx-auto h-[32rem] bg-beige/30 rounded-full transition-all duration-500 ease-out transform perspective-1000 group-hover:scale-[1.02]">
+    
+    <!-- Main Visual: Stylist Photo with Magazine-style Overlay -->
+    <div class="photo-container relative w-full h-full group">
+      <div class="absolute inset-x-0  bottom-0 z-0 bg-olive/50 rounded-full h-[60%] overflow-hidden"></div>
+      <div class="absolute inset-x-0 bottom-0 w-full h-full">
+        <Image
+          src={stylist.profileImagePath}
+          alt={`Portrait of ${stylist.name}`}
+          width={400}
+          height={600}
+          format="avif"
+          loading="lazy"
+          class="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105:"
+        />
+      </div>
     </div>
-
-    <div class="mb-4">
-        <h4 class="text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">Connect:</h4>
-        <div class="flex flex-wrap justify-center md:justify-start gap-3">
-            {Object.entries(stylist.socialMediaLinks).map(([platform, url]) => (
-                url ? (
-                    <a href={url} target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors">
-                        {capitalize(platform)}
-                    </a>
-                ) : null
-            ))}
+    </div>
+      <!-- Magazine-style Headline Elements -->
+      <div class="absolute top-6 left-6 z-20">
+        <div class="overflow-hidden">
+          <h3 class="text-3xl md:text-4xl font-bold text-gray-800 tracking-tight leading-none stylist-name">
+            {stylist.name}
+          </h3>
         </div>
-    </div>
-
-    <div class="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-      <p><span class="font-semibold">Availability:</span> {stylist.availability}</p>
+        <div class="overflow-hidden mt-1">
+          <p class="text-lg md:text-lg text-gray-800 font-light tracking-wide stylist-specialty">
+            {stylist.specialty}
+          </p>
+        </div>
+      </div>
+      
+      <!-- Experience Badge -->
+      <div class="absolute top-6 right-6 z-20 bg-olive/30 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+        <p class="text-sm text-gray-800">{stylist.yearsExperience} years</p>
+      </div>
+      
+      <!-- Expandable Content Section -->
+      <div class="expandable-content absolute bottom-0 left-0 right-0 p-6 z-20 transform transition-all duration-500 ease-out">
+        <!-- Services Tags -->
+        <div class="mb-4 opacity-90 group-hover:opacity-100 transition-opacity duration-500">
+          <ul class="flex flex-wrap gap-2">
+            {stylist.featuredServices.map((service) => (
+              <li class="service-tag bg-white/20 backdrop-blur-sm text-gray-50 text-xs font-medium px-3 py-1 rounded-full border border-white/20">
+                {service}
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <!-- Hidden Content that Appears on Hover -->
+        <div class="hidden-content opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 transition-all duration-500 ease-out overflow-hidden">
+          <!-- Social Media Links -->
+          <div class="mb-3 mt-4">
+            <h4 class="text-sm font-medium text-white/80 mb-2">Connect:</h4>
+            <div class="flex flex-wrap gap-3">
+              {Object.entries(stylist.socialMediaLinks).map(([platform, url]) => (
+                url ? (
+                  <a 
+                    href={url} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="text-white hover:text-indigo-300 transition-colors duration-300 social-link"
+                  >
+                    {capitalize(platform)}
+                  </a>
+                ) : null
+              ))}
+            </div>
+          </div>
+          
+          <!-- Availability -->
+          <div class="text-sm text-white/70">
+            <p><span class="font-medium">Availability:</span> {stylist.availability}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-
+  import { animate, inView, stagger, easeInOut, easeOut, easeIn, spring } from 'motion';
+  
+  // Animation constants from the guide
+  const SPRING_CONFIGS = {
+    gentle: { stiffness: 100, damping: 15, mass: 0.5 },
+    medium: { stiffness: 150, damping: 15, mass: 1 },
+    bouncy: { stiffness: 200, damping: 10, mass: 1 }
+  };
+  
+  const EASING = {
+    apple: [0.22, 1, 0.36, 1],
+    easeOut: [0.33, 1, 0.68, 1],
+    easeInOut: [0.65, 0, 0.35, 1]
+  };
+  
+  // Initialize animations when elements enter the viewport
+  inView('.stylist-card', ({ target }) => {
+    // Initial entrance animation
+    animate(target, { opacity: [0, 1], y: [20, 0] }, { 
+      duration: 0.7, 
+      ease: easeIn,
+      delay: 0.1
+    });
+    
+    // Animate name and specialty with staggered timing
+    animate(target.querySelector('.stylist-name'), 
+      { opacity: [0, 1], y: [20, 0] }, 
+      { duration: 0.5, ease: easeIn, delay: 0.3 }
+    );
+    
+    animate(target.querySelector('.stylist-specialty'), 
+      { opacity: [0, 1], y: [20, 0] }, 
+      { duration: 0.5, ease: easeIn, delay: 0.4 }
+    );
+    
+    // Animate service tags with stagger
+    animate(target.querySelectorAll('.service-tag'), 
+      { opacity: [0, 1], scale: [0.9, 1] },
+      { 
+        delay: stagger(0.05, { start: 0.5 }),
+        duration: 0.4,
+        ease: easeOut
+      }
+    );
+    
+    // Subtle continuous floating animation for the card
+    animate(
+      target.querySelector('.card-container'),
+      { y: [0, -5, 0] },
+      { 
+        duration: 3, 
+        repeat: Infinity,
+        ease: easeInOut,
+        delay: 0.1
+      }
+    );
+    
+    return () => {};
+  });
+  
+  // Add hover animations for social links
+  document.querySelectorAll('.social-link').forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      animate(link, { scale: 1.1 }, { duration: 0.2 });
+    });
+    
+    link.addEventListener('mouseleave', () => {
+      animate(link, { scale: 1 }, { duration: 0.2 });
+    });
+  });
 </script>
+
+<style>
+  /* Additional styles for the magazine layout */
+  .stylist-card {
+  }
+  
+  .card-container {
+
+  }
+  
+  .photo-container {
+  }
+  
+  /* Ensure smooth transitions for hover effects */
+  .expandable-content {
+
+  }
+  
+  /* Enhance hover effect with subtle lift */
+  .stylist-card:hover .card-container {
+  }
+</style>

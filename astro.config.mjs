@@ -22,9 +22,15 @@ export default defineConfig({
         debug: true, 
         forward: ['dataLayer.push'] } }),
     sitemap(),
-    react()
+    react({
+      experimentalReactChildren: true,
+      include: ['**/react/*'],
+    })
   ],
   vite: {
+    optimizeDeps: {  
+      include: ['simple-parallax-js']  
+    } ,
     plugins: [
       tailwindcss()
     ]

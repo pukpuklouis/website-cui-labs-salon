@@ -40,17 +40,15 @@ const {
 		{/* Global Styles (Tailwind is applied via integration) */}
 		{/* <link rel="stylesheet" href="/styles/global.css"> */}
 	</head>
-	<body class="container bg-gray-50 text-gray-800 flex flex-col">
+	<body class=" bg-gray-50 text-gray-800 flex flex-col items-center m-0 overflow-x-hidden">
 		
 		{/* Navigation Component */}
 		<Nav/> {/* Add the Nav component */}
-		
 		{/* Main content slot */}
-		<main class="container"> 
+		<main class="container mx-4 md:mx-6 lg:mx-24"> 		
 			<slot />
 		</main>
-		
-		{/* Footer Component */}
+			{/* Footer Component */}
 		<Footer/>
 	</body>
 </html>

@@ -1,0 +1,27 @@
+---
+import ParallaxImageWrapper from './ParallaxImageWrapper';
+
+interface Props {
+  src: string;
+  alt: string;
+  id?: string;
+  width: number;
+  height: number;
+  speed?: number;
+  direction?: "up" | "down" | "left" | "right";
+  scale?: number;
+  class?: string;
+}
+
+const { src, alt, id, width, height, speed, direction, scale, class: className } = Astro.props;
+---
+<ParallaxImageWrapper client:visible speed={speed} direction={direction} scale={scale} className={className}>
+  <img
+  src={src} 
+  alt={alt} 
+  width={width} 
+  height={height}  
+  class="h-full w-full object-cover" 
+  loading="lazy" 
+  />
+</ParallaxImageWrapper>

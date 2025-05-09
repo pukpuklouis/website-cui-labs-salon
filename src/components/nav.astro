@@ -6,10 +6,10 @@ import { Image } from 'astro:assets';
 const navLinks = await getNavLinks(Astro.url.pathname);
 ---
 
-<header class="container fixed top-0 left-0 w-auto z-50">
-  <div id="nav-spacer" class="container fixed top-0 left-0 w-full h-[192px]"></div>
-  <nav id="main-nav" class="container bg-gray-100/90 text-gray-500 backdrop-blur-md duration-300 ease-in-out">
-    <div id="nav-container" class="container mx-auto flex flex-col items-center py-6">
+<header class="fixed top-0 left-0 w-screen z-50">
+  <div id="nav-spacer" class="fixed top-0 left-0 w-full h-[192px]"></div>
+  <nav id="main-nav" class="bg-gray-100/90 text-gray-500 backdrop-blur-md duration-300 ease-in-out">
+    <div id="nav-container" class=" mx-auto flex flex-col items-center py-6">
       <!-- Logo/Brand Name -->
       <div class="text-xl font-bold mb-8 transition-all duration-300">
         <a href="/" class="cursor-pointer">

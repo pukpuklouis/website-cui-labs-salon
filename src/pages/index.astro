@@ -12,7 +12,7 @@ import ImageReveal from '../components/ui/ImageReveal.astro';
 import SplitText from '../components/ui/SplitText.astro';
 import FeatureSection from '../components/featureSection.astro';
 import ScrollTextReveal from '../components/ui/ScrollTextReveal.astro';
-import ParallexImage from '../components/ui/parallexImage.astro';
+import ParallaxImageWrapper from '../components/ui/ParallaxImage.astro';
 // Navigation properties
 export const navlinkData = {
   navTitle: '首頁',
@@ -35,11 +35,35 @@ const stylistbio = (await getCollection('stylistbio'))[0].data;
 // SEO Metadata
 const pageTitle = "Home - CUI Labs Salon";
 const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technology meets expert hair styling. Discover our services and book your appointment today.";
+const exampleImageUrl = "https://picsum.photos/seed/parallax1/1200/800";
+const exampleImageUrl2 = "https://picsum.photos/seed/parallax2/1200/800";
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
     <AnimatedHero />
     <FeatureSection />
+    <section>
+      <ScrollTextReveal 
+      message="In every strand lies the potential for artistry, waiting to be sculpted into a masterpiece of personal style" 
+      className="text-left mx-4 md:mx-16 my-32"
+      fontSize="text-5xl md:text-7xl lg:text-8xl"
+      animationDuration={2.3}
+      animationDelay={0.1}
+      animationType="spring"
+      fontStyle="font-soligant"
+      animationBounce={0.2}
+      />
+      <ScrollTextReveal 
+      message="髮絲之間 都蘊含 美的可能性 為您雕琢出 獨一無二 髮型" 
+      className="text-right mx-4 md:mx-16 font-thin text-gray-400 mt-16 mb-32"
+      fontSize="text-6xl md:text-8xl lg:text-8xl"
+      animationDuration={1}
+      animationDelay={0.1}
+      animationType="spring"
+      fontStyle="font-sans"
+      animationBounce={0.2}
+      />
+    </section>
     <!-- Featured Services Section -->
     <section id="featured-services" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
       <div class="max-w-7xl mx-auto">
@@ -62,18 +86,26 @@ const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technolog
     options={{ duration: 0.5, stagger: 0.2, }} 
     inView={true} 
     />
-    <ParallexImage src="/Cui_Salon_img/Cui_Salon_IMG_001.avif" alt="Logo" width={500} height={1080} class="" />
     <!-- brands Section -->
-    <section>
-      <InfiniteSlider gap={56} speed={20} direction="normal" class="mb-8 bg-gray-50" mask={true} duplicateCount={4}>
-        <Image src="/logo/brand-GaBee.svg" alt="Logo" width="160" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/brand-Zenz.svg" alt="Logo" width="120" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/brand-simply-zen.svg" alt="Logo" width="220" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/brand-zone-concept.svg" alt="Logo" width="280" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/brand-Previa.svg" alt="Logo" width="160" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/brand-TOKIO-INKARAMI.svg" alt="Logo" width="120" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
-        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" id="nav-logo" />
 
+    <section>
+      <InfiniteSlider gap={56} speed={20} direction="normal" class="hidden md:block mb-8 bg-gray-50" mask={true} duplicateCount={2}>
+        <Image src="/logo/brand-GaBee.svg" alt="Logo" width="160" height="80" class="inline-block transition-all duration-300" />
+        <Image src="/logo/brand-Zenz.svg" alt="Logo" width="120" height="80" class="inline-block transition-all duration-300" />
+        <Image src="/logo/brand-simply-zen.svg" alt="Logo" width="220" height="80" class="inline-block transition-all duration-300" />
+        <Image src="/logo/brand-zone-concept.svg" alt="Logo" width="280" height="80" class="inline-block transition-all duration-300" />
+        <Image src="/logo/brand-Previa.svg" alt="Logo" width="160" height="80" class="inline-block transition-all duration-300" />
+        <Image src="/logo/brand-TOKIO-INKARAMI.svg" alt="Logo" width="120" height="80" class="inline-block transition-all duration-300" />
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="inline-block transition-all duration-300" />
+      </InfiniteSlider>
+      <InfiniteSlider id="mobile-slider" gap={0} speed={20} direction="normal" class="block md:hidden mb-8 bg-gray-50" mask={true} duplicateCount={4}>
+        <Image src="/logo/brand-GaBee.svg" alt="Logo" width="160" height="80" class="scale-70 inline-block transition-all duration-300" />
+        <Image src="/logo/brand-Zenz.svg" alt="Logo" width="120" height="80" class="scale-70 inline-block transition-all duration-300" />
+        <Image src="/logo/brand-simply-zen.svg" alt="Logo" width="220" height="80" class="scale-70 inline-block transition-all duration-300" />
+        <Image src="/logo/brand-zone-concept.svg" alt="Logo" width="280" height="80" class="scale-70 inline-block transition-all duration-300" />
+        <Image src="/logo/brand-Previa.svg" alt="Logo" width="160" height="80" class="scale-70 inline-block transition-all duration-300" />
+        <Image src="/logo/brand-TOKIO-INKARAMI.svg" alt="Logo" width="120" height="80" class="scale-70 inline-block transition-all duration-300" />
+        <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="scale-70 inline-block transition-all duration-300" />
       </InfiniteSlider>
     </section>
     <!-- Stylist Bio Section -->

@@ -1,27 +1,75 @@
 [
   {
     "id": "1",
-    "name": "Alex Chen",
-    "specialty": "Color Specialist",
-    "yearsExperience": 8,
-    "profileImagePath": "/images/stylists/alex-chen.jpg",
+    "name": "Feeling",
+    "specialty": "資深髮型設計",
+    "yearsExperience": 12,
+    "profileImagePath": "/Stylist/CuiSalon_Stylist_Feeling.avif",
     "socialMediaLinks": {
-      "instagram": "https://instagram.com/alexchenhair",
-      "facebook": "https://facebook.com/alexchenstylist"
+      "instagram": "https://instagram.com/feeling_cui"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+  },
+  {
+    "id": "2",
+    "name": "Carl",
+    "specialty": "法式慵懶燙髮 | 量身打造設計",
+    "yearsExperience": 8,
+    "profileImagePath": "/Stylist/CuiSalon_Stylist_Carl.avif",
+    "socialMediaLinks": {
+      "instagram": "https://instagram.com/i_carlllll"
     },
     "availability": "Tue-Sat, 10am-7pm",
     "featuredServices": ["Balayage", "Creative Color", "Color Correction"]
   },
   {
-    "id": "2",
-    "name": "Maria Garcia",
-    "specialty": "Cutting Expert",
+    "id": "3",
+    "name": "Eva",
+    "specialty": "資深髮型設計",
     "yearsExperience": 12,
-    "profileImagePath": "/images/stylists/maria-garcia.jpg",
+    "profileImagePath": "/Stylist/CuiSalon_Stylist_Eva.avif",
     "socialMediaLinks": {
-      "instagram": "https://instagram.com/mariagarciacuts"
+      "instagram": "https://instagram.com/cui_eva_"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+  },
+  {
+    "id": "4",
+    "name": "Tree",
+    "specialty": "與白髮共存歐美線條染專家",
+    "yearsExperience": 20,
+    "profileImagePath": "/Stylist/CuiSalon_Stylist_Tree.avif",
+    "socialMediaLinks": {
+      "instagram": "https://www.instagram.com/tree7092"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+  },
+  {
+    "id": "5",
+    "name": "Lynn",
+    "specialty": "療癒型髮型設計師 | 不只在剪髮 在疲憊的日子裡 修出能呼吸的空間",
+    "yearsExperience": 12,
+    "profileImagePath": "/Stylist/CuiSalon_Stylist_Lynn.avif",
+    "socialMediaLinks": {
+      "instagram": "https://www.instagram.com/lynn_cuii"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+  },
+  {
+    "id": "6",
+    "name": "Yuyu",
+    "specialty": "152㎝ 矮矮の設計師",
+    "yearsExperience": 12,
+    "profileImagePath": "/Stylist/CuiSalon_Stylist_Yuyu.avif",
+    "socialMediaLinks": {
+      "instagram": "https://instagram.com/yuuu_stylist"
     },
     "availability": "Wed-Sun, 9am-6pm",
     "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
   }
+  
 ]
