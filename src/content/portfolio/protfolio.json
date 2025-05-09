@@ -1,37 +1,111 @@
 [
   {
-    "src": "https://placehold.co/1920x1080?text=Image1",
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_001.avif",
     "angle": "-5deg",
     "alt": "Portfolio Image 1",
     "title": "Portfolio Image 1",
     "category": "styling"
   },
   {
-    "src": "https://placehold.co/1920x1080?text=Image2",
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_002.avif",
     "angle": "3deg",
     "alt": "Portfolio Image 2",
     "title": "Portfolio Image 2",
     "category": "styling"
   },
   {
-    "src": "https://placehold.co/1920x1080?text=Image3",
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_003.avif",
     "angle": "-2deg",
     "alt": "Portfolio Image 3",
     "title": "Portfolio Image 3",
     "category": "styling"
   },
   {
-    "src": "https://placehold.co/1920x1080?text=Image4",
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_004.avif",
     "angle": "4deg",
     "alt": "Portfolio Image 4",
     "title": "Portfolio Image 4",
     "category": "styling"
   },
   {
-    "src": "https://placehold.co/1920x1080?text=Image5",
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_005.avif",
     "angle": "-3deg",
     "alt": "Portfolio Image 5",
     "title": "Portfolio Image 5",
+    "category": "styling"
+  },
+  {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_006.avif",
+    "angle": "4deg",
+    "alt": "Portfolio Image 6",
+    "title": "Portfolio Image 6",
+    "category": "styling"
+  },
+  {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_007.avif",
+    "angle": "-1deg",
+    "alt": "Portfolio Image 7",
+    "title": "Portfolio Image 7",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_008.avif",
+    "angle": "5deg",
+    "alt": "Portfolio Image 8",
+    "title": "Portfolio Image 8",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_009.avif",
+    "angle": "-6deg",
+    "alt": "Portfolio Image 9",
+    "title": "Portfolio Image 9",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_010.avif",
+    "angle": "3deg",
+    "alt": "Portfolio Image 10",
+    "title": "Portfolio Image 10",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_011.avif",
+    "angle": "-2deg",
+    "alt": "Portfolio Image 11",
+    "title": "Portfolio Image 11",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_012.avif",
+    "angle": "5deg",
+    "alt": "Portfolio Image 12",
+    "title": "Portfolio Image 12",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_013.avif",
+    "angle": "-5deg",
+    "alt": "Portfolio Image 13",
+    "title": "Portfolio Image 13",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_014.avif",
+    "angle": "3deg",
+    "alt": "Portfolio Image 14",
+    "title": "Portfolio Image 14",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_015.avif",
+    "angle": "-4deg",
+    "alt": "Portfolio Image 15",
+    "title": "Portfolio Image 15",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_016.avif",
+    "angle": "4deg",
+    "alt": "Portfolio Image 16",
+    "title": "Portfolio Image 16",
+    "category": "styling"
+  }, {
+    "src": "/Cui_Salon_img/lagecy/Cui_Salon_envirmoent_IMG_017.avif",
+    "angle": "-6deg",
+    "alt": "Portfolio Image 17",
+    "title": "Portfolio Image 17",
     "category": "styling"
   }
 ]

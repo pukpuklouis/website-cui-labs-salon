@@ -34,7 +34,7 @@ const { title = "Image Gallery", class: className, spacing = "-ml-24 md:-ml-30",
     {cards.map((card, i) => (
       <div id={`image-${i}`} class={`relative group size-36 md:size-64 ${spacing}`}>
         <Image
-          class="relative rounded-2xl border-1 aspect-[3/4] border-gray-100 object-cover shadow-xl transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:scale-100 hover:rotate-0 hover:z-10"
+          class="relative rounded-2xl border-1 aspect-[3/4] border-gray-100/50 object-cover shadow-xl"
           src={card.src}
           alt={card.alt || "Gallery image"}
           width={300}
@@ -63,7 +63,7 @@ const { title = "Image Gallery", class: className, spacing = "-ml-24 md:-ml-30",
         animate(
           imgElement,
           { 
-            scale: 1,
+            scale: 1.5,
             rotate: "0deg",
             zIndex: 10
           },
@@ -87,7 +87,7 @@ const { title = "Image Gallery", class: className, spacing = "-ml-24 md:-ml-30",
           { 
             type: "spring",
             duration: 0.4,
-            bounce: 0.83
+            bounce: 0.3
           }
         );
       });
@@ -114,7 +114,7 @@ const { title = "Image Gallery", class: className, spacing = "-ml-24 md:-ml-30",
           animate(
             imgElement,
             {
-              opacity: 1,
+              opacity: [0, 1],
               scale: 0.8,
               rotate: angle
             },
@@ -127,21 +127,21 @@ const { title = "Image Gallery", class: className, spacing = "-ml-24 md:-ml-30",
           // Return a function that handles when the element leaves the viewport
           return (leaveEntry) => {
             // Reverse animation when element leaves viewport
-            animate(
-              imgElement,
-              {
-                opacity: 0,
-                scale: 0.2,
-                rotate: angle
-              },
-              {
-                duration: 0.5
-              }
-            );
+            // animate(
+            //   imgElement,
+            //   {
+            //     opacity: 0,
+            //     scale: 0.2,
+            //     rotate: angle
+            //   },
+            //   {
+            //     duration: 0.5
+            //   }
+            // );
           };
         }, {
           // Only trigger when the element is at least 50% visible
-        //   amount: 0.5,
+          amount: 0.5,
           // Add a margin to trigger the animation slightly before the element is in view
           margin: "0px 0px -200px 0px"
         });

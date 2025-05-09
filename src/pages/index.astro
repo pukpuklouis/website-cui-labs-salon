@@ -3,7 +3,6 @@
 import Layout from '../layouts/Layout.astro';
 import AnimatedHero from '../components/AnimatedHero.astro';
 import ServiceCard from '../components/ServiceCard.astro';
-import StylistBio from '../components/StylistBio.astro';
 import BlogPostPreview from '../components/BlogPostPreview.astro';
 import { getCollection } from 'astro:content';
 import InfiniteSlider from '../components/ui/InfiniteSlider.astro';
@@ -13,6 +12,7 @@ import SplitText from '../components/ui/SplitText.astro';
 import FeatureSection from '../components/featureSection.astro';
 import ScrollTextReveal from '../components/ui/ScrollTextReveal.astro';
 import ParallaxImageWrapper from '../components/ui/ParallaxImage.astro';
+import StylistSection from '../components/StylistSection.astro';
 // Navigation properties
 export const navlinkData = {
   navTitle: '首頁',
@@ -27,10 +27,6 @@ const featuredPosts = (await getCollection('blog', ({ data }) => data.featured =
 
 const services = (await getCollection('services'))[0].data.slice(0, 3);
 //add number of services
-
-
-//fetch stylistbio
-const stylistbio = (await getCollection('stylistbio'))[0].data;
 
 // SEO Metadata
 const pageTitle = "Home - CUI Labs Salon";
@@ -108,18 +104,9 @@ const exampleImageUrl2 = "https://picsum.photos/seed/parallax2/1200/800";
         <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="scale-70 inline-block transition-all duration-300" />
       </InfiniteSlider>
     </section>
-    <!-- Stylist Bio Section -->
     <ImageReveal />
-    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50s dark:bg-gray-900">
-      <div class="max-w-5xl mx-auto">
-        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Meet Our Stylists</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {stylistbio.map((stylist) => (
-            <StylistBio stylist={stylist} />
-          ))}
-        </div>
-      </div>
-    </section>
+    <!-- Stylist Bio Section -->
+    <StylistSection />
     <!-- Latest Blog Posts Section -->
     <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
       <div class="max-w-7xl mx-auto">

@@ -19,11 +19,40 @@ const stylistsData = (await getCollection('stylistbio'))[0].data;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-    <h1 class="text-4xl font-extrabold mb-10 text-center text-gray-900 dark:text-white">Meet Our Talented Stylists</h1>
-
-    <section class="grid grid-cols-1 lg:grid-cols-1 gap-10">
-      {stylistsData.map(stylist => (
-        <StylistBio stylist={stylist} />
-      ))}
-    </section>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 my-32">
+      <h1 class="text-5xl font-soligant mb-16 text-center text-charcoal dark:text-white">Our Talented Team</h1>
+      
+      <!-- Magazine-style Bento Grid Layout -->
+      <section class="bento-grid grid grid-cols-1 md:grid-cols-12 gap-3 mb-20">
+        <!-- Introduction Text Block -->
+        <div class="md:col-span-4 flex flex-col justify-center p-6 bg-beige/20 rounded-lg">
+          <h2 class="text-2xl font-bold text-charcoal mb-4">Artistry & Expertise</h2>
+          <p class="text-charcoal/80 leading-relaxed">
+            Our stylists bring years of expertise and a passion for creating personalized looks that enhance your natural beauty. Each stylist has their unique specialties and aesthetic vision.
+          </p>
+        </div>
+        
+        <!-- First Stylist (Featured) -->
+        <div class="md:col-span-8 md:row-span-2">
+          <StylistBio stylist={stylistsData[0]} />
+        </div>
+        
+        <!-- Second Stylist -->
+        <div class="md:col-span-6">
+          {stylistsData[1] && <StylistBio stylist={stylistsData[1]} />}
+        </div>
+        
+        <!-- Third Stylist -->
+        <div class="md:col-span-6">
+          {stylistsData[2] && <StylistBio stylist={stylistsData[2]} />}
+        </div>
+        
+        <!-- Remaining Stylists in a Grid -->
+        {stylistsData.slice(3).map(stylist => (
+          <div class="md:col-span-4">
+            <StylistBio stylist={stylist} />
+          </div>
+        ))}
+      </section>
+    </div>
 </Layout>

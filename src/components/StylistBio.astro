@@ -3,6 +3,8 @@
 // Redesigned component with fashion magazine style layout and interactive animations
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
+import BlurryBlob from './ui/backgroud/blurry-blob';
 
 // Define component props using the imported Stylist interface
 interface Props {
@@ -17,16 +19,40 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 // Generate a unique ID for this stylist card
 const cardId = `stylist-card-${stylist.name.toLowerCase().replace(/\s+/g, '-')}`;
+
+// Define interface for social platform icons
+interface SocialIconData {
+  name: string;
+  path: string;
+}
+
+interface SocialIconsCollection {
+  [key: string]: SocialIconData;
+}
+
+// Get social platform icons
+let socialIconsData: SocialIconsCollection = {};
+try {
+  const socialIcons = await getEntry('SocialPlatformIcons', 'SocialPlatformIcons');
+  if (socialIcons && socialIcons.data) {
+    socialIconsData = socialIcons.data as SocialIconsCollection;
+  }
+} catch (error) {
+  console.error('Error loading social icons:', error);
+}
 ---
 
-<div id={cardId} class="stylist-card relative overflow-hidden  cursor-pointer">
+<div id={cardId} class="stylist-card relative opacity-[0.01] cursor-pointer w-[18rem] h-auto aspect-[9/16]">
   <!-- Fashion Magazine Style Card with Hover Expansion -->
-  <div class="card-container relative w-full max-w-md mx-auto h-[32rem] bg-beige/30 rounded-full transition-all duration-500 ease-out transform perspective-1000 group-hover:scale-[1.02]">
+  <div class="card-container relative w-full h-full bg-beige/30 my-4 rounded-full transition-all duration-500 ease-out transform perspective-1000 hover:scale-[1.02] hover:shadow-xl">
     
     <!-- Main Visual: Stylist Photo with Magazine-style Overlay -->
-    <div class="photo-container relative w-full h-full group">
-      <div class="absolute inset-x-0  bottom-0 z-0 bg-olive/50 rounded-full h-[60%] overflow-hidden"></div>
-      <div class="absolute inset-x-0 bottom-0 w-full h-full">
+    <div class="photo-container relative w-full h-full transition-all duration-300">
+      <div class="absolute inset-x-0 bottom-0 z-0 bg-gradient-to-b from-olive to-olive/0 rounded-full h-[60%] overflow-hidden"></div>
+        <div class="h-full w-full rounded-full overflow-hidden">
+          <BlurryBlob client:visible firstBlobColor="bg-olive/80" secondBlobColor="bg-beige" className="" />
+        </div>
+      <div class="absolute inset-x-0 bottom-0 w-full h-full rounded-full overflow-hidden transition-all duration-300">
         <Image
           src={stylist.profileImagePath}
           alt={`Portrait of ${stylist.name}`}
@@ -34,19 +60,24 @@ const cardId = `stylist-card-${stylist.name.toLowerCase().replace(/\s+/g, '-')}`
           height={600}
           format="avif"
           loading="lazy"
-          class="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-105:"
+          class="main-image absolute inset-x-0 bottom-0 object-cover w-[100%] transition-transform duration-500 ease-out grayscale hover:grayscale-0 hover:scale-105 opacity-95 hover:opacity-100"
         />
       </div>
     </div>
     </div>
       <!-- Magazine-style Headline Elements -->
-      <div class="absolute top-6 left-6 z-20">
-        <div class="overflow-hidden">
+      <div class="absolute top-6 left-6 z-20 mt-4">
+        <div class="flex flex-row items-end gap-4">
           <h3 class="text-3xl md:text-4xl font-bold text-gray-800 tracking-tight leading-none stylist-name">
             {stylist.name}
           </h3>
+          {stylist.aka && (
+            <p class="text-lg md:text-2xl text-gray-600 font-sans font-light tracking-wide stylist-specialty">
+              {stylist.aka}
+            </p>
+          )}
         </div>
-        <div class="overflow-hidden mt-1">
+        <div class="mt-1">
           <p class="text-lg md:text-lg text-gray-800 font-light tracking-wide stylist-specialty">
             {stylist.specialty}
           </p>
@@ -54,46 +85,62 @@ const cardId = `stylist-card-${stylist.name.toLowerCase().replace(/\s+/g, '-')}`
       </div>
       
       <!-- Experience Badge -->
-      <div class="absolute top-6 right-6 z-20 bg-olive/30 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
-        <p class="text-sm text-gray-800">{stylist.yearsExperience} years</p>
+      <div class="absolute top-6 right-6 z-20 aspect-square bg-olive animate-bounce scale-55 px-3 py-1 rounded-full">
+        <!-- <p class="text-lg text-gray-800">✨</p> -->
       </div>
       
       <!-- Expandable Content Section -->
-      <div class="expandable-content absolute bottom-0 left-0 right-0 p-6 z-20 transform transition-all duration-500 ease-out">
-        <!-- Services Tags -->
-        <div class="mb-4 opacity-90 group-hover:opacity-100 transition-opacity duration-500">
-          <ul class="flex flex-wrap gap-2">
-            {stylist.featuredServices.map((service) => (
-              <li class="service-tag bg-white/20 backdrop-blur-sm text-gray-50 text-xs font-medium px-3 py-1 rounded-full border border-white/20">
-                {service}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div class="expandable-content absolute bottom-6 left-0 right-0 p-6 z-20 transform transition-all duration-500 ease-out">
+        <!-- Services Tags - Only render this section if featuredServices has items -->
+        {Array.isArray(stylist.featuredServices) && stylist.featuredServices.length > 0 && (
+          <div class="mb-4 opacity-90 transition-opacity duration-500">
+            <ul class="flex flex-wrap gap-2">
+              {stylist.featuredServices.map((service) => (
+                <li class="service-tag bg-gray-600/20 backdrop-blur-sm text-gray-50 text-xs font-medium px-3 py-1 rounded-full border border-gray-50/20">
+                  {service}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         
-        <!-- Hidden Content that Appears on Hover -->
-        <div class="hidden-content opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 transition-all duration-500 ease-out overflow-hidden">
+        <!-- Content Section (Always Visible) -->
+        <div class="content-section max-h-full transition-all duration-500 ease-out overflow-hidden">
           <!-- Social Media Links -->
-          <div class="mb-3 mt-4">
-            <h4 class="text-sm font-medium text-white/80 mb-2">Connect:</h4>
-            <div class="flex flex-wrap gap-3">
-              {Object.entries(stylist.socialMediaLinks).map(([platform, url]) => (
-                url ? (
+          <div class="flex flex-row items-center mb-3 mt-4">
+            <h4 class="flex text-sm font-medium text-gray-50/80 rounded-full bg-olive/70 backdrop-blur-sm px-3 py-1">社群</h4>
+            <div class="flex gap-1 ml-2">
+              {Object.entries(stylist.socialMediaLinks).map(([platform, url]) => {
+                // Only render if there's a URL
+                if (!url) return null;
+                
+                // Check if we have an icon for this platform (case insensitive)
+                const platformLower = platform.toLowerCase();
+                const hasIcon = socialIconsData[platformLower]?.path;
+                
+                return (
                   <a 
                     href={url} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    class="text-white hover:text-indigo-300 transition-colors duration-300 social-link"
+                    class="text-gray-50 hover:text-olive transition-colors duration-300 social-link px-2 py-1"
+                    title={capitalize(platform)}
                   >
-                    {capitalize(platform)}
+                    {hasIcon ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="w-6 h-6">
+                        <path d={socialIconsData[platformLower]?.path} />
+                      </svg>
+                    ) : (
+                      <span class="text-xs">{capitalize(platform)}</span>
+                    )}
                   </a>
-                ) : null
-              ))}
+                );
+              })}
             </div>
           </div>
           
           <!-- Availability -->
-          <div class="text-sm text-white/70">
+          <div class="hidden text-sm text-white/70">
             <p><span class="font-medium">Availability:</span> {stylist.availability}</p>
           </div>
         </div>
@@ -103,8 +150,13 @@ const cardId = `stylist-card-${stylist.name.toLowerCase().replace(/\s+/g, '-')}`
 </div>
 
 <script>
-  import { animate, inView, stagger, easeInOut, easeOut, easeIn, spring } from 'motion';
-  
+  import { animate, inView, stagger, easeInOut, easeOut, easeIn, spring, press, hover } from 'motion';
+  //add isMobile check with proper type safety
+  let isMobile = false;
+  // Check if window is defined (client-side only)
+  if (typeof window !== 'undefined') {
+    isMobile = window.innerWidth < 768;
+  }
   // Animation constants from the guide
   const SPRING_CONFIGS = {
     gentle: { stiffness: 100, damping: 15, mass: 0.5 },
@@ -119,60 +171,47 @@ const cardId = `stylist-card-${stylist.name.toLowerCase().replace(/\s+/g, '-')}`
   };
   
   // Initialize animations when elements enter the viewport
-  inView('.stylist-card', ({ target }) => {
+  inView('.stylist-card', (element) => {
+    const target = element as HTMLElement;
     // Initial entrance animation
     animate(target, { opacity: [0, 1], y: [20, 0] }, { 
       duration: 0.7, 
       ease: easeIn,
-      delay: 0.1
+      delay: stagger(0.1)
     });
-    
+    // Handle grayscale animation for the main image
+    const mainImage = target.querySelector('.main-image');
+    if (mainImage) {
+      // If on mobile, apply grayscale effect
+      if (isMobile) {
+        animate(mainImage, 
+          { filter: 'grayscale(0)' }, 
+          { duration: 0.3, ease: easeOut });
+      }
+    }
     // Animate name and specialty with staggered timing
-    animate(target.querySelector('.stylist-name'), 
-      { opacity: [0, 1], y: [20, 0] }, 
-      { duration: 0.5, ease: easeIn, delay: 0.3 }
-    );
+    const nameElement = target.querySelector('.stylist-name');
+    if (nameElement) {
+      animate(nameElement, 
+        { opacity: [0, 1], y: [20, 0] }, 
+        { duration: 0.5, ease: easeIn, delay: 0.3 }
+      );
+    }
     
-    animate(target.querySelector('.stylist-specialty'), 
-      { opacity: [0, 1], y: [20, 0] }, 
-      { duration: 0.5, ease: easeIn, delay: 0.4 }
-    );
-    
-    // Animate service tags with stagger
-    animate(target.querySelectorAll('.service-tag'), 
-      { opacity: [0, 1], scale: [0.9, 1] },
-      { 
-        delay: stagger(0.05, { start: 0.5 }),
-        duration: 0.4,
-        ease: easeOut
-      }
-    );
-    
-    // Subtle continuous floating animation for the card
-    animate(
-      target.querySelector('.card-container'),
-      { y: [0, -5, 0] },
-      { 
-        duration: 3, 
-        repeat: Infinity,
-        ease: easeInOut,
-        delay: 0.1
-      }
-    );
-    
-    return () => {};
-  });
+    const specialtyElement = target.querySelector('.stylist-specialty');
+    if (specialtyElement) {
+      animate(specialtyElement, 
+        { opacity: [0, 1], y: [20, 0] }, 
+        { duration: 0.5, ease: easeIn, delay: 0.4 }
+      );
+    }
+    //reset exit view to initial state
+    return () => {
+      animate(target, { opacity: [1, 0], y: [0, 20] }, { duration: 0.4, ease: easeOut });
+    };
   
-  // Add hover animations for social links
-  document.querySelectorAll('.social-link').forEach(link => {
-    link.addEventListener('mouseenter', () => {
-      animate(link, { scale: 1.1 }, { duration: 0.2 });
-    });
-    
-    link.addEventListener('mouseleave', () => {
-      animate(link, { scale: 1 }, { duration: 0.2 });
-    });
-  });
+  }, {amount: 0.6}
+  );      
 </script>
 
 <style>
@@ -180,7 +219,7 @@ const cardId = `stylist-card-${stylist.name.toLowerCase().replace(/\s+/g, '-')}`
   .stylist-card {
   }
   
-  .card-container {
+    .card-container {
 
   }
   

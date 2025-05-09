@@ -9,11 +9,13 @@
       "instagram": "https://instagram.com/feeling_cui"
     },
     "availability": "Wed-Sun, 9am-6pm",
-    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+    "description": "",
+    "featuredServices": []
   },
   {
     "id": "2",
     "name": "Carl",
+    "aka": "卡爾",
     "specialty": "法式慵懶燙髮 | 量身打造設計",
     "yearsExperience": 8,
     "profileImagePath": "/Stylist/CuiSalon_Stylist_Carl.avif",
@@ -21,11 +23,13 @@
       "instagram": "https://instagram.com/i_carlllll"
     },
     "availability": "Tue-Sat, 10am-7pm",
-    "featuredServices": ["Balayage", "Creative Color", "Color Correction"]
+    "description": "",
+    "featuredServices": []
   },
   {
     "id": "3",
     "name": "Eva",
+    "aka": "",
     "specialty": "資深髮型設計",
     "yearsExperience": 12,
     "profileImagePath": "/Stylist/CuiSalon_Stylist_Eva.avif",
@@ -33,11 +37,13 @@
       "instagram": "https://instagram.com/cui_eva_"
     },
     "availability": "Wed-Sun, 9am-6pm",
-    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+    "description": "",
+    "featuredServices": []
   },
   {
     "id": "4",
     "name": "Tree",
+    "aka": "小樹",
     "specialty": "與白髮共存歐美線條染專家",
     "yearsExperience": 20,
     "profileImagePath": "/Stylist/CuiSalon_Stylist_Tree.avif",
@@ -45,23 +51,27 @@
       "instagram": "https://www.instagram.com/tree7092"
     },
     "availability": "Wed-Sun, 9am-6pm",
-    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+    "description": "",
+    "featuredServices": []
   },
   {
     "id": "5",
     "name": "Lynn",
-    "specialty": "療癒型髮型設計師 | 不只在剪髮 在疲憊的日子裡 修出能呼吸的空間",
+    "aka": "",
+    "specialty": "療癒型髮型設計師",
     "yearsExperience": 12,
     "profileImagePath": "/Stylist/CuiSalon_Stylist_Lynn.avif",
     "socialMediaLinks": {
       "instagram": "https://www.instagram.com/lynn_cuii"
     },
     "availability": "Wed-Sun, 9am-6pm",
-    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+    "description": "",
+    "featuredServices": []
   },
   {
     "id": "6",
     "name": "Yuyu",
+    "aka": "小于",
     "specialty": "152㎝ 矮矮の設計師",
     "yearsExperience": 12,
     "profileImagePath": "/Stylist/CuiSalon_Stylist_Yuyu.avif",
@@ -69,7 +79,8 @@
       "instagram": "https://instagram.com/yuuu_stylist"
     },
     "availability": "Wed-Sun, 9am-6pm",
-    "featuredServices": ["Precision Cuts", "Layering", "Texturizing"]
+    "description": "",
+    "featuredServices": []
   }
   
 ]

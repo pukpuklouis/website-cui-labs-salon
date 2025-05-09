@@ -37,6 +37,8 @@ const socialMediaLinksSchema = z.object({
 const stylistSchema = z.object({
   id: z.string().optional(),
   name: z.string(),
+  aka: z.string().optional(),
+  description: z.string().optional(),
   specialty: z.string(),
   yearsExperience: z.number(),
   profileImagePath: z.string(),
@@ -115,6 +117,22 @@ const footerCollection = defineCollection({
   })
 });
 
+/**
+ * Schema for social platform icons with SVG path data
+ */
+const socialPlatformIconSchema = z.record(z.object({
+  name: z.string(),
+  path: z.string()
+}));
+
+/**
+ * Define the 'SocialPlatformIcons' data collection for social media icon SVG paths
+ */
+const socialPlatformIconsCollection = defineCollection({
+  type: 'data',
+  schema: socialPlatformIconSchema,
+});
+
 // Export a `collections` object to register the collection(s)
 export const collections = {
   'blog': blogCollection,
@@ -122,4 +140,5 @@ export const collections = {
   'services': servicesCollection,
   'footer': footerCollection,
   'portfolio': portfolioCollection,
+  'SocialPlatformIcons': socialPlatformIconsCollection,
 };
