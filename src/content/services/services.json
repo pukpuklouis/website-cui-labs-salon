@@ -1,62 +1,227 @@
 [
   {
-    "name": "Haircut & Style",
-    "description": "Precision haircut with personalized styling to suit your look.",
-    "price": "$50+",
-    "duration": "45 minutes",
+    "name": "男士染髮",
+    "description": "跳脫框架，為男士髮型打造出獨樹一格的風格",
+    "featured": true,
     "image": {
-      "src": "https://placehold.co/1920x1080?text=Haircut+Style",
-      "alt": "Haircut and styling service"
+      "src": "/services/cui_salon_profolio_img_012.avif",
+      "alt": "Man's Haircut and coloring service"
     }
   },
   {
-    "name": "Full Color",
-    "description": "All-over color application for a vibrant, refreshed look.",
-    "price": "From $75",
-    "duration": "1 hour 30 minutes",
+    "name": "男士剪燙",
+    "description": "束狀紋理，在髮絲間交織出立體流暢線條，散發自信魅力",
+    "featured": true,
     "image": {
-      "src": "https://placehold.co/1920x1080?text=Full+Color",
+      "src": "/services/cui_salon_profolio_img_007.avif",
+      "alt": "Man Haircut and perm service"
+    }
+  },
+  {
+    "name": "全髮染髮",
+    "description": "煥采全染，為您的秀髮注入豐沛生命力，迎接煥然一新的自己",
+    "featured": true,
+    "image": {
+      "src": "/services/cui_salon_profolio_img_019.avif",
       "alt": "Full hair coloring service"
     }
   },
   {
-    "name": "Balayage Highlights",
-    "description": "Hand-painted highlights for a natural, sun-kissed effect.",
-    "price": "From $120",
-    "duration": "2 hours",
+    "name": "特殊色挑染",
+    "description": "透過迷幻的特殊色調，襯托出變化萬千的色彩層次，為您的髮型注入一絲前衛氣息",
+    "featured": true,
     "image": {
-      "src": "https://placehold.co/1920x1080?text=Balayage+Highlights",
+      "src": "/services/cui_salon_profolio_img_013.avif",
       "alt": "Balayage highlighting service"
     }
   },
   {
-    "name": "Full Color",
-    "description": "All-over color application for a vibrant, refreshed look.",
-    "price": "From $75",
-    "duration": "1 hour 30 minutes",
+    "name": "歐美線條染",
+    "description": "獨特歐美線條染法巧妙融入髮色，舉手投足自信優雅",
+    "featured": true,
     "image": {
-      "src": "https://placehold.co/1920x1080?text=Full+Color",
-      "alt": "Full hair coloring service"
-    }
-  },
-  {
-    "name": "Balayage Highlights",
-    "description": "Hand-painted highlights for a natural, sun-kissed effect.",
-    "price": "From $120",
-    "duration": "2 hours",
-    "image": {
-      "src": "https://placehold.co/1920x1080?text=Full+Color",
-      "alt": "Full hair coloring service"
-    }
-  },
-  {
-    "name": "Balayage Highlights",
-    "description": "Hand-painted highlights for a natural, sun-kissed effect.",
-    "price": "From $120",
-    "duration": "2 hours",
-    "image": {
-      "src": "https://placehold.co/1920x1080?text=Balayage+Highlights",
+      "src": "/services/cui_salon_profolio_img_017.avif",
       "alt": "Balayage highlighting service"
     }
-  }
+  },
+  {
+    "name": "法式慵懶燙",
+    "description": "自帶仙氣的迷人捲髮，獨特法式慵懶燙法，打造出蓬鬆自然、線條流暢的大波浪",
+    "featured": true,
+    "image": {
+      "src": "/services/cui_salon_profolio_img_001.avif",
+      "alt": "Balayage highlighting service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_001.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_002.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_003.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_004.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_005.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_006.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_007.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_008.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_009.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_010.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_011.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_012.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_013.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_014.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_015.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_016.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_017.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_018.avif",
+      "alt": "cui hair service"
+    }
+  },
+  {
+    "name": "",
+    "description": "",
+    "featured": false,
+    "image":{ 
+      "src": "/services/cui_salon_profolio_img_019.avif",
+      "alt": "cui hair service"
+    }
+  }  
 ]

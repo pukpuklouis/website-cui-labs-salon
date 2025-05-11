@@ -59,10 +59,9 @@ const stylistbioCollection = defineCollection({
  * Schema for a single service object based on services.json
  */
 const serviceSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  price: z.string(),
-  duration: z.string(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  featured: z.boolean().default(false).optional(),
   image: z.object({
     src: z.string(),
     alt: z.string(),

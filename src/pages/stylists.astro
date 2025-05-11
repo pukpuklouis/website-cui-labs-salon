@@ -2,6 +2,7 @@
 // src/pages/stylists.astro
 import Layout from '../layouts/Layout.astro';
 import StylistBio from '../components/StylistBio.astro'; // Import the enhanced component
+import CallToAction from '../components/calltoaction.astro';
 import { getCollection } from 'astro:content';
 
 // Navigation properties
@@ -19,40 +20,46 @@ const stylistsData = (await getCollection('stylistbio'))[0].data;
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 my-32">
-      <h1 class="text-5xl font-soligant mb-16 text-center text-charcoal dark:text-white">Our Talented Team</h1>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 mt-56">
+      <h1 class="text-5xl font-soligant mb-16 text-center text-gray-900 my-8">Our Talented Team</h1>
       
       <!-- Magazine-style Bento Grid Layout -->
-      <section class="bento-grid grid grid-cols-1 md:grid-cols-12 gap-3 mb-20">
+      <section class="hidden lg:grid lg:grid-cols-12 lg:grid-rows-2 gap-8 mb-20">
         <!-- Introduction Text Block -->
-        <div class="md:col-span-4 flex flex-col justify-center p-6 bg-beige/20 rounded-lg">
-          <h2 class="text-2xl font-bold text-charcoal mb-4">Artistry & Expertise</h2>
+        <div class="lg:col-span-4 h-fit flex flex-col justify-center p-6 bg-beige/20 rounded-2xl">
+          <h2 class="font-sans text-4xl font-bold text-charcoal mb-4">髮藝即藝術</h2>
           <p class="text-charcoal/80 leading-relaxed">
-            Our stylists bring years of expertise and a passion for creating personalized looks that enhance your natural beauty. Each stylist has their unique specialties and aesthetic vision.
+            您的髮型都由我們經驗豐富、充滿熱忱的髮藝師團隊傾力塑造。以精湛的技藝與敏銳的美學，深入了解您的個人特質，量身訂製能完美展現您自然之美的專屬造型。每一位髮藝師，擁有其獨特的專業領域與美學視野，為您打造能提升自信、綻放光采的個人化造型
           </p>
         </div>
         
-        <!-- First Stylist (Featured) -->
-        <div class="md:col-span-8 md:row-span-2">
-          <StylistBio stylist={stylistsData[0]} />
-        </div>
-        
-        <!-- Second Stylist -->
-        <div class="md:col-span-6">
+        <!-- First Row Stylists -->
+        <div class="flex flex-row gap-8 lg:col-span-6">
+          {stylistsData[0] && <StylistBio stylist={stylistsData[0]} />}
           {stylistsData[1] && <StylistBio stylist={stylistsData[1]} />}
         </div>
         
-        <!-- Third Stylist -->
-        <div class="md:col-span-6">
+        <!-- Second Row Stylists -->
+        <div class="flex flex-row gap-8 lg:col-span-8">
           {stylistsData[2] && <StylistBio stylist={stylistsData[2]} />}
+          {stylistsData[3] && <StylistBio stylist={stylistsData[3]} />}
+          {stylistsData[4] && <StylistBio stylist={stylistsData[4]} />}
+          {stylistsData[5] && <StylistBio stylist={stylistsData[5]} />}
         </div>
-        
-        <!-- Remaining Stylists in a Grid -->
-        {stylistsData.slice(3).map(stylist => (
-          <div class="md:col-span-4">
-            <StylistBio stylist={stylist} />
-          </div>
-        ))}
+      </section>
+      <section class="mobile flex flex-col lg:hidden">
+        <div class="flex flex-col md:order-last justify-center p-8 mx-8 bg-beige/20 rounded-2xl">
+          <h2 class="font-sans text-4xl font-bold text-charcoal mb-4">髮藝即藝術</h2>
+          <p class="text-charcoal/80 leading-relaxed">
+            您的風格都由我們經驗豐富、充滿熱忱的髮藝師團隊傾力塑造。以精湛的技藝與敏銳的美學，深入了解您的個人特質，量身訂製能完美展現您自然之美的專屬造型。每位髮藝師，擁有獨特專業領域與美學視野，為您打造提升自信、綻放光采的造型
+          </p>
+        </div>
+        <div class="flex flex-col gap-8 md:flex-row md:flex-wrap md:justify-center md:gap-8 items-center mt-8 mb-16">
+          {stylistsData.map((stylist) => (
+            <StylistBio stylist={stylist}/>
+          ))}
+        </div>
       </section>
     </div>
+    <CallToAction />
 </Layout>

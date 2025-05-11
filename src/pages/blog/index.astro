@@ -21,6 +21,7 @@ const allCategories = [...new Set(posts.flatMap(post => post.data.categories || 
 ---
 
 <Layout title="Blog">
+  <section class="mb-12 mt-48">
   <h1>Blog</h1>
   <p class="mb-8">Read our latest posts.</p>
 
@@ -58,4 +59,5 @@ const allCategories = [...new Set(posts.flatMap(post => post.data.categories || 
       <BlogPostPreview post={post} />
     ))}
   </div>
+</section>
 </Layout>

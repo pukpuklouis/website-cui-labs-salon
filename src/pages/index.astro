@@ -8,10 +8,9 @@ import { getCollection } from 'astro:content';
 import InfiniteSlider from '../components/ui/InfiniteSlider.astro';
 import { Image } from 'astro:assets';
 import ImageReveal from '../components/ui/ImageReveal.astro';
-import SplitText from '../components/ui/SplitText.astro';
+import CallToAction from '../components/calltoaction.astro';
 import FeatureSection from '../components/featureSection.astro';
 import ScrollTextReveal from '../components/ui/ScrollTextReveal.astro';
-import ParallaxImageWrapper from '../components/ui/ParallaxImage.astro';
 import StylistSection from '../components/StylistSection.astro';
 // Navigation properties
 export const navlinkData = {
@@ -25,14 +24,13 @@ const featuredPosts = (await getCollection('blog', ({ data }) => data.featured =
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const services = (await getCollection('services'))[0].data.slice(0, 3);
+const services = (await getCollection('services'))[0].data.slice(0, 6);
 //add number of services
 
 // SEO Metadata
-const pageTitle = "Home - CUI Labs Salon";
-const pageDescription = "Welcome to CUI Labs Salon, where cutting-edge technology meets expert hair styling. Discover our services and book your appointment today.";
-const exampleImageUrl = "https://picsum.photos/seed/parallax1/1200/800";
-const exampleImageUrl2 = "https://picsum.photos/seed/parallax2/1200/800";
+const pageTitle = "首頁 | 萃CUI Labs Salon ";
+const pageDescription = "CUI Labs Salon：視髮藝為藝術，為您精雕細琢自信之美。體驗專業髮藝師的匠心技藝，享受身心靈的寧靜蛻變";
+
 ---
 
 <Layout title={pageTitle} description={pageDescription}>
@@ -61,27 +59,17 @@ const exampleImageUrl2 = "https://picsum.photos/seed/parallax2/1200/800";
       />
     </section>
     <!-- Featured Services Section -->
-    <section id="featured-services" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800">
+    <section id="featured-services" class="my-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div class="max-w-7xl mx-auto">
-        <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-12">Featured Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-12">Featured Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {services.map((service) => (
             <ServiceCard service={service} />
           ))}
         </div>
       </div>
     </section>    
-    <SplitText 
-    text={`This is the first line. 
-    This is the second line. 
-    And the third one.`}
-    splitBy="lines" 
-    tag="h1" 
-    animationType="fadeUp" 
-    className="text-4xl font-extrabold text-gray-900 dark:text-white text-center mb-12" 
-    options={{ duration: 0.5, stagger: 0.2, }} 
-    inView={true} 
-    />
+   
     <!-- brands Section -->
 
     <section>
@@ -104,7 +92,7 @@ const exampleImageUrl2 = "https://picsum.photos/seed/parallax2/1200/800";
         <Image src="/logo/Cui-logo-grey.svg" alt="Logo" width="80" height="80" class="scale-70 inline-block transition-all duration-300" />
       </InfiniteSlider>
     </section>
-    <ImageReveal />
+    <ImageReveal title="環境美學" description="Salon Ambiance"/>
     <!-- Stylist Bio Section -->
     <StylistSection />
     <!-- Latest Blog Posts Section -->
@@ -125,15 +113,7 @@ const exampleImageUrl2 = "https://picsum.photos/seed/parallax2/1200/800";
     </section>
 
     <!-- Final Call to Action Section -->
-    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-primary-600 dark:bg-primary-700 text-center">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-extrabold text-white mb-6">Ready for Your Transformation?</h2>
-        <p class="text-lg text-primary-100 mb-8">Book your appointment today and experience the future of hair care at CUI Labs Salon.</p>
-        <a href="/booking" class="inline-block bg-white dark:bg-gray-900 text-primary-600 dark:text-white font-semibold py-3 px-8 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 ease-in-out text-lg">
-          Book Now
-        </a>
-      </div>
-    </section>
-    {/* Blog Preview section will be added here */}
-    {/* Other sections (Featured Services, Stylist Bios, Blog Preview) will be added here in later tasks */}
-</Layout>
+    <CallToAction 
+      backgroundImage="/Cui_Salon_img/Cui_Salon_IMG_010.avif"
+    />
+  </Layout>

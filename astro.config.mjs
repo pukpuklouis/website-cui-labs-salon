@@ -10,7 +10,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://website-cui-labs-salon.pages.dev",
+  // site: "https://website-cui-labs-salon.pages.dev",
   adapter: cloudflare({
     platformProxy: {
       mode: 'directory',
@@ -34,25 +34,25 @@ export default defineConfig({
       config: { 
         debug: true, 
         forward: ['dataLayer.push'] } }),
-    sitemap(),
-    react({
-      experimentalReactChildren: true,
-      include: ['**/react/*'],
-    })
-  ],
-  vite: {
-    optimizeDeps: {  
-      include: ['simple-parallax-js']  
-    } ,
+        sitemap(),
+        react({
+          experimentalReactChildren: true,
+          include: ['**/react/*'],
+        })
+      ],
+      vite: {
+        plugins: [
+          tailwindcss()
+        ],
+        optimizeDeps: {  
+          include: ['simple-parallax-js']  
+        },
     resolve: {
       // 只在 production 時 alias
-      alias:{
+      alias: import.meta.env.PROD && {
         "react-dom/server": "react-dom/server.edge",
       },
     },
-    plugins: [
-      tailwindcss()
-    ]
   },
   image: {
     service: imageService()
