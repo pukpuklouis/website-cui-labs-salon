@@ -2,7 +2,8 @@
 // src/pages/blog/[slug].astro
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { Image } from 'astro:assets'; // Import Astro Image component
+import { Image } from 'astro:assets';
+import '../../styles/blogstyle.css';
 
 // 1. Generate a static page for every blog post
 export async function getStaticPaths() {
@@ -18,54 +19,240 @@ interface Props {
 }
 const { entry } = Astro.props;
 const { Content } = await entry.render(); // Get the rendered content component
+
+// Get related posts (by category or tag)
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter(post => {
+    // Don't include the current post
+    if (post.slug === entry.slug) return false;
+    
+    // Check for matching categories
+    const hasMatchingCategory = entry.data.categories?.some(category => 
+      post.data.categories?.includes(category)
+    );
+    
+    // Check for matching tags
+    const hasMatchingTag = entry.data.tags?.some(tag => 
+      post.data.tags?.includes(tag)
+    );
+    
+    return hasMatchingCategory || hasMatchingTag;
+  })
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3); // Limit to 3 related posts
+
+// Format date for magazine style
+function formatDate(date) {
+  return date.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+}
+
+// Estimate reading time
+function calculateReadingTime(content) {
+  const wordsPerMinute = 200;
+  const wordCount = content.split(/\s+/).length;
+  const readingTime = Math.ceil(wordCount / wordsPerMinute);
+  return readingTime === 1 ? '1 minute read' : `${readingTime} minutes read`;
+}
+
+const readingTime = calculateReadingTime(entry.body);
 ---
 
-<Layout title={entry.data.title} description={entry.data.description}>
-  <article class="prose dark:prose-invert max-w-none mb-12 mt-48"> {/* Apply Tailwind prose for styling */}
-    {/* Optional: Display featured image */}
-    {/* Optional: Display featured image */}
-    {/* Optional: Display featured image - Standard conditional rendering */}
-    {entry.data.image && entry.data.image.url && (
-      <Image
-        src={entry.data.image.url}
-        alt={entry.data.image.alt ? entry.data.image.alt : "Blog post image"}
-        width={800}
-        height={400}
-        format="webp"
-        class="mb-6 rounded-lg shadow-md w-full h-auto"
-      />
+<Layout title={entry.data.title} description={entry.data.description || `Read ${entry.data.title} on our magazine`}>
+  <main class="container mx-auto px-4 mb-16 mt-48">
+    <!-- Back to Magazine Link -->
+    <div class="mb-8">
+      <a href="/blog" class="inline-flex items-center text-sm font-medium text-primary-600 dark:text-primary-400 hover:underline">
+        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
+        </svg>
+        Back to Magazine
+      </a>
+    </div>
+
+    <article class="max-w-4xl mx-auto">
+      <!-- Article Header -->
+      <header class="mb-10 text-center">
+        {entry.data.categories && entry.data.categories.length > 0 && (
+          <div class="mb-4">
+            {entry.data.categories.map(category => (
+              <span class="inline-block bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-3 py-1 text-sm font-medium rounded-full mr-2">
+                {category}
+              </span>
+            ))}
+          </div>
+        )}
+        
+        <h1 
+          class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 font-serif leading-tight" 
+          transition:name={`post-title-${entry.slug}`}
+        >
+          {entry.data.title}
+        </h1>
+        
+        <div class="flex flex-wrap items-center justify-center text-gray-600 dark:text-gray-400 text-sm mb-6 gap-3">
+          <span class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+            </svg>
+            {formatDate(entry.data.pubDate)}
+          </span>
+          
+          {entry.data.author && (
+            <span class="flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+              </svg>
+              {entry.data.author}
+            </span>
+          )}
+          
+          <span class="flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+            </svg>
+            {readingTime}
+          </span>
+        </div>
+        
+        {entry.data.description && (
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-8 font-serif italic">
+            {entry.data.description}
+          </p>
+        )}
+      </header>
+
+      <!-- Featured Image -->
+      {entry.data.image && entry.data.image.url && (
+        <div class="mb-10 overflow-hidden rounded-xl shadow-lg">
+          <Image
+            src={entry.data.image.url}
+            alt={entry.data.image.alt || entry.data.title}
+            width={1200}
+            height={600}
+            format="webp"
+            class="w-full max-h-[60vh] object-cover"
+            transition:name={`post-image-${entry.slug}`}
+          />
+        </div>
+      )}
+
+      <!-- Article Content -->
+      <div class="blog-content">
+        <Content />
+      </div>
+
+      <!-- Tags -->
+      {entry.data.tags && entry.data.tags.length > 0 && (
+        <div class="mt-12 flex flex-wrap gap-2">
+          {entry.data.tags.map(tag => (
+            <span class="inline-block bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-full px-3 py-1 text-sm font-medium">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <!-- Author Bio (if available) -->
+      {entry.data.author && (
+        <div class="mt-12 p-6 bg-gray-50 dark:bg-gray-800/50 rounded-xl flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div class="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 overflow-hidden">
+            <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2">{entry.data.author}</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-3">專業小編</p>
+            <p class="text-sm">Cui小編，專注於時尚髮色趨勢，為您帶來最新潮流資訊。</p>
+          </div>
+        </div>
+      )}
+
+      <!-- Share Buttons -->
+      <!-- <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
+        <span class="text-gray-700 dark:text-gray-300 font-medium">Share this article:</span>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#1877F2] text-white hover:opacity-90 transition-opacity">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"></path>
+            </svg>
+          </a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#1DA1F2] text-white hover:opacity-90 transition-opacity">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+            </svg>
+          </a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#0A66C2] text-white hover:opacity-90 transition-opacity">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" d="M19.7 3H4.3A1.3 1.3 0 003 4.3v15.4A1.3 1.3 0 004.3 21h15.4a1.3 1.3 0 001.3-1.3V4.3A1.3 1.3 0 0019.7 3zM8.339 18.338H5.667v-8.59h2.672v8.59zM7.004 8.574a1.548 1.548 0 11-.002-3.096 1.548 1.548 0 01.002 3.096zm11.335 9.764H15.67v-4.177c0-.996-.017-2.278-1.387-2.278-1.389 0-1.601 1.086-1.601 2.206v4.249h-2.667v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.779 3.203 4.092v4.711z" clip-rule="evenodd"></path>
+            </svg>
+          </a>
+          <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-[#E60023] text-white hover:opacity-90 transition-opacity">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"></path>
+            </svg>
+          </a>
+        </div>
+      </div> -->
+    </article>
+
+    <!-- Related Articles -->
+    {relatedPosts.length > 0 && (
+      <section class="mt-16 max-w-5xl mx-auto">
+        <h2 class="text-2xl font-serif font-bold mb-8 pb-2 border-b dark:border-gray-700">You May Also Like</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          {relatedPosts.map(post => (
+            <article class="group">
+              <a href={`/blog/${post.slug}`} class="block">
+                {post.data.image?.url ? (
+                  <div class="mb-4 overflow-hidden rounded-lg">
+                    <Image 
+                      src={post.data.image.url} 
+                      alt={post.data.image.alt || post.data.title} 
+                      width={400} 
+                      height={250} 
+                      format="webp"
+                      class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                ) : (
+                  <div class="mb-4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-700 h-48 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-500 dark:text-gray-400 text-lg font-medium">No Image</span>
+                  </div>
+                )}
+                <h3 class="text-lg font-bold mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                  {post.data.title}
+                </h3>
+                <div class="text-gray-500 dark:text-gray-500 text-xs">
+                  {formatDate(post.data.pubDate)}
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
     )}
 
-    {/* Post Header */}
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold mb-2">{entry.data.title}</h1>
-      <div class="text-gray-600 dark:text-gray-400 text-sm">
-        <span>Published on {entry.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-        {entry.data.author && <span> by {entry.data.author}</span>}
-      </div>
-    </header>
-
-    {/* Post Content */}
-    <Content />
-
-    {/* Optional: Display tags/categories */}
-    <footer class="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
-      {entry.data.tags && entry.data.tags.length > 0 && (
-        <div class="mb-2">
-          <strong>Tags:</strong> 
-          {entry.data.tags.map(tag => (
-            <span class="inline-block bg-gray-200 dark:bg-gray-700 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:text-gray-300 mr-2 mb-2">{tag}</span>
-          ))}
-        </div>
-      )}
-       {entry.data.categories && entry.data.categories.length > 0 && (
-        <div>
-          <strong>Categories:</strong> 
-          {entry.data.categories.map(category => (
-             <span class="inline-block bg-blue-100 dark:bg-blue-900 rounded-full px-3 py-1 text-sm font-semibold text-blue-800 dark:text-blue-200 mr-2 mb-2">{category}</span>
-          ))}
-        </div>
-      )}
-    </footer>
-  </article>
+    <!-- Newsletter CTA -->
+    <section class="hidden mt-16 max-w-4xl mx-auto p-8 bg-gray-50 dark:bg-gray-800/50 rounded-xl text-center">
+      <h2 class="text-2xl font-bold mb-4">Enjoyed this article?</h2>
+      <p class="mb-6 text-gray-600 dark:text-gray-400">Subscribe to our magazine newsletter for more inspiring content, beauty tips, and exclusive offers.</p>
+      <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <input 
+          type="email" 
+          placeholder="Your email address" 
+          class="px-4 py-3 rounded-lg flex-grow text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          aria-label="Email address"
+        />
+        <button type="submit" class="bg-primary-600 text-white font-medium px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors">
+          Subscribe
+        </button>
+      </form>
+    </section>
+  </main>
 </Layout>

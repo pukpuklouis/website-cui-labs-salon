@@ -27,7 +27,7 @@ const navLinks = await getNavLinks(Astro.url.pathname);
               class={`hover:font-bold hover:text-gray-800 transition-all duration-300 ease-out relative pb-2 ${
                 link.isActive ? 'font-semibold' : ''
               } ${
-                link.href === '/booking' ? 'text-gray-700 hover:text-gray-800' : ''
+                link.href === '/booking' || link.href === 'https://line.me/R/ti/p/@572kuqqj' ? 'text-gray-700 hover:text-gray-800' : ''
               }`}
             >
               {link.text}
@@ -59,10 +59,12 @@ const navLinks = await getNavLinks(Astro.url.pathname);
           .map((link: NavLink) => (
             <a
               href={link.href}
+              target={link.href === '/booking' || link.href === 'https://line.me/R/ti/p/@572kuqqj' ? '_blank' : undefined}
+              rel={link.href === '/booking' || link.href === 'https://line.me/R/ti/p/@572kuqqj' ? 'noopener noreferrer' : undefined}
               class={`block py-2 px-8 uppercase text-sm tracking-wide hover:bg-gray-100 hover:rounded-md ${
                 link.isActive ? 'font-semibold' : ''
               } ${
-                link.href === '/booking' ? 'text-pink-500' : ''
+                link.href === '/booking' || link.href === 'https://line.me/R/ti/p/@572kuqqj' ? 'text-pink-500' : ''
               }`}
             >
               {link.text}

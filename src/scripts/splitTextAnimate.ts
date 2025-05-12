@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
           opacity: [0, 1],
           y: ['1em', 0],
           filter: ['blur(5px)', 'blur(0px)'],
-          color: ['var(--color-red-500)', 'var(--color-gray-900)']
+          color: ['var(--color-red-500)', 'currentColor']
         };
       }
       return {};

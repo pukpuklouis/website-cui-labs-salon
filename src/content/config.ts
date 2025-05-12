@@ -84,6 +84,7 @@ const portfolioItemSchema = z.object({
   angle: z.string(),
   alt: z.string().optional().default('Gallery image'),
   title: z.string().optional(),
+  hide: z.boolean().optional().default(false),
   category: z.string().optional(),
 });
 

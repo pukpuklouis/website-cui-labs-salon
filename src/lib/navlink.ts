@@ -143,6 +143,7 @@ export interface NavOverride {
  * - Add external links
  * - Remove links
  * - Change order of links
+ * - Change href of a link
  * - Change visibility of a link to 'desktop' or 'mobile' only
  */
 export const manualNavOverrides: NavOverride[] = [

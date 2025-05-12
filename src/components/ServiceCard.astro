@@ -4,19 +4,24 @@ import { Image } from 'astro:assets';
 
 interface Props {
   service: CollectionEntry<'services'>['data'][number];
+  className?: string;
 }
 
-const { service } = Astro.props;
+const { 
+  service, 
+  // if is empty string, set to default class
+  className = "rounded-t-full rounded-e-full"
+} = Astro.props;
 ---
 
-<article class="overflow-hidden opacity-0 flex flex-col md:flex-col  items-center md:items-start justify-start gap-4 p-4 md:p-6 lg:p-8">
-  <div class="relative rounded-t-full rounded-e-full w-[300px] md:w-[320px] lg:w-[300px] h-full aspect-[9/16] overflow-hidden z-0">
+<article class="overflow-hidden opacity-0 flex flex-col md:flex-col items-center justify-start gap-4 p-4 md:p-6 lg:p-8">
+  <div class={`relative w-[100%] md:w-[335px] lg:w-[360px] h-full aspect-[9/16] overflow-hidden z-0 ${className}`}>
     <Image src={service.image.src} alt={service.image.alt} width={300} height={800} class="w-full h-full hover:scale-105 transition-all duration-500 ease-in-out object-cover" />
   </div>
-  <div class="relative translate-x-1/12 lg:translate-x-1/8 font-sans text-right bg-gradient-to-l from-gray-700/0 via-gray-700/60 to-gray-700/00 p-4 w-3/4 md:w-full lg:w-3/4 -mt-56 z-10">
+  {service.name && <div class="relative translate-x-1/12 md:translate-x-1/16 lg:translate-x-1/12 font-sans text-right bg-gradient-to-l from-gray-700/0 via-gray-700/60 to-gray-700/00 p-4 w-3/4 md:w-full lg:w-3/4 -mt-56 z-10">
     <h3 class="text-4xl md:text-4xl lg:text-4xl font-semibold mb-2 text-gray-50 service-element">{service.name}</h3>
-    <p class="text-sm md:text-base text-balance lg:text-base text-gray-200 mb-2 service-element">{service.description}</p>   
-  </div>
+    <p class="text-sm md:text-base text-balance lg:text-base text-gray-200 mb-2 service-element">{service.description}</p>
+  </div>}
 </article>
 
 <script>
@@ -95,7 +100,7 @@ const { service } = Astro.props;
             );
           });
         };
-      }, { amount: 0.4, margin: "300px 0px 0px 0px" }); // Offset parameter for inView
+      }, { amount: 0.6, margin: "300px 0px 0px 0px" }); // Offset parameter for inView
     });
   });
 </script>

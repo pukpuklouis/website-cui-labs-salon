@@ -6,6 +6,14 @@ import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { imageService } from '@unpic/astro/service'; // Corrected import
 import tailwindcss from '@tailwindcss/vite';
+
+// Markdown plugins
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeExternalLinks from 'rehype-external-links';
+import remarkGfm from 'remark-gfm';
+import remarkSmartypants from 'remark-smartypants';
+import remarkToc from 'remark-toc';
   
 
 // https://astro.build/config
@@ -29,6 +37,21 @@ export default defineConfig({
       flags: ["nodejs_compat"]
     }
   }),
+  markdown: {
+    gfm: true,
+    smartypants: true,
+    toc: true,
+    rehypePlugins: [
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: 'append' }],
+      [rehypeExternalLinks, { target: '_blank', rel: ['nofollow', 'noopener', 'noreferrer'] }]
+    ],
+    remarkPlugins: [
+      remarkGfm,
+      remarkSmartypants,
+      [remarkToc, { heading: 'contents', tight: true }]
+    ]
+  },
   integrations: [
     partytown({ 
       config: { 

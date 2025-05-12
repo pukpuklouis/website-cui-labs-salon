@@ -14,8 +14,8 @@ interface PortfolioItem {
 
 // Get the portfolio images from the content collection
 const portfolioEntries = await getCollection('portfolio');
-// Access the first entry's data, which should be the array of portfolio items
-const cards: PortfolioItem[] = portfolioEntries.length > 0 ? portfolioEntries[0].data : [];
+// Access the first entry's data, which should be the array of portfolio items, filtered if hide is true
+const cards: PortfolioItem[] = portfolioEntries.length > 0 ? portfolioEntries[0].data.filter((item) => !item.hide) : [];
 
 interface Props {
   title?: string;
