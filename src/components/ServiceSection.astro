@@ -1,0 +1,35 @@
+---
+// ServiceSection.astro
+// Props: services (array)
+
+import { Image } from 'astro:assets';
+import ServiceCard from './ServiceCard.astro';
+interface Service {
+  name?: string;
+  description?: string;
+  featured?: boolean;
+  image: {
+    src: string;
+    alt: string;
+  };
+}
+
+interface ServiceSectionProps {
+  services: Service[];
+}
+
+const { services } = Astro.props as ServiceSectionProps;
+---
+<section id="featured-services" class="my-16 px-4 md:px-8 lg:px-16 max-w-7xl lg:mx-auto bg-gray-50 mx-auto">
+  <div class="">
+    <div class="flex flex-row items-center justify-between mb-16 md:mb-8">
+      <h2 class="opacity-0.1 font-sans text-xl md:text-3xl uppercase tracking-wide text-gray-900 font-bold">頂級髮藝服務</h2>
+      <p class="font-soligant text-right text-sm md:text-2xl tracking-wider text-gray-500 order-last">Premium Hair Artistry Services</p>
+    </div>
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {services.map((service) => (
+      <ServiceCard service={service} />
+    ))}
+    </div>
+  </div>
+</section>

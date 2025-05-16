@@ -35,7 +35,7 @@ const services =  (await getCollection('services'))[0].data;
   title={title}
   description={description}
 >
-    <section id="service-listings">
+    <section id="service-listings" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0 mb-12 mt-56">
         <div class="flex flex-col md:flex-row justify-between items-center mb-12">
           <div class="flex flex-col">
@@ -68,7 +68,7 @@ const services =  (await getCollection('services'))[0].data;
       <h2 class="text-3xl font-semibold mb-8 text-center text-gray-800 dark:text-gray-200">
         風格誌
       </h2>
-      <div class="mx-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 md:gap-4 lg:gap-8">
+      <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 md:gap-4 lg:gap-8">
         {services.slice(7, 19).map(service => (
           <ServiceCard
             service={service}

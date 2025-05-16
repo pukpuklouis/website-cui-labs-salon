@@ -165,9 +165,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (state === 'expanded') {
         mainNav.classList.remove('nav-compact');
         desktopLinks.hidden = false;
+        mainNav.classList.add('bg-gray-100', 'bg-opacity-90', 'backdrop-blur-sm');
       } else {
         mainNav.classList.add('nav-compact');
         desktopLinks.hidden = true;
+        mainNav.classList.remove('bg-gray-100', 'bg-opacity-90', 'backdrop-blur-sm');
       }
       
       // Animate desktop links

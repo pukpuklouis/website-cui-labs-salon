@@ -26,18 +26,17 @@ interface Props {
 }
 
 const { 
-  title = "Image Gallery", 
+  title = "環境美學", 
   class: className,
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis.",
-  spacing = "-ml-24 md:-ml-30", 
+  description = "萃CUI labs Salon的環境美學",
+  spacing = "-ml-12 md:-ml-40", 
   delay = 200 
 } = Astro.props;
 ---
 
-<div class:list={["w-full py-24 overflow-hidden", className]} id="image-reveal">
-  <div class="max-w-5xl mx-auto">
+<div class:list={["w-full max-w-7xl lg:mx-auto py-24 px-4 md:px-8 lg:px-16 overflow-hidden", className]} id="image-reveal">
     <div class="flex flex-row justify-between items-center mb-12">
-      {title && <h2 class="text-2xl font-bold mb-6">{ title }</h2>}
+      {title && <h2 class="text-2xl md:text-3xl font-bold mb-6">{ title }</h2>}
       {description && <p class="font-soligant text-right uppercase text-xs md:text-2xl tracking-tight md:tracking-wider text-gray-500 mb-6">{description}</p>}
     </div>
   </div>

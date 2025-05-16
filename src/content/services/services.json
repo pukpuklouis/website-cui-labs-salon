@@ -4,7 +4,7 @@
     "description": "跳脫框架，為男士髮型打造出獨樹一格的風格",
     "featured": true,
     "image": {
-      "src": "/services/cui_salon_profolio_img_012.avif",
+      "src": "/services/abstract/cui_salon_service_img_001.avif",
       "alt": "Man's Haircut and coloring service"
     }
   },
@@ -13,7 +13,7 @@
     "description": "束狀紋理，在髮絲間交織出立體流暢線條，散發自信魅力",
     "featured": true,
     "image": {
-      "src": "/services/cui_salon_profolio_img_007.avif",
+      "src": "/services/abstract/cui_salon_service_img_005.avif",
       "alt": "Man Haircut and perm service"
     }
   },
@@ -22,7 +22,7 @@
     "description": "煥采全染，為您的秀髮注入豐沛生命力，迎接煥然一新的自己",
     "featured": true,
     "image": {
-      "src": "/services/cui_salon_profolio_img_019.avif",
+      "src": "/services/abstract/cui_salon_service_img_013.avif",
       "alt": "Full hair coloring service"
     }
   },
@@ -31,7 +31,7 @@
     "description": "透過迷幻的特殊色調，襯托出變化萬千的色彩層次，為您的髮型注入一絲前衛氣息",
     "featured": true,
     "image": {
-      "src": "/services/cui_salon_profolio_img_013.avif",
+      "src": "/services/abstract/cui_salon_service_img_002.avif",
       "alt": "Balayage highlighting service"
     }
   },
@@ -40,7 +40,7 @@
     "description": "獨特歐美線條染法巧妙融入髮色，舉手投足自信優雅",
     "featured": true,
     "image": {
-      "src": "/services/cui_salon_profolio_img_017.avif",
+      "src": "/services/abstract/cui_salon_service_img_012.avif",
       "alt": "Balayage highlighting service"
     }
   },
@@ -49,7 +49,7 @@
     "description": "自帶仙氣的迷人捲髮，獨特法式慵懶燙法，打造出蓬鬆自然、線條流暢的大波浪",
     "featured": true,
     "image": {
-      "src": "/services/cui_salon_profolio_img_001.avif",
+      "src": "/services/abstract/cui_salon_service_img_014.avif",
       "alt": "Balayage highlighting service"
     }
   },

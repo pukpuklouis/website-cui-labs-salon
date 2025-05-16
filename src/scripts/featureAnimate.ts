@@ -36,6 +36,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         );
     }
+
+
+    // Logo animation
+    const logo = document.querySelector('.logo-animate') as HTMLElement | null;
+    if (logo) {
+        inView(logo, () => {
+            animate(
+                logo,
+                { 
+                    y: [30, 0]
+                },
+            { 
+                duration: 1.2,
+                type: 'spring',
+                bounce: 0.6,
+                loop: true,
+                repeat: Infinity,
+                repeatType: 'reverse'
+            }
+        );
+        }, { amount: 0.3 });
+    }
     // Main Model Image with perspective effect
     const mainImage = document.querySelector('#hero-main-image') as HTMLElement | null;
     

@@ -49,8 +49,8 @@ try {
     <!-- Main Visual: Stylist Photo with Magazine-style Overlay -->
     <div class="photo-container relative w-full h-full transition-all duration-300">
       <div class="absolute inset-x-0 bottom-0 z-0 bg-gradient-to-b from-olive to-olive/0 rounded-full h-[60%] overflow-hidden"></div>
-        <div class="h-full w-full rounded-full overflow-hidden">
-          <BlurryBlob client:visible firstBlobColor="bg-olive/80" secondBlobColor="bg-beige" className="" />
+        <div class="h-full w-full rounded-full overflow-clip">
+          <BlurryBlob client:visible firstBlobColor="bg-olive/80" secondBlobColor="bg-beige" className="rounded-full overflow-hidden" />
         </div>
       <div class="absolute inset-x-0 bottom-0 w-full h-full rounded-full overflow-hidden transition-all duration-300">
         <Image

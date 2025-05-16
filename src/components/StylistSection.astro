@@ -8,13 +8,13 @@ interface Props {
 }
 const stylistbio = (await getCollection('stylistbio'))[0].data;
 ---
-<section class="py-16 px-4 lg:px-8 bg-gray-50s dark:bg-gray-900">
-  <div class="max-w-5xl mx-auto">
+<section class="max-w-7xl lg:mx-auto py-16 px-4 md:px-8 lg:px-16 bg-gray-50">
+  <div class="">
     <div class="flex flex-row justify-between items-center mb-12">
       <h3 class="text-xl md:text-3xl uppercase tracking-wide text-gray-900 font-bold">遇見美的創造者</h3>
       <p class="font-soligant text-right uppercase text-xs md:text-2xl tracking-tight md:tracking-wider text-gray-500">The Stylists<br/>ensuring your hair reflects<br/>the epitome of modern elegance</p>
     </div>
-    <div class="flex flex-col md:flex-row flex-wrap gap-2 justify-between items-center mb-12">
+    <div class="max-w-7xl flex flex-col md:flex-row flex-wrap gap-2 justify-between items-center mb-12">
       {stylistbio.map((stylist) => (
         <StylistBio stylist={stylist} />
       ))}
