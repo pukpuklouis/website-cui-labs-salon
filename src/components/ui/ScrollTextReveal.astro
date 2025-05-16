@@ -10,15 +10,15 @@ export interface Props {
   animationBounce?: number;
 }
 
-const { 
-  message, 
-  className, 
+const {
+  message,
+  className,
   fontSize,
   fontStyle,
   animationType = "spring",
   animationDelay = 0.1,
   animationDuration = 2.3,
-  animationBounce = 0.0 
+  animationBounce = 0.0
 } = Astro.props;
 const uniqueId = `scroll-text-reveal-${crypto.randomUUID()}`;
 
@@ -73,7 +73,7 @@ const words = message.split(" ");
       const animationDelay = parseFloat(container.getAttribute('data-animation-delay') || '0.1');
       const animationDuration = parseFloat(container.getAttribute('data-animation-duration') || '2.3');
       const animationBounce = parseFloat(container.getAttribute('data-animation-bounce') || '0.0');
-      
+
       // 創建動畫
       const animation = animate(
         Array.from(wordSpans),
