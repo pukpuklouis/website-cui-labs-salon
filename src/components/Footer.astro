@@ -14,7 +14,7 @@ if (!footerEntry) {
 }
 
 // Type assertion might be needed if TS still struggles after server restart
-// const { salonInfo, socialMedia } = footerEntry.data as CollectionEntry<'footer'>['data']; 
+// const { salonInfo, socialMedia } = footerEntry.data as CollectionEntry<'footer'>['data'];
 const { salonInfo, socialMedia } = footerEntry.data;
 const currentYear = new Date().getFullYear();
 // get navlink from navlink.ts
@@ -24,7 +24,7 @@ const navLinks = await getNavLinks(Astro.url.pathname);
 <footer id="footer-container" class="w-screen text-gray-700 py-24 mt-12 grayscale-100 brightness-110 bg-[url(/bg/Flooring_Grained.webp)] overflow-hidden">
   <Grained id="footer-noise" className="z-10 h-full w-full" transition:persist/>
   <div class=" relative mx-auto px-8 md:px-16 lg:px-48 grid grid-cols-1 md:grid-cols-3 gap-4 text-left  md:text-left">
-    
+
     <!-- Salon Information -->
     <div id="salon-info">
       <div class="flex flex-row items-center  gap-4">
@@ -38,7 +38,7 @@ const navLinks = await getNavLinks(Astro.url.pathname);
       <p class="mt-4 text-sm no-underline">
         <span class="font-bold">
         電話:
-        </span> 
+        </span>
         {salonInfo.phone}
       </p>
     </div>
@@ -47,7 +47,7 @@ const navLinks = await getNavLinks(Astro.url.pathname);
     <div class="mt-3 order-3 md:order-3">
       <h3 class="text-lg font-semibold mb-2">追蹤我們</h3>
       <div class="flex justify-start md:justify-start space-x-4">
-        {/* Explicitly type the 'social' parameter */} 
+        {/* Explicitly type the 'social' parameter */}
         {socialMedia.map((social: CollectionEntry<'footer'>['data']['socialMedia'][number]) => (
           <a href={social.url} class="hover:text-pink-500 dark:hover:text-pink-400" aria-label={social.name}>
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d={social.iconPath}></path></svg>
@@ -77,8 +77,12 @@ const navLinks = await getNavLinks(Astro.url.pathname);
     </div>
 
     <!-- Copyright -->
-    <div class="md:col-span-3 mt-8 md:mt-0 border-t border-gray-300 dark:border-gray-700 pt-4 text-center text-sm order-last">
+    <div class="md:col-span-3 mt-8 md:mt-0 border-t border-gray-400 pt-4 text-center text-sm order-last">
       <p>&copy; {currentYear} {salonInfo.name}. All rights reserved.</p>
+     <!-- Design by -->
+     <div class="md:col-span-3 mt-8 md:mt-3 text-center text-xs order-last text-gray-600/50">
+      <p>由 <a href="https://blogs.itslouis.cc" target="_blank" rel="noopener">A&L STUDIO</a> 設計維護</p>
+    </div>
     </div>
   </div>
 </footer>
@@ -99,10 +103,10 @@ const navLinks = await getNavLinks(Astro.url.pathname);
         animate(
           salonInfo,
           { opacity: [0.01, 1], y: [20, 0] },
-          { 
-            type: "spring", 
-            duration: 1, 
-            bounce: 0.3, 
+          {
+            type: "spring",
+            duration: 1,
+            bounce: 0.3,
           }
         ),
         {
@@ -114,5 +118,5 @@ const navLinks = await getNavLinks(Astro.url.pathname);
       console.warn("Footer container or salon info element not found.");
     }
   }
-);    
+);
 </script>
