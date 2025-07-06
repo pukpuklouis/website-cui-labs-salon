@@ -1,10 +1,10 @@
 [
   {
     "id": "1",
-    "name": "Feeling",
+    "name": "👑Feeling",
     "specialty": "資深髮型設計",
     "yearsExperience": 12,
-    "profileImagePath": "/Stylist/CuiSalon_Stylist_Feeling_alt.avif",
+    "profileImagePath": "/Stylist/new/Feeling-profile-resize.avif",
     "socialMediaLinks": {
       "instagram": "https://instagram.com/feeling_cui"
     },
@@ -14,39 +14,11 @@
   },
   {
     "id": "2",
-    "name": "Carl",
-    "aka": "卡爾",
-    "specialty": "法式慵懶燙髮 | 量身打造設計",
-    "yearsExperience": 8,
-    "profileImagePath": "/Stylist/CuiSalon_Stylist_Carl.avif",
-    "socialMediaLinks": {
-      "instagram": "https://instagram.com/i_carlllll"
-    },
-    "availability": "Tue-Sat, 10am-7pm",
-    "description": "",
-    "featuredServices": []
-  },
-  {
-    "id": "3",
-    "name": "Eva",
-    "aka": "伊娃",
-    "specialty": "資深髮型設計",
-    "yearsExperience": 12,
-    "profileImagePath": "/Stylist/CuiSalon_Stylist_Eva.avif",
-    "socialMediaLinks": {
-      "instagram": "https://instagram.com/cui_eva_"
-    },
-    "availability": "Wed-Sun, 9am-6pm",
-    "description": "",
-    "featuredServices": []
-  },
-  {
-    "id": "4",
     "name": "Tree",
     "aka": "小樹",
     "specialty": "與白髮共存歐美線條染專家",
     "yearsExperience": 20,
-    "profileImagePath": "/Stylist/CuiSalon_Stylist_Tree.avif",
+    "profileImagePath": "/Stylist/new/Tree-profile-resize.avif",
     "socialMediaLinks": {
       "instagram": "https://www.instagram.com/tree7092"
     },
@@ -55,12 +27,68 @@
     "featuredServices": []
   },
   {
+    "id": "3",
+    "name": "Carl",
+    "aka": "卡爾",
+    "specialty": "法式慵懶燙髮｜量身打造設計",
+    "yearsExperience": 8,
+    "profileImagePath": "/Stylist/new/Carl-profile-resize.avif",
+    "socialMediaLinks": {
+      "instagram": "https://instagram.com/i_carlllll"
+    },
+    "availability": "Tue-Sat, 10am-7pm",
+    "description": "",
+    "featuredServices": []
+  },
+  {
+    "id": "4",
+    "name": "Eva",
+    "aka": "伊娃",
+    "specialty": "資深髮型設計",
+    "yearsExperience": 12,
+    "profileImagePath": "/Stylist/new/Eva-profile-resize.avif",
+    "socialMediaLinks": {
+      "instagram": "https://instagram.com/cui_eva_"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "description": "",
+    "featuredServices": []
+  },
+  {
     "id": "5",
+    "name": "Vanessa",
+    "aka": "凡妮莎",
+    "specialty": "造型｜彩妝｜頭皮護理｜廣告｜電影｜晚會｜形象照",
+    "yearsExperience": 12,
+    "profileImagePath": "/Stylist/new/Vanessa-profile-resize.avif",
+    "socialMediaLinks": {
+      "instagram": "https://www.instagram.com/cui_vanessa1414/"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "description": "",
+    "featuredServices": []
+  },
+  {
+    "id": "6",
+    "name": "Tender",
+    "aka": "",
+    "specialty": "Taiwan Hair stylist",
+    "yearsExperience": 12,
+    "profileImagePath": "/Stylist/new/Tender-profile-resize.avif",
+    "socialMediaLinks": {
+      "instagram": "https://www.instagram.com/td_0627/"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "description": "",
+    "featuredServices": []
+  },
+  {
+    "id": "7",
     "name": "Lynn",
     "aka": "盈盈",
     "specialty": "療癒型髮型設計師",
     "yearsExperience": 12,
-    "profileImagePath": "/Stylist/CuiSalon_Stylist_Lynn.avif",
+    "profileImagePath": "/Stylist/new/Lynn-profile-resize.avif",
     "socialMediaLinks": {
       "instagram": "https://www.instagram.com/lynn_cuii"
     },
@@ -69,18 +97,31 @@
     "featuredServices": []
   },
   {
-    "id": "6",
+    "id": "8",
     "name": "Yuyu",
     "aka": "小于",
     "specialty": "152㎝ 矮矮の設計師",
     "yearsExperience": 12,
-    "profileImagePath": "/Stylist/CuiSalon_Stylist_Yuyu.avif",
+    "profileImagePath": "/Stylist/new/Yuyu-profile-resize.avif",
     "socialMediaLinks": {
       "instagram": "https://instagram.com/yuuu_stylist"
     },
     "availability": "Wed-Sun, 9am-6pm",
     "description": "",
     "featuredServices": []
+  },
+  {
+    "id": "9",
+    "name": "Left",
+    "aka": "范左",
+    "specialty": "女生髮型｜漂髮｜層次剪｜區塊染",
+    "yearsExperience": 12,
+    "profileImagePath": "/Stylist/new/Left-profile-resize.avif",
+    "socialMediaLinks": {
+      "instagram": "https://www.instagram.com/left_03.19"
+    },
+    "availability": "Wed-Sun, 9am-6pm",
+    "description": "",
+    "featuredServices": []
   }
-  
 ]

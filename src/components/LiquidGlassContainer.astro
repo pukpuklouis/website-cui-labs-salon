@@ -1,0 +1,119 @@
+---
+interface Props {
+	distortion?: number;
+  frequency?: number;
+  octaves?: number;
+  seed?: number;
+  wrapperClass?: string;
+}
+
+const { 
+	distortion = 60,
+  frequency = 0.1,
+  octaves = 2,
+  seed = 2,
+  wrapperClass = "rounded-4xl transition-all duration-400 ease-[cubic-bezier(0.175,0.885,0.32,2.2)] hover:p-[1.28rem] hover:rounded-[2.35rem] hover:scale-[1.002]",
+} = Astro.props;
+---
+
+<div class={`group sticky top-[1%] left-0 right-0 z-30 flex overflow-hidden p-5 cursor-pointer liquidGlass-wrapper-custom shadow-2xl ${wrapperClass}`}>
+  <div id="liquidGlass-effect" class="absolute inset-0 z-0 backdrop-blur-[6px] liquidGlass-effect-custom"></div>
+  <div class="absolute inset-0 z-10 bg-white/5"></div>
+  <div class={`absolute inset-0 z-20 inset-shadow-sm/30 inset-shadow-white liquidGlass-shine-custom ${wrapperClass}`}></div>
+  <div class="relative z-30 transition-transform duration-400 ease-[cubic-bezier(0.175,0.885,0.32,2.2)] group-hover:scale-[1.005] liquidGlass-text-custom">
+    <slot />
+  </div>
+  <svg style="display: none">
+    <filter
+      id="glass-distortion"
+      x="0%"
+      y="0%"
+      width="100%"
+      height="100%"
+      filterUnits="objectBoundingBox"
+    >
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.01 0.01"
+        numOctaves="1"
+        seed="5"
+        result="turbulence"
+      />
+      <!-- Seeds: 14, 17,  -->
+
+      <feComponentTransfer in="turbulence" result="mapped">
+        <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+        <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+        <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+      </feComponentTransfer>
+
+      <feGaussianBlur in="turbulence" stdDeviation={distortion} result="softMap" />
+
+      <feSpecularLighting
+        in="softMap"
+        surfaceScale="5"
+        specularConstant="1"
+        specularExponent="100"
+        lighting-color="white"
+        result="specLight"
+      >
+        <fePointLight x="-200" y="-200" z="300" />
+      </feSpecularLighting>
+
+      <feComposite
+        in="specLight"
+        operator="arithmetic"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0"
+        result="litImage"
+      />
+
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="softMap"
+        scale="150"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+  </svg>
+</div>
+
+<style>
+/* Custom styles that are hard to replicate with Tailwind or are cleaner here */
+.liquidGlass-wrapper-custom {
+  /* For complex box-shadow */
+  /* box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1); */
+}
+
+.liquidGlass-effect-custom {
+  /* For the SVG filter */
+  filter: url(#glass-distortion);
+  isolation: isolate;
+}
+
+.liquidGlass-shine-custom {
+  /* For complex inset box-shadow */
+  /* box-shadow: inset 2px 2px 1px 0 rgba(255, 255, 255, 0.2), inset -1px -1px 1px 1px rgba(255, 255, 255, 0.1); */
+}
+
+/*
+  The .menu-item styles were part of the original CSS snippet.
+  Styling for slotted content is typically handled by the parent component that provides the content,
+  or through props passed to this component.
+  If you need to apply these styles from within this component to slotted elements,
+  consider using :global() or ensuring the slotted content itself has these classes.
+  For example:
+
+  :global(.menu-item) {
+    @apply px-[0.6rem] py-[0.4rem] rounded-[0.8rem] transition-all duration-100 ease-in;
+  }
+
+  :global(.menu-item:hover) {
+    @apply hover:bg-white/50 hover:backdrop-blur-[2px];
+    box-shadow: inset -2px -2px 2px rgba(0, 0, 0, 0.1); // Custom shadow for hover
+  }
+*/
+</style>

@@ -62,11 +62,22 @@ const stylistsData = (await getCollection('stylistbio'))[0].data;
         </div>
         
         <!-- Second Row Stylists -->
-        <div class="flex flex-row gap-8 lg:col-span-8">
+        <div class="flex flex-row gap-8 lg:col-span-8 lg:col-start-3">
           {stylistsData[2] && <StylistBio stylist={stylistsData[2]} />}
           {stylistsData[3] && <StylistBio stylist={stylistsData[3]} />}
           {stylistsData[4] && <StylistBio stylist={stylistsData[4]} />}
-          {stylistsData[5] && <StylistBio stylist={stylistsData[5]} />}
+        </div>
+         <!-- third Row Stylists -->
+         <div class="flex flex-row gap-8 lg:col-span-8 lg:col-start-3">
+           {stylistsData[5] && <StylistBio stylist={stylistsData[5]} />}
+          {stylistsData[6] && <StylistBio stylist={stylistsData[6]} />}
+          {stylistsData[7] && <StylistBio stylist={stylistsData[7]} />}
+        </div>
+          <!-- fourth Row Stylists -->
+         <div class="flex flex-row gap-8 lg:col-span-8 lg:col-start-3">
+          {stylistsData[8] && <StylistBio stylist={stylistsData[8]} />}
+         {stylistsData[9] && <StylistBio stylist={stylistsData[9]} />}
+         {stylistsData[10] && <StylistBio stylist={stylistsData[10]} />}
         </div>
       </section>
       <section class="mobile flex flex-col lg:hidden">

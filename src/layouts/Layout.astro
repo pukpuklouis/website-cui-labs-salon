@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro'; // Import the Footer component
 // import { ViewTransitions } from 'astro:transitions'; // Optional: Import if using View Transitions
 import '../styles/global.css'; // Import global styles
 // import {  ClientRouter } from 'astro:transitions';
+import LiquidGlassContainer from '../components/LiquidGlassContainer.astro';
 // Define props for title and description, allowing pages to override defaults
 interface Props {
 	title?: string;
@@ -41,9 +42,15 @@ const {
 		{/* <link rel="stylesheet" href="/styles/global.css"> */}
 	</head>
 	<body class=" bg-gray-50 text-gray-800 flex flex-col items-center m-0 overflow-x-hidden">
-		
+		<!-- <LiquidGlassContainer>
+			<div class="flex flex-row items-center justify-center">
+				<p class="text-2xl text-amber-950 font-bold p-2">menu1</p>
+				<p class="text-2xl text-amber-950 font-bold p-2">menu2</p>
+				<p class="text-2xl text-amber-950 font-bold p-2">menu3</p>
+			</div>
+		</LiquidGlassContainer> -->
 		{/* Navigation Component */}
-		<Nav/> {/* Add the Nav component */}
+		<Nav/>
 		{/* Main content slot */}
 		<main class="container mx-4 md:mx-6 lg:mx-24"> 		
 			<slot />
