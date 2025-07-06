@@ -31,6 +31,25 @@ const {
 		<SEO
 			title={title}
 			description={description}
+			openGraph={{
+				basic: {
+					title: title,
+					type: 'website',
+					image: Astro.url + '/og-image.png',
+					url: Astro.url,
+				},
+				optional: {
+				siteName: '萃CUI Labs Salon',
+				description: description,
+				},
+			}}
+			twitter={{		
+				card: 'summary_large_image',
+				site: 'https://www.labcui.com',
+				title: title,
+				description: description,
+				image: '/og-image.png',
+			}}
 		/>
 		
 		<title>{title}</title> {/* Basic title fallback */}

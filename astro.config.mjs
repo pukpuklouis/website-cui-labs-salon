@@ -18,7 +18,7 @@ import remarkToc from 'remark-toc';
 
 // https://astro.build/config
 export default defineConfig({
-  // site: "https://website-cui-labs-salon.pages.dev",
+  site: "https://www.labcui.com",
   adapter: cloudflare({
     platformProxy: {
       mode: 'directory',
