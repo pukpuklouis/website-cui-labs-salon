@@ -23,18 +23,14 @@ export const navlinkData = {
 
 // Placeholder data for categories - replace later
 const categories = ['Haircuts', 'Coloring', 'Styling', 'Treatments'];
-//title and description 
-const title = "設計服務 | 萃CUI Labs Salon",
-// descripbe service 
-description = "CUI Labs Salon:男士剪燙、染髮、全髮染髮、特殊色挑染歐美線條染、法式慵懶燙等專業髮藝服務";
+//SEO Metadata
+const title = "設計服務 | 萃CUI Labs Salon";
+const description = "男士剪燙、染髮、全髮染髮、特殊色挑染歐美線條染、法式慵懶燙等專業髮藝服務";
 // Placeholder data for services - replace later with actual data source
 const services =  (await getCollection('services'))[0].data;
 ---
 
-<Layout
-  title={title}
-  description={description}
->
+<Layout title={title} description={description}>
     <section id="service-listings" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0 mb-12 mt-56">
         <div class="flex flex-col md:flex-row justify-between items-center mb-12">

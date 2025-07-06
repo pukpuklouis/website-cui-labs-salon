@@ -28,12 +28,12 @@ const services = (await getCollection('services'))[0].data.slice(0, 6);
 //add number of services
 
 // SEO Metadata
-const pageTitle = "首頁 | 萃CUI Labs Salon ";
-const pageDescription = "CUI Labs Salon：視髮藝為藝術，為您精雕細琢自信之美。體驗專業髮藝師的匠心技藝，享受身心靈的寧靜蛻變";
+const title = "首頁 | 萃CUI Labs Salon";
+const description = "視髮藝為藝術，為您精雕細琢自信之美。體驗專業髮藝師的匠心技藝，享受身心靈的寧靜蛻變";
 
 ---
 
-<Layout title={pageTitle} description={pageDescription}>
+<Layout title={title} description={description}>
     <AnimatedHero />
     <FeatureSection />
     <section class="max-w-7xl mx-4 lg:mx-auto">
