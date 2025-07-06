@@ -1,12 +1,40 @@
 ---
 import { Image } from 'astro:assets';
 import SplitText from './ui/SplitText.astro';
----
 
+const heroImage = "/Cui_Salon_img/Cui_Salon_IMG_014.avif";
+---
+<!-- hero background Image -->
+<div class="absolute inset-0 w-screen h-svh z-10">
+    <Image 
+    src={heroImage} 
+    alt="Cui Lab Hair Salon" 
+    class="block md:hidden w-full h-full object-cover"
+    width={1200} 
+    height={800} 
+    loading='eager'
+    decoding="sync"
+    fetchpriority="high"
+    sizes="100vw"
+    quality={90}
+    />
+    <Image 
+    src={heroImage} 
+    alt="Cui Lab Hair Salon" 
+    class="hidden md:block w-full h-full object-cover"
+    width={1920} 
+    height={1080} 
+    loading='eager'
+    decoding="sync"
+    fetchpriority="high"
+    sizes="100vw"
+    quality={90}
+    />
+</div>  
 <section id="animated-hero-container" class="relative max-w-7xl mx-auto w-full bg-gray-50 h-full mt-16 overflow-hidden px-4 md:px-8 lg:px-8">
     <!-- Block 1: H1  hero Image -->
     <div class="flex flex-col md:flex-row items-center justify-center w-full min-h-[100vh] md:min-h-[calc(100vh-64px)] lg:min-h-[calc(100vh-4rem)] px-4 pt-18 md:py-0">
-        <div class="hero-main-image-2 rounded-2xl md:mask-[url(/mask/mask-2.svg)] mask-right mask-contain mask-no-repeat order-last md:order-last w-full max-w-full md:max-w-[60%] lg:max-w-[50%] h-[40vh] md:h-[50vh] lg:h-[60vh] z-10 relative overflow-hidden">
+        <!-- <div class="hero-main-image-2 rounded-2xl md:mask-[url(/mask/mask-2.svg)] mask-right mask-contain mask-no-repeat order-last md:order-last w-full max-w-full md:max-w-[60%] lg:max-w-[50%] h-[40vh] md:h-[50vh] lg:h-[60vh] z-10 relative overflow-hidden">
             <Image
             src="/Cui_Salon_img/Cui_Salon_IMG_007.avif"
             alt="Main Model"
@@ -20,7 +48,8 @@ import SplitText from './ui/SplitText.astro';
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 60vw, 50vw"
             quality={90}
             />
-        </div>
+        </div> -->
+          
         <div class="w-[100%] md:w-[60vw] h-auto grid grid-cols-1 md:grid-cols-1 items-left gap-0 justify-around z-20">
             <SplitText 
             text={`深厚美學素養與精湛技藝的設計師
@@ -30,7 +59,7 @@ import SplitText from './ui/SplitText.astro';
             splitBy="chars"
             tag='div' 
             animationType="blurColorIn" 
-            className="w-[100vw] md:w-[60vw] text-sm md:text-sm lg:text-base tracking-widest text-left font-light text-gray-700 mb-4" 
+            className="w-[100vw] md:w-[60vw] text-sm md:text-sm lg:text-base tracking-widest text-left font-light text-gray-100 mb-4" 
             options={{ duration: 0.2, stagger: 0.02 }} 
             inView={true} 
             inViewAmount={0.8}
@@ -41,12 +70,13 @@ import SplitText from './ui/SplitText.astro';
             splitBy="lines"  
             tag="h1" 
             animationType="fadeUp" 
-            className="w-[60vw] text-4xl md:text-5xl lg:text-6xl text-left font-extrabold text-gray-900 mb-4" 
+            className="w-[60vw] text-4xl md:text-5xl lg:text-6xl text-left font-extrabold text-gray-50 mb-4" 
             options={{ duration: 0.8, stagger: 0.3 }} 
             inView={true} 
             inViewAmount={0.8}
             />
-            <h2 id="hero-header-bg-text" class="w-[100%] md:w-[60vw] font-soligant uppercase font-basic text-pretty text-[4.2rem] md:text-[6rem] lg:text-[8rem] opacity-80 z-30">Cui Salon</h2>
+            <Image id="hero-header-bg-text" src="/cui-logo-combine.svg" alt="萃-logo" width={1080} height={1080} class="w-[60vw] md:w-[180px] lg:w-[415px] object-contain" />
+            <!-- <h2 id="hero-header-bg-text" class="w-[100%] md:w-[60vw] font-soligant uppercase font-basic text-pretty text-[4.2rem] md:text-[6rem] lg:text-[8rem] opacity-80 z-30">Cui Salon</h2> -->
         </div>
     </div>
     <script src="../scripts/animateHero.ts"></script>
