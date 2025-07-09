@@ -12,7 +12,7 @@ const navLinks = await getNavLinks(Astro.url.pathname);
     <div id="nav-container" class=" mx-auto flex flex-col items-center py-6">
       <!-- Nav Background Element -->
       <div class="absolute top-0 left-0 w-full h-full z-0">
-        <Image src="/nav-bg-element.svg" alt="Nav Background Element" width="80" height="80" class="w-full h-[90%] object-contain opacity-20 filter blur-[1px]" />
+        <Image src="/nav-bg-element.svg" alt="Nav Background Element" width="80" height="80" class="w-full h-[90%] object-contain opacity-20 filter blur-[1px]" id="main-nav-bg" />
       </div>
       <!-- Logo/Brand Name -->
       <div class="text-xl font-bold mb-8 transition-all duration-300">
@@ -56,8 +56,12 @@ const navLinks = await getNavLinks(Astro.url.pathname);
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="md:hidden overflow-hidden text-left bg-white border-t border-gray-200" hidden>
-      <div class="container mx-auto px-4 py-3 space-y-2">
+    <div id="mobile-menu" class="md:hidden overflow-hidden text-left bg-white border-t border-gray-200 relative" hidden>
+      <!-- Mobile Nav Background Element -->
+      <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
+        <Image src="/nav-bg-element.svg" alt="Nav Background Element" width="80" height="80" class="w-full h-[50%] object-contain opacity-30 filter blur-[1px]" />
+      </div>
+      <div class="container mx-auto px-4 py-3 space-y-2 relative z-10">
         {navLinks
           .filter((link: NavLink) => link.visibility === 'all' || link.visibility === 'mobile')
           .map((link: NavLink) => (
@@ -83,6 +87,24 @@ const navLinks = await getNavLinks(Astro.url.pathname);
 <div id="nav-spacer" class="w-full"></div>
 
 <!-- Load animations from external module -->
+<script is:inline>
+  // Add a class to the body when the mobile menu is open to hide the main nav background
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mainNavBg = document.getElementById('main-nav-bg');
+
+  if (mobileMenuButton && mainNavBg) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+      // The state is toggled after the click, so we check the opposite
+      if (!isExpanded) {
+        mainNavBg.classList.add('hidden');
+      } else {
+        mainNavBg.classList.remove('hidden');
+      }
+    });
+  }
+</script>
+
 <script src="../scripts/nav-animations.ts"></script>
 
 <style>
